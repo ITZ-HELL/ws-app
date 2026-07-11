@@ -28,10 +28,14 @@
             background-size: cover;
             background-position: center;
             border-radius: 32px;
-            padding: 24px 18px 100px;
+            padding: 24px 18px 80px;
             position: relative;
             min-height: 500px;
             box-shadow: 0 8px 40px rgba(0,0,0,0.6);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
         .app::before {
             content: '';
@@ -50,17 +54,20 @@
         }
 
         .content {
-            min-height: 300px;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            min-height: 300px;
+            width: 100%;
         }
         .page {
             display: none;
             flex-direction: column;
             align-items: center;
             gap: 16px;
+            width: 100%;
+            text-align: center;
         }
         .page.active {
             display: flex;
@@ -70,15 +77,13 @@
             font-size: 28px;
             font-weight: 600;
             letter-spacing: 1px;
-            margin-bottom: 8px;
         }
         .page p {
             color: #9CA3AF;
             font-size: 16px;
-            text-align: center;
         }
 
-        /* НАВИГАЦИЯ ВНИЗУ */
+        /* НАВИГАЦИЯ (одна кнопка-переключатель) */
         .nav {
             position: fixed;
             bottom: 20px;
@@ -87,110 +92,130 @@
             width: calc(100% - 32px);
             max-width: 400px;
             z-index: 10;
-            display: flex;
-            justify-content: center;
-            gap: 0;
             border-radius: 30px;
             overflow: hidden;
             box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
-        }
-        .nav-item {
-            flex: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: transparent;
-            border: none;
-            padding: 0;
+            touch-action: none;
             cursor: pointer;
-            transition: 0.15s;
-            position: relative;
-            -webkit-tap-highlight-color: transparent;
-            outline: none;
         }
-        .nav-item img {
+        .nav img {
             width: 100%;
             height: auto;
             display: block;
-            transition: 0.15s;
             pointer-events: none;
         }
-        .nav-item:active {
-            transform: scale(0.96);
+        /* Эффект жидкого стекла (круглая волна) */
+        .nav .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(251, 191, 36, 0.25);
+            transform: scale(0);
+            animation: rippleAnim 0.6s ease-out forwards;
+            pointer-events: none;
+            z-index: 2;
+            width: 100px;
+            height: 100px;
+            margin-left: -50px;
+            margin-top: -50px;
+            top: 50%;
+            left: 50%;
         }
-        /* ЖИДКОЕ СТЕКЛО */
-        .nav-item.liquid {
-            animation: liquidGlass 0.5s ease-out;
-        }
-        @keyframes liquidGlass {
+        @keyframes rippleAnim {
             0% {
-                filter: brightness(1);
-            }
-            20% {
-                filter: brightness(1.5) drop-shadow(0 0 20px rgba(251, 191, 36, 0.5));
-            }
-            60% {
-                filter: brightness(0.9) drop-shadow(0 0 40px rgba(251, 191, 36, 0.2));
+                transform: scale(0);
+                opacity: 0.8;
             }
             100% {
-                filter: brightness(1) drop-shadow(0 0 0 rgba(251, 191, 36, 0));
+                transform: scale(3);
+                opacity: 0;
             }
+        }
+        /* Ползунок (drag) */
+        .nav.dragging {
+            transition: none;
         }
     </style>
 </head>
 <body>
     <div class="app">
         <div class="content">
-            <!-- Главная -->
             <div id="page-main" class="page active">
                 <h2>🏠 Главная</h2>
                 <p>Контент главной страницы</p>
             </div>
-
-            <!-- Профиль -->
             <div id="page-profile" class="page">
                 <h2>👤 Профиль</h2>
                 <p>Контент профиля</p>
             </div>
         </div>
 
-        <!-- НАВИГАЦИЯ (две кнопки с твоими иконками) -->
-        <div class="nav">
-            <button class="nav-item" id="nav-main">
-                <img src="https://i.postimg.cc/WbPj607K/Bez-nazvania55-20260712021411.png" alt="Главная">
-            </button>
-            <button class="nav-item" id="nav-profile">
-                <img src="https://i.postimg.cc/bvFpQM69/Bez-nazvania55-20260712015252.png" alt="Профиль">
-            </button>
+        <div class="nav" id="navSwitch">
+            <img id="navImage" src="https://i.postimg.cc/WbPj607K/Bez-nazvania55-20260712021411.png" alt="Переключить">
+            <div class="ripple" id="ripple"></div>
         </div>
     </div>
 
     <script>
-        const navMain = document.getElementById('nav-main');
-        const navProfile = document.getElementById('nav-profile');
+        const navSwitch = document.getElementById('navSwitch');
+        const navImage = document.getElementById('navImage');
+        const ripple = document.getElementById('ripple');
         const pageMain = document.getElementById('page-main');
         const pageProfile = document.getElementById('page-profile');
+        let isMain = true;
+        let startX = 0;
+        let isDragging = false;
 
         // Функция переключения с эффектом
-        function switchToMain() {
-            pageMain.classList.add('active');
-            pageProfile.classList.remove('active');
-            // Анимация на кнопке
-            navMain.classList.remove('liquid');
-            void navMain.offsetWidth;
-            navMain.classList.add('liquid');
+        function switchPage() {
+            // Анимация жидкого стекла (круг)
+            ripple.style.animation = 'none';
+            void ripple.offsetWidth;
+            ripple.style.animation = 'rippleAnim 0.6s ease-out forwards';
+
+            if (isMain) {
+                pageMain.classList.remove('active');
+                pageProfile.classList.add('active');
+                navImage.src = 'https://i.postimg.cc/bvFpQM69/Bez-nazvania55-20260712015252.png';
+                isMain = false;
+            } else {
+                pageProfile.classList.remove('active');
+                pageMain.classList.add('active');
+                navImage.src = 'https://i.postimg.cc/WbPj607K/Bez-nazvania55-20260712021411.png';
+                isMain = true;
+            }
         }
 
-        function switchToProfile() {
-            pageProfile.classList.add('active');
-            pageMain.classList.remove('active');
-            navProfile.classList.remove('liquid');
-            void navProfile.offsetWidth;
-            navProfile.classList.add('liquid');
-        }
+        // Клик
+        navSwitch.addEventListener('click', switchPage);
 
-        navMain.addEventListener('click', switchToMain);
-        navProfile.addEventListener('click', switchToProfile);
+        // Ползунок пальцем (drag)
+        navSwitch.addEventListener('touchstart', function(e) {
+            startX = e.touches[0].clientX;
+            isDragging = true;
+            navSwitch.classList.add('dragging');
+        });
+
+        navSwitch.addEventListener('touchmove', function(e) {
+            if (!isDragging) return;
+            const deltaX = e.touches[0].clientX - startX;
+            if (Math.abs(deltaX) > 40) {
+                if (deltaX > 0 && !isMain) {
+                    // Свайп вправо → на Главную
+                    switchPage();
+                    isDragging = false;
+                } else if (deltaX < 0 && isMain) {
+                    // Свайп влево → на Профиль
+                    switchPage();
+                    isDragging = false;
+                }
+                startX = e.touches[0].clientX;
+            }
+        });
+
+        navSwitch.addEventListener('touchend', function() {
+            isDragging = false;
+            navSwitch.classList.remove('dragging');
+        });
     </script>
 </body>
 </html>
