@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Casino Whiskars</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -12,261 +12,101 @@
             box-sizing: border-box;
         }
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Montserrat', sans-serif;
             background: #0B0E14;
             min-height: 100vh;
             display: flex;
             justify-content: center;
-            align-items: flex-start;
-            padding: 16px;
+            align-items: flex-end;
+            padding: 20px;
         }
-        .app {
-            max-width: 400px;
-            width: 100%;
-            background-image: url('https://i.postimg.cc/7hNFQkQ7/Bez-nazvania53-20260711220851.png');
-            background-size: cover;
-            background-position: center;
-            border-radius: 32px;
-            padding: 24px 18px 100px;
-            position: relative;
-            min-height: 700px;
-            box-shadow: 0 8px 40px rgba(0,0,0,0.6);
-        }
-        .app::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(11, 14, 20, 0.6);
-            border-radius: 32px;
-            z-index: 0;
-        }
-        .header, .cases, .nav {
-            position: relative;
-            z-index: 1;
-        }
-
-        /* ШАПКА */
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 0 18px;
-            border-bottom: 1px solid rgba(255,255,255,0.06);
-        }
-        .logo {
-            font-family: 'Montserrat', sans-serif;
-            font-weight: 700;
-            font-size: 20px;
-            letter-spacing: 1px;
-            color: #fff;
-            text-transform: uppercase;
-        }
-        .logo span {
-            color: #FBBF24;
-        }
-        .balance-block {
-            background: rgba(251, 191, 36, 0.12);
-            border: 1px solid rgba(251, 191, 36, 0.25);
-            padding: 6px 16px;
-            border-radius: 40px;
-            font-weight: 600;
-            font-size: 15px;
-            color: #FBBF24;
-            font-family: 'Montserrat', sans-serif;
-        }
-
-        /* КАРТОЧКИ КОНТЕЙНЕРОВ */
-        .cases {
-            margin-top: 24px;
-            display: flex;
-            flex-direction: column;
-            gap: 14px;
-        }
-        .case {
-            background: rgba(18, 22, 34, 0.7);
-            backdrop-filter: blur(6px);
-            border-radius: 20px;
-            padding: 16px 18px;
-            border: 1px solid rgba(255,255,255,0.05);
-            transition: 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        .case-left {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-        }
-        .case-icon {
-            width: 50px;
-            height: 50px;
-            background: rgba(251, 191, 36, 0.08);
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 26px;
-        }
-        .case-info .title {
-            color: #fff;
-            font-weight: 600;
-            font-size: 16px;
-        }
-        .case-info .desc {
-            color: #9CA3AF;
-            font-size: 13px;
-            margin-top: 2px;
-        }
-        .case-right {
-            text-align: right;
-        }
-        .case-price {
-            color: #FBBF24;
-            font-weight: 700;
-            font-size: 18px;
-            font-family: 'Montserrat', sans-serif;
-        }
-        .btn-buy {
-            margin-top: 6px;
-            background: #FBBF24;
-            border: none;
-            padding: 5px 18px;
-            border-radius: 30px;
-            font-weight: 600;
-            font-size: 13px;
-            color: #0B0E14;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-        .btn-buy:hover {
-            background: #F59E0B;
-        }
-
-        /* НАВИГАЦИЯ ВНИЗУ */
+        /* ПАНЕЛЬ НАВИГАЦИИ */
         .nav {
-            position: fixed;
-            bottom: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: calc(100% - 32px);
-            max-width: 400px;
+            width: 390px;
+            max-width: 100%;
+            height: 70px;
             background: rgba(18, 22, 34, 0.85);
             backdrop-filter: blur(16px);
-            border-radius: 50px;
+            border-radius: 35px;
             display: flex;
             justify-content: space-around;
-            padding: 10px 6px;
-            border: 1px solid rgba(255,255,255,0.06);
-            z-index: 10;
+            align-items: center;
+            padding: 0 16px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.6);
         }
         .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
             background: none;
             border: none;
-            color: #6B7280;
-            font-size: 11px;
-            font-weight: 500;
-            text-align: center;
             cursor: pointer;
-            padding: 4px 10px;
+            padding: 6px 20px;
             transition: 0.2s;
-            font-family: 'Inter', sans-serif;
+            position: relative;
         }
         .nav-item .icon {
-            display: block;
-            font-size: 22px;
-            margin-bottom: 2px;
+            font-size: 28px;
+            line-height: 1;
+            transition: 0.2s;
         }
-        .nav-item.active {
+        .nav-item .label {
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            transition: 0.2s;
+        }
+        /* Активная вкладка (золотая) */
+        .nav-item.active .icon,
+        .nav-item.active .label {
             color: #FBBF24;
         }
-        .nav-item:hover {
+        .nav-item.active .label {
+            font-weight: 700;
+        }
+        /* Неактивная вкладка (серая) */
+        .nav-item:not(.active) .icon,
+        .nav-item:not(.active) .label {
+            color: #9CA3AF;
+        }
+        /* Лёгкое свечение у активной */
+        .nav-item.active::after {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30px;
+            height: 3px;
+            background: #FBBF24;
+            border-radius: 10px;
+            box-shadow: 0 0 15px #FBBF24;
+        }
+        /* Ховер для всех */
+        .nav-item:hover .icon,
+        .nav-item:hover .label {
             color: #FBBF24;
         }
     </style>
 </head>
 <body>
-    <div class="app">
-        <!-- ШАПКА -->
-        <div class="header">
-            <div class="logo">🎰 <span>WHISKARS</span></div>
-            <div class="balance-block">💰 0 ₽</div>
-        </div>
 
-        <!-- КАРТОЧКИ -->
-        <div class="cases">
-            <div class="case">
-                <div class="case-left">
-                    <div class="case-icon">🔮</div>
-                    <div class="case-info">
-                        <div class="title">Секретный</div>
-                        <div class="desc">Неизвестно, что внутри</div>
-                    </div>
-                </div>
-                <div class="case-right">
-                    <div class="case-price">500 ₽</div>
-                    <button class="btn-buy">Купить</button>
-                </div>
-            </div>
+    <!-- ПАНЕЛЬ НАВИГАЦИИ -->
+    <div class="nav">
+        <!-- Главная (неактивная) -->
+        <button class="nav-item">
+            <span class="icon">🏠</span>
+            <span class="label">Главная</span>
+        </button>
 
-            <div class="case">
-                <div class="case-left">
-                    <div class="case-icon">💎</div>
-                    <div class="case-info">
-                        <div class="title">Синий контейнер</div>
-                        <div class="desc">Из самой Америки</div>
-                    </div>
-                </div>
-                <div class="case-right">
-                    <div class="case-price">300 ₽</div>
-                    <button class="btn-buy">Купить</button>
-                </div>
-            </div>
-
-            <div class="case">
-                <div class="case-left">
-                    <div class="case-icon">👑</div>
-                    <div class="case-info">
-                        <div class="title">Золотой контейнер</div>
-                        <div class="desc">Реликвия древних</div>
-                    </div>
-                </div>
-                <div class="case-right">
-                    <div class="case-price">1 500 ₽</div>
-                    <button class="btn-buy">Купить</button>
-                </div>
-            </div>
-
-            <div class="case">
-                <div class="case-left">
-                    <div class="case-icon">🕳️</div>
-                    <div class="case-info">
-                        <div class="title">Контракт</div>
-                        <div class="desc">Прокачай свои шансы</div>
-                    </div>
-                </div>
-                <div class="case-right">
-                    <div class="case-price">200 ₽</div>
-                    <button class="btn-buy">Купить</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- НАВИГАЦИЯ -->
-        <div class="nav">
-            <button class="nav-item active">
-                <span class="icon">🏠</span> Главная
-            </button>
-            <button class="nav-item">
-                <span class="icon">⬆️</span> Upgrade
-            </button>
-            <button class="nav-item">
-                <span class="icon">👤</span> Профиль
-            </button>
-        </div>
+        <!-- Профиль (активная — золотая) -->
+        <button class="nav-item active">
+            <span class="icon">👤</span>
+            <span class="label">Профиль</span>
+        </button>
     </div>
+
 </body>
-                        </html>
+</html>
