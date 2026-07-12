@@ -53,8 +53,8 @@
 
   .topup-page{display:none;flex-direction:column;align-items:center;justify-content:center;width:100%;height:100%;position:absolute;top:0;left:0;z-index:20;background:rgba(11,14,20,0.8);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
   .topup-page.active{display:flex}
-  .back-btn{position:absolute;top:12px;left:16px;background:none;border:none;color:#FFFFFF;font-size:24px;cursor:pointer;padding:4px 8px;border-radius:8px;transition:0.2s;z-index:5}
-  .back-btn:hover{background:rgba(255,255,255,0.06)}
+  .back-wrapper{position:absolute;top:16px;left:16px;background:rgba(255,255,255,0.06);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border-radius:12px;padding:6px 10px;border:1px solid rgba(255,255,255,0.06);z-index:5;display:flex;align-items:center;justify-content:center}
+  .back-btn{background:none;border:none;color:#FFFFFF;font-size:20px;cursor:pointer;padding:0;line-height:1}
   .topup-content{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:20px;width:100%;max-width:380px}
   .topup-block{background:rgba(255,255,255,0.06);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border-radius:20px;padding:16px 24px;border:1px solid rgba(255,255,255,0.06);width:100%;text-align:center}
   .topup-block .title{font-family:'Montserrat',sans-serif;font-size:16px;font-weight:600;color:#FFFFFF;margin-bottom:4px}
@@ -120,7 +120,9 @@
     </div>
 
     <div class="topup-page" id="topupPage">
-      <button class="back-btn" id="backBtn">←</button>
+      <div class="back-wrapper">
+        <button class="back-btn" id="backBtn">←</button>
+      </div>
       <div class="topup-content">
         <div class="topup-block">
           <div class="title">Пополнение баланса</div>
@@ -252,4 +254,4 @@
     })();
   </script>
 </body>
-         </html>
+</html>
