@@ -79,15 +79,15 @@
   .nav-btn.active svg{stroke:#FFD24C}
   .nav-btn.active .label{color:#FFD24C;font-weight:600}
 
-  .wheel-container{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;width:100%;max-width:320px;padding:10px 0 0 0}
-  .wheel-wrapper{position:relative;width:280px;height:280px;margin:0 auto}
-  .wheel-canvas{width:280px;height:280px;border-radius:50%;background:rgba(255,255,255,0.05);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:2px solid rgba(255,210,76,0.15);position:relative;overflow:hidden}
+  .upgrade-container{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px;width:100%;max-width:360px;padding:20px 20px 10px}
+  .wheel-wrapper{position:relative;width:260px;height:260px;margin:0 auto}
+  .wheel-canvas{width:260px;height:260px;border-radius:50%;background:rgba(255,255,255,0.05);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:2px solid rgba(255,210,76,0.15);position:relative;overflow:hidden;box-shadow:0 0 40px rgba(255,210,76,0.05)}
   .wheel-canvas canvas{width:100%;height:100%;display:block;border-radius:50%}
-  .arrow-indicator{position:absolute;top:-6px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:14px solid transparent;border-right:14px solid transparent;border-top:24px solid #FFD24C;z-index:10;filter:drop-shadow(0 0 12px rgba(255,210,76,0.5))}
+  .arrow-indicator{position:absolute;top:-8px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:16px solid transparent;border-right:16px solid transparent;border-top:26px solid #FFD24C;z-index:10;filter:drop-shadow(0 0 12px rgba(255,210,76,0.5))}
   .spin-btn{background:#FFD24C;color:#0B0E14;padding:14px 20px;border-radius:16px;border:none;font-family:'Montserrat',sans-serif;font-size:18px;font-weight:700;cursor:pointer;width:100%;max-width:280px;transition:0.2s}
   .spin-btn:active{transform:scale(0.96)}
   .spin-btn:disabled{opacity:0.4;pointer-events:none}
-  .result-text{font-family:'Montserrat',sans-serif;font-size:20px;font-weight:700;color:#FFFFFF;text-align:center;min-height:30px;margin-top:4px}
+  .result-text{font-family:'Montserrat',sans-serif;font-size:18px;font-weight:600;color:#FFFFFF;text-align:center;min-height:28px;margin-top:4px}
 </style>
 </head>
 <body>
@@ -153,17 +153,15 @@
 
     <div class="empty-page" id="upgradePage">
       <button class="empty-back" id="upgradeBack">Назад</button>
-      <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%;max-width:380px;padding:10px 20px 20px;margin-top:0;">
-        <div class="wheel-container">
-          <div class="wheel-wrapper">
-            <div class="arrow-indicator"></div>
-            <div class="wheel-canvas">
-              <canvas id="wheelCanvas" width="280" height="280"></canvas>
-            </div>
+      <div class="upgrade-container">
+        <div class="wheel-wrapper">
+          <div class="arrow-indicator"></div>
+          <div class="wheel-canvas">
+            <canvas id="wheelCanvas" width="260" height="260"></canvas>
           </div>
-          <div class="result-text" id="resultText">Нажми «Крутить»</div>
-          <button class="spin-btn" id="spinBtn">Крутить</button>
         </div>
+        <div class="result-text" id="resultText">Нажми «Крутить»</div>
+        <button class="spin-btn" id="spinBtn">Крутить</button>
       </div>
     </div>
 
@@ -346,21 +344,21 @@
         current = 'home';
       });
 
-      // ===== КОЛЕСО =====
+      // ===== КРУГ И СТРЕЛКА =====
       const canvas = document.getElementById('wheelCanvas');
       const ctx = canvas.getContext('2d');
       const spinBtnWheel = document.getElementById('spinBtn');
       const resultText = document.getElementById('resultText');
 
       const sectors = [
-        { label: '', color: '#FFD24C' },
-        { label: '', color: '#1A1F2E' },
-        { label: '', color: '#FFD24C' },
-        { label: '', color: '#1A1F2E' },
-        { label: '', color: '#FFD24C' },
-        { label: '', color: '#1A1F2E' },
-        { label: '', color: '#FFD24C' },
-        { label: '', color: '#1A1F2E' }
+        { color: '#2ECC71' },
+        { color: '#E74C3C' },
+        { color: '#2ECC71' },
+        { color: '#E74C3C' },
+        { color: '#2ECC71' },
+        { color: '#E74C3C' },
+        { color: '#2ECC71' },
+        { color: '#E74C3C' }
       ];
       const numSectors = sectors.length;
       const arcSize = (2 * Math.PI) / numSectors;
@@ -388,18 +386,12 @@
         }
 
         ctx.beginPath();
-        ctx.arc(centerX, centerY, 12, 0, 2 * Math.PI);
+        ctx.arc(centerX, centerY, 10, 0, 2 * Math.PI);
         ctx.fillStyle = '#0B0E14';
         ctx.fill();
         ctx.strokeStyle = 'rgba(255,210,76,0.3)';
         ctx.lineWidth = 2;
         ctx.stroke();
-      }
-
-      function getResult(rotation) {
-        const normalized = ((rotation % (2 * Math.PI)) + 2 * Math.PI) % (2 * Math.PI);
-        const sectorIndex = Math.floor(normalized / arcSize) % numSectors;
-        return sectors[sectorIndex];
       }
 
       function spinWheel() {
@@ -429,9 +421,9 @@
             requestAnimationFrame(animate);
           } else {
             currentAngle = targetAngle;
-            const result = getResult(targetAngle);
-            const isWin = result.color === '#FFD24C';
-            resultText.textContent = isWin ? '🎉 ВЫИГРЫШ!' : '😔 ПРОИГРЫШ';
+            const sectorIndex = Math.floor(((currentAngle % (2 * Math.PI)) + 2 * Math.PI) % (2 * Math.PI) / arcSize) % numSectors;
+            const isWin = sectors[sectorIndex].color === '#2ECC71';
+            resultText.textContent = isWin ? '✅ Выигрыш!' : '❌ Проигрыш!';
             spinBtnWheel.textContent = 'Крутить';
             spinBtnWheel.disabled = false;
             isSpinning = false;
