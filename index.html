@@ -32,7 +32,6 @@
   .content{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:20px;text-align:center;overflow-y:auto}
   .page{display:none;flex-direction:column;align-items:center;justify-content:flex-start;width:100%;height:100%;padding-top:10px}
   .page.active{display:flex}
-  .page .sub{font-size:14px;color:#9CA3AF;letter-spacing:4px;text-transform:uppercase;opacity:0.6}
 
   /* ПРОФИЛЬ */
   .profile-container{display:flex;align-items:center;gap:14px;width:100%;max-width:400px;padding:0 16px;margin-bottom:6px}
@@ -51,11 +50,11 @@
   .stats-label{font-family:'Montserrat',sans-serif;font-size:15px;font-weight:500;color:#9CA3AF;letter-spacing:0.3px}
   .stats-value{font-family:'Montserrat',sans-serif;font-size:17px;font-weight:700;color:#FFFFFF;letter-spacing:0.5px}
 
-  /* ИНВЕНТАРЬ И ПУСТО (отступы увеличены) */
-  .divider-wrapper{width:calc(100% - 32px);max-width:380px;display:flex;align-items:center;gap:12px;margin-top:80px}
+  /* ИНВЕНТАРЬ И ПУСТО */
+  .divider-wrapper{width:calc(100% - 32px);max-width:380px;display:flex;align-items:center;gap:12px;margin-top:40px}
   .divider-line{flex:1;height:1px;background:rgba(255,255,255,0.08)}
   .divider-label{font-family:'Montserrat',sans-serif;font-size:14px;font-weight:700;color:#FFFFFF;letter-spacing:1.5px;white-space:nowrap;opacity:0.9}
-  .empty-text{font-family:'Montserrat',sans-serif;font-size:24px;font-weight:700;color:#6B7280;letter-spacing:4px;text-transform:uppercase;margin-top:16px;opacity:0.4}
+  .empty-text{font-family:'Montserrat',sans-serif;font-size:24px;font-weight:700;color:#6B7280;letter-spacing:4px;text-transform:uppercase;margin-top:60px;opacity:0.4}
 
   .widget-wrapper{display:flex;justify-content:center;align-items:center;padding:4px 20px 8px;width:100%}
   .widget-panel{width:100%;max-width:360px;height:70px;border-radius:24px;background:rgba(255,255,255,0.06);backdrop-filter:blur(10px) saturate(180%);-webkit-backdrop-filter:blur(10px) saturate(180%);border:1px solid rgba(255,255,255,0.08);display:flex;justify-content:space-around;align-items:center;padding:0 12px;box-shadow:0 4px 30px rgba(0,0,0,0.2)}
@@ -86,9 +85,7 @@
     </div>
 
     <div class="content">
-      <div id="page-home" class="page active">
-        <div class="sub">главная</div>
-      </div>
+      <div id="page-home" class="page active"></div>
 
       <div id="page-profile" class="page">
         <div class="profile-container">
@@ -113,14 +110,12 @@
           </div>
         </div>
 
-        <!-- РАЗДЕЛИТЕЛЬ С ИНВЕНТАРЁМ (СДВИНУТ НИЖЕ) -->
         <div class="divider-wrapper">
           <span class="divider-line"></span>
           <span class="divider-label">ИНВЕНТАРЬ</span>
           <span class="divider-line"></span>
         </div>
 
-        <!-- ПУСТО (ЕЩЁ НИЖЕ) -->
         <div class="empty-text">пусто</div>
       </div>
     </div>
