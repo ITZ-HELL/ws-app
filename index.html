@@ -239,20 +239,20 @@
     letter-spacing: 0.5px;
   }
 
-  /* СТАТИСТИКА (большой блок в центре) */
+  /* СТАТИСТИКА (блок) */
   .stats-block {
     background: rgba(255, 255, 255, 0.05);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border-radius: 28px;
-    padding: 24px 28px;
+    padding: 20px 28px;
     border: 1px solid rgba(255, 255, 255, 0.06);
     width: calc(100% - 40px);
     max-width: 380px;
     display: flex;
     flex-direction: column;
-    gap: 16px;
-    margin-top: 40px;
+    gap: 12px;
+    margin-top: 16px;
   }
   .stats-row {
     display: flex;
@@ -278,8 +278,39 @@
     color: #FFFFFF;
     letter-spacing: 0.5px;
   }
-  .stats-value.gold {
-    color: #FFD24C;
+
+  /* РАЗДЕЛИТЕЛЬНАЯ ПОЛОСА */
+  .divider {
+    width: calc(100% - 40px);
+    max-width: 380px;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.08);
+    margin: 12px 0 10px;
+  }
+
+  /* ИНВЕНТАРЬ */
+  .inventory-block {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border-radius: 20px;
+    padding: 16px 20px;
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    width: calc(100% - 40px);
+    max-width: 380px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: #9CA3AF;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    min-height: 50px;
+  }
+  .inventory-block span {
+    opacity: 0.5;
   }
 
   /* ===== НАВИГАЦИЯ ===== */
@@ -378,20 +409,24 @@
           </div>
         </div>
 
-        <!-- БОЛЬШОЙ БЛОК СТАТИСТИКИ -->
+        <!-- СТАТИСТИКА -->
         <div class="stats-block">
           <div class="stats-row">
             <span class="stats-label">Открыто кейсов</span>
             <span class="stats-value" id="statsCases">0</span>
           </div>
           <div class="stats-row">
-            <span class="stats-label">Лучший выигрыш</span>
-            <span class="stats-value gold" id="statsBest">—</span>
-          </div>
-          <div class="stats-row">
             <span class="stats-label">Всего предметов</span>
             <span class="stats-value" id="statsItems">0</span>
           </div>
+        </div>
+
+        <!-- РАЗДЕЛИТЕЛЬНАЯ ПОЛОСА -->
+        <div class="divider"></div>
+
+        <!-- ИНВЕНТАРЬ -->
+        <div class="inventory-block">
+          <span>🎒 Инвентарь</span>
         </div>
       </div>
     </div>
@@ -429,9 +464,7 @@
       const profileUsernameEl = document.getElementById('profileUsername');
       const profileIdEl = document.getElementById('profileId');
 
-      // Статистика (пока заглушки)
       const statsCases = document.getElementById('statsCases');
-      const statsBest = document.getElementById('statsBest');
       const statsItems = document.getElementById('statsItems');
 
       const colors = ['#FF6B6B', '#FF9F43', '#FECA57', '#48DBFB', '#0ABDE3', '#10AC84', '#EE5A24', '#5F27CD'];
