@@ -49,6 +49,11 @@
     align-items: center;
     justify-content: space-between;
     padding: 16px 20px 8px;
+    gap: 8px;
+  }
+  .header-left {
+    display: flex;
+    align-items: center;
     gap: 12px;
   }
   .avatar-wrapper {
@@ -84,7 +89,27 @@
     display: block;
   }
 
-  /* БАЛАНС — адаптивный блок */
+  /* КНОПКА ПОПОЛНИТЬ */
+  .topup-btn {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    color: #0B0E14;
+    background: #FFD24C;
+    padding: 6px 16px;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: 0.2s;
+    white-space: nowrap;
+    box-shadow: 0 0 20px rgba(255, 210, 76, 0.15);
+  }
+  .topup-btn:hover {
+    background: #F5C53B;
+    transform: scale(1.02);
+  }
+
+  /* БАЛАНС */
   .balance-block {
     background: rgba(255, 255, 255, 0.06);
     backdrop-filter: blur(6px);
@@ -196,11 +221,14 @@
 <body>
   <div class="app">
     <div class="header">
-      <div class="avatar-wrapper">
-        <div class="avatar" id="avatar"></div>
+      <div class="header-left">
+        <div class="avatar-wrapper">
+          <div class="avatar" id="avatar"></div>
+        </div>
+        <button class="topup-btn" id="topupBtn">➕ Пополнить</button>
       </div>
       <div class="balance-block">
-        <div class="balance" id="balance">1500 <span class="currency">₽</span></div>
+        <div class="balance" id="balance">0 <span class="currency">₽</span></div>
       </div>
     </div>
 
@@ -287,6 +315,11 @@
             pageDesc.textContent = 'профиль';
           }
         });
+      });
+
+      // Кнопка пополнить — пока просто алерт
+      document.getElementById('topupBtn').addEventListener('click', function() {
+        alert('Функция пополнения будет добавлена позже');
       });
     })();
   </script>
