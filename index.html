@@ -79,12 +79,14 @@
   .nav-btn.active svg{stroke:#FFD24C}
   .nav-btn.active .label{color:#FFD24C;font-weight:600}
 
-  .upgrade-wheel{width:100%;max-width:320px;height:320px;border-radius:50%;background:rgba(255,255,255,0.05);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:2px solid rgba(255,210,76,0.2);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;box-shadow:0 0 40px rgba(255,210,76,0.05)}
-  .wheel{width:280px;height:280px;border-radius:50%;position:relative;transition:transform 4s cubic-bezier(0.33,1,0.68,1);display:flex;align-items:center;justify-content:center}
-  .wheel-item{position:absolute;width:50px;height:50px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Montserrat',sans-serif;font-size:13px;font-weight:700;color:#FFFFFF;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.05);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);top:50%;left:50%;transform-origin:center center}
-  .wheel-center{position:absolute;width:60px;height:60px;border-radius:50%;background:#FFD24C;display:flex;align-items:center;justify-content:center;font-family:'Montserrat',sans-serif;font-size:14px;font-weight:800;color:#0B0E14;z-index:5;box-shadow:0 0 30px rgba(255,210,76,0.3)}
+  .upgrade-container{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px;width:100%;max-width:380px;padding:20px;margin-top:60px}
+  .slot-display{width:100%;max-width:320px;height:180px;border-radius:28px;background:rgba(255,255,255,0.05);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:2px solid rgba(255,210,76,0.15);display:flex;align-items:center;justify-content:center;font-family:'Montserrat',sans-serif;font-size:52px;font-weight:800;color:#FFFFFF;text-shadow:0 0 30px rgba(255,210,76,0.2);transition:all 0.1s;overflow:hidden;position:relative}
+  .slot-display .slot-text{transition:transform 0.05s;position:absolute;width:100%;text-align:center}
+  .slot-display .slot-text.up{transform:translateY(-60px);opacity:0.3}
+  .slot-display .slot-text.down{transform:translateY(60px);opacity:0.3}
   .spin-btn{background:#FFD24C;color:#0B0E14;padding:14px 20px;border-radius:16px;border:none;font-family:'Montserrat',sans-serif;font-size:18px;font-weight:700;cursor:pointer;width:100%;max-width:280px;transition:0.2s}
   .spin-btn:active{transform:scale(0.96)}
+  .spin-btn:disabled{opacity:0.4;pointer-events:none}
 </style>
 </head>
 <body>
@@ -109,11 +111,11 @@
         <div class="card" style="background-image:url('https://i.postimg.cc/Bb6ZNrLB/quality-restoration-20260712180340135-2.jpg');margin-top:24px;" id="rocketCard">
           <div class="card-label">РАКЕТА</div>
         </div>
-      
         <div class="card" style="background-image:url('https://i.postimg.cc/W31ptCvR/Bez-nazvania58-20260712200059.png');" id="upgradeCard">
           <div class="card-label">UPGRADE</div>
         </div>
-      </div> 
+      </div>
+
       <div id="page-profile" class="page">
         <div class="profile-container">
           <div class="profile-avatar-wrapper">
@@ -150,21 +152,9 @@
 
     <div class="empty-page" id="upgradePage">
       <button class="empty-back" id="upgradeBack">Назад</button>
-      <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px;width:100%;max-width:380px;padding:20px;margin-top:40px;">
-        <div class="upgrade-wheel">
-          <div class="wheel" id="wheel">
-            <div class="wheel-item" style="transform:rotate(0deg) translateX(100px)">1k</div>
-            <div class="wheel-item" style="transform:rotate(36deg) translateX(100px)">2k</div>
-            <div class="wheel-item" style="transform:rotate(72deg) translateX(100px)">3k</div>
-            <div class="wheel-item" style="transform:rotate(108deg) translateX(100px)">5k</div>
-            <div class="wheel-item" style="transform:rotate(144deg) translateX(100px)">10k</div>
-            <div class="wheel-item" style="transform:rotate(180deg) translateX(100px)">25k</div>
-            <div class="wheel-item" style="transform:rotate(216deg) translateX(100px)">50k</div>
-            <div class="wheel-item" style="transform:rotate(252deg) translateX(100px)">100k</div>
-            <div class="wheel-item" style="transform:rotate(288deg) translateX(100px)">250k</div>
-            <div class="wheel-item" style="transform:rotate(324deg) translateX(100px)">500k</div>
-            <div class="wheel-center">SPIN</div>
-          </div>
+      <div class="upgrade-container">
+        <div class="slot-display" id="slotDisplay">
+          <span class="slot-text" id="slotText">1k</span>
         </div>
         <button class="spin-btn" id="spinBtn">Крутить</button>
       </div>
@@ -349,25 +339,63 @@
         current = 'home';
       });
 
-      // ===== КОЛЕСО =====
-      const wheel = document.getElementById('wheel');
+      // ===== UPGRADE SLOT =====
+      const slotDisplay = document.getElementById('slotDisplay');
+      const slotText = document.getElementById('slotText');
       const spinBtn = document.getElementById('spinBtn');
+
+      const values = ['1k', '2k', '3k', '5k', '10k', '25k', '50k', '100k', '250k', '500k'];
+      const weights = [25, 20, 15, 12, 10, 7, 5, 3, 2, 1];
+      let totalWeight = weights.reduce((a, b) => a + b, 0);
       let isSpinning = false;
 
-      spinBtn.addEventListener('click', function() {
+      function getRandomValue() {
+        let random = Math.random() * totalWeight;
+        for (let i = 0; i < weights.length; i++) {
+          random -= weights[i];
+          if (random <= 0) return values[i];
+        }
+        return values[0];
+      }
+
+      function animateSlot(finalValue) {
+        return new Promise((resolve) => {
+          let count = 0;
+          const totalSteps = 20 + Math.floor(Math.random() * 15);
+          const interval = 50;
+          let currentValue = values[0];
+
+          function step() {
+            const randomIndex = Math.floor(Math.random() * values.length);
+            currentValue = values[randomIndex];
+            slotText.textContent = currentValue;
+            count++;
+            if (count < totalSteps) {
+              setTimeout(step, interval + count * 2);
+            } else {
+              slotText.textContent = finalValue;
+              resolve();
+            }
+          }
+          step();
+        });
+      }
+
+      spinBtn.addEventListener('click', async function() {
         if (isSpinning) return;
         isSpinning = true;
-        spinBtn.style.opacity = '0.5';
-        spinBtn.style.pointerEvents = 'none';
-        const randomDeg = 360 * 5 + Math.floor(Math.random() * 360);
-        wheel.style.transform = 'rotate(' + randomDeg + 'deg)';
-        setTimeout(function() {
-          isSpinning = false;
-          spinBtn.style.opacity = '1';
-          spinBtn.style.pointerEvents = 'auto';
-        }, 4500);
+        spinBtn.disabled = true;
+        spinBtn.textContent = 'Крутится...';
+
+        const result = getRandomValue();
+
+        await animateSlot(result);
+
+        spinBtn.textContent = 'Крутить';
+        spinBtn.disabled = false;
+        isSpinning = false;
       });
     })();
   </script>
 </body>
- </html>
+</html>
