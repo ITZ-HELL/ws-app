@@ -65,19 +65,19 @@
     max-width: 280px;
   }
 
-  /* ===== ВИДЖЕТ (CSS) ===== */
+  /* ===== ВИДЖЕТ (как на картинках) ===== */
   .widget-wrapper {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 8px 20px 16px;
+    padding: 8px 20px 8px;
     width: 100%;
   }
   .widget-panel {
     width: 100%;
     max-width: 440px;
-    height: 160px;
-    border-radius: 40px;
+    height: 100px;
+    border-radius: 30px;
     background: rgba(255, 255, 255, 0.04);
     backdrop-filter: blur(6px);
     -webkit-backdrop-filter: blur(6px);
@@ -87,8 +87,6 @@
     align-items: center;
     padding: 0 16px;
     box-shadow: 0 4px 30px rgba(0,0,0,0.3);
-    cursor: pointer;
-    transition: 0.2s;
   }
   .nav-btn {
     display: flex;
@@ -97,23 +95,26 @@
     gap: 4px;
     background: none;
     border: none;
-    padding: 8px 16px;
+    padding: 6px 16px;
     cursor: pointer;
-    transition: 0.2s;
-    border-radius: 20px;
+    border-radius: 16px;
     flex: 1;
+    font-family: inherit;
+    transition: 0.2s;
   }
   .nav-btn .icon {
-    font-size: 32px;
-    line-height: 1;
+    font-size: 22px;
+    font-weight: 300;
     color: #6B7280;
     transition: 0.2s;
+    line-height: 1.2;
   }
   .nav-btn .label {
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 500;
     color: #6B7280;
     transition: 0.2s;
+    letter-spacing: 0.3px;
   }
   .nav-btn.active .icon,
   .nav-btn.active .label {
@@ -121,11 +122,6 @@
   }
   .nav-btn.active .label {
     font-weight: 600;
-  }
-  /* Ховер для всех кнопок */
-  .nav-btn:hover .icon,
-  .nav-btn:hover .label {
-    color: #FFD24C;
   }
 </style>
 </head>
@@ -139,11 +135,11 @@
     <div class="widget-wrapper">
       <div class="widget-panel" id="widgetPanel">
         <button class="nav-btn active" data-page="home">
-          <span class="icon">🏠</span>
+          <span class="icon">⌂</span>
           <span class="label">Главная</span>
         </button>
         <button class="nav-btn" data-page="profile">
-          <span class="icon">👤</span>
+          <span class="icon">◉</span>
           <span class="label">Профиль</span>
         </button>
       </div>
@@ -165,14 +161,12 @@
           const target = btn.dataset.page;
           if (target === current) return;
 
-          // Обновляем активную кнопку
           buttons.forEach(function(b) {
             b.classList.toggle('active', b.dataset.page === target);
           });
 
           current = target;
 
-          // Обновляем контент
           if (target === 'home') {
             pageTitle.textContent = 'Главная';
             pageDesc.textContent = 'Контент главной страницы';
