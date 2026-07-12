@@ -58,22 +58,18 @@
   .empty-page.active{display:flex}
   .empty-back{position:absolute;top:16px;left:16px;background:rgba(255,255,255,0.06);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border-radius:12px;padding:8px 16px;border:1px solid rgba(255,255,255,0.06);z-index:5;color:#FFFFFF;font-family:'Montserrat',sans-serif;font-size:16px;font-weight:700;cursor:pointer;border:none}
 
-  .topup-page{display:none;flex-direction:column;align-items:center;justify-content:center;width:100%;height:100%;position:absolute;top:0;left:0;z-index:20;background:rgba(11,14,20,0.8);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+  .topup-page{display:none;flex-direction:column;align-items:center;justify-content:flex-start;width:100%;height:100%;position:absolute;top:0;left:0;z-index:20;background:rgba(11,14,20,0.8);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);padding-top:70px}
   .topup-page.active{display:flex}
   .back-wrapper{position:absolute;top:16px;left:16px;background:rgba(255,255,255,0.06);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border-radius:12px;padding:8px 16px;border:1px solid rgba(255,255,255,0.06);z-index:5}
   .back-btn{background:none;border:none;color:#FFFFFF;font-family:'Montserrat',sans-serif;font-size:16px;font-weight:700;cursor:pointer;padding:0;line-height:1}
 
-  .topup-content{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:20px;width:100%;max-width:380px}
-  .topup-input-block{background:rgba(255,255,255,0.06);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border-radius:16px;padding:16px 20px;border:1px solid rgba(255,255,255,0.06);width:100%;display:flex;flex-direction:column;align-items:center;gap:10px}
-  .topup-input-block label{font-family:'Montserrat',sans-serif;font-size:16px;font-weight:600;color:#9CA3AF;letter-spacing:0.5px}
-  .topup-input-block input{width:100%;padding:12px 16px;border-radius:12px;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.04);color:#FFFFFF;font-family:'Montserrat',sans-serif;font-size:20px;font-weight:700;text-align:center;outline:none}
+  .topup-content{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:0 20px;width:100%;max-width:380px;margin-top:10px}
+  .topup-input-block{background:rgba(255,255,255,0.06);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border-radius:16px;padding:14px 18px;border:1px solid rgba(255,255,255,0.06);width:100%;display:flex;flex-direction:column;align-items:flex-start;gap:6px}
+  .topup-input-block label{font-family:'Montserrat',sans-serif;font-size:13px;font-weight:600;color:#9CA3AF;letter-spacing:0.3px}
+  .topup-input-block input{width:100%;padding:10px 14px;border-radius:10px;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.03);color:#FFFFFF;font-family:'Montserrat',sans-serif;font-size:18px;font-weight:600;text-align:left;outline:none;height:48px}
   .topup-input-block input:focus{border-color:#FFD24C}
-  .topup-input-block input::placeholder{color:#6B7280;font-weight:400;font-size:16px}
-  .topup-method{background:rgba(255,255,255,0.06);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border-radius:16px;padding:14px 20px;border:1px solid rgba(255,255,255,0.06);width:100%;text-align:center;font-family:'Montserrat',sans-serif;font-size:18px;font-weight:600;color:#FFFFFF;letter-spacing:0.5px;cursor:pointer;transition:0.2s}
-  .topup-method:hover{background:rgba(255,255,255,0.1)}
-  .topup-method.gold{color:#FFD24C;border-color:rgba(255,210,76,0.2)}
-  .topup-confirm{background:#FFD24C;color:#0B0E14;padding:14px 20px;border-radius:16px;border:none;font-family:'Montserrat',sans-serif;font-size:18px;font-weight:700;cursor:pointer;width:100%;transition:0.2s}
-  .topup-confirm:hover{background:#F5C53B}
+  .topup-input-block input::placeholder{color:#6B7280;font-weight:400;font-size:15px}
+  .topup-confirm{background:#FFD24C;color:#0B0E14;padding:14px 20px;border-radius:16px;border:none;font-family:'Montserrat',sans-serif;font-size:18px;font-weight:700;cursor:pointer;width:100%;transition:0.2s;margin-top:8px;opacity:0.5;pointer-events:none}
 
   .widget-wrapper{display:flex;justify-content:center;align-items:center;padding:4px 20px 8px;width:100%}
   .widget-panel{width:100%;max-width:360px;height:70px;border-radius:24px;background:rgba(255,255,255,0.06);backdrop-filter:blur(10px) saturate(180%);-webkit-backdrop-filter:blur(10px) saturate(180%);border:1px solid rgba(255,255,255,0.08);display:flex;justify-content:space-around;align-items:center;padding:0 12px;box-shadow:0 4px 30px rgba(0,0,0,0.2)}
@@ -155,15 +151,10 @@
       </div>
       <div class="topup-content">
         <div class="topup-input-block">
-          <label>Сумма пополнения (₽)</label>
-          <input type="number" id="amountInput" placeholder="Введите сумму" min="1" step="1">
+          <label>Сумма (минимум 50₽)</label>
+          <input type="number" id="amountInput" placeholder="Введите сумму.." min="50" step="1">
         </div>
-        <div class="topup-method gold">СПБ</div>
-        <div class="topup-method gold">КАСПИ ПЕРЕВОД</div>
-        <div class="topup-method gold">GRAM</div>
-        <div class="topup-method gold">USDT</div>
-        <div class="topup-method gold">Telegram Stars</div>
-        <button class="topup-confirm" id="topupConfirmBtn">Пополнить</button>
+        <button class="topup-confirm" id="topupConfirmBtn">Оплатить</button>
       </div>
     </div>
 
@@ -332,16 +323,7 @@
         });
         current = 'home';
       });
-
-      document.getElementById('topupConfirmBtn').addEventListener('click', function() {
-        const amount = document.getElementById('amountInput').value;
-        if (!amount || parseInt(amount) < 1) {
-          alert('Введите корректную сумму');
-          return;
-        }
-        alert('Заявка на пополнение на ' + amount + ' ₽ отправлена!');
-      });
     })();
   </script>
 </body>
- </html>
+</html>
