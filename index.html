@@ -44,12 +44,16 @@
     z-index: 1;
   }
 
+  /* ===== ШАПКА (только для главной) ===== */
   .header {
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 16px 20px 8px;
     gap: 8px;
+  }
+  .header.hidden {
+    display: none;
   }
   .header-left {
     display: flex;
@@ -88,7 +92,6 @@
     object-fit: cover;
     display: block;
   }
-
   .topup-btn {
     font-family: 'Montserrat', sans-serif;
     font-size: 13px;
@@ -108,6 +111,7 @@
     transform: scale(1.02);
   }
 
+  /* ===== БАЛАНС (общий) ===== */
   .balance-block {
     background: rgba(255, 255, 255, 0.06);
     backdrop-filter: blur(6px);
@@ -139,6 +143,7 @@
     opacity: 0.8;
   }
 
+  /* ===== СТРАНИЦЫ ===== */
   .content {
     flex: 1;
     display: flex;
@@ -148,7 +153,18 @@
     padding: 20px;
     text-align: center;
   }
-  .content .sub {
+  .page {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+  }
+  .page.active {
+    display: flex;
+  }
+  .page .sub {
     font-size: 14px;
     color: #9CA3AF;
     letter-spacing: 4px;
@@ -156,6 +172,60 @@
     opacity: 0.6;
   }
 
+  /* ===== ПРОФИЛЬ ===== */
+  .profile-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    padding: 20px 16px;
+    width: 100%;
+    max-width: 400px;
+  }
+  .profile-avatar-wrapper {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: #0B0E14;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border: 2px solid rgba(255,255,255,0.06);
+  }
+  .profile-avatar {
+    width: 72px;
+    height: 72px;
+    border-radius: 50%;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    font-weight: 600;
+    color: #fff;
+    background: #6C6C6C;
+    text-transform: uppercase;
+  }
+  .profile-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .profile-name {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 24px;
+    font-weight: 700;
+    color: #FFFFFF;
+  }
+  .profile-username {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    color: #9CA3AF;
+  }
+
+  /* ===== НАВИГАЦИЯ ===== */
   .widget-wrapper {
     display: flex;
     justify-content: center;
@@ -218,7 +288,8 @@
 </head>
 <body>
   <div class="app">
-    <div class="header">
+    <!-- ШАПКА (только для главной) -->
+    <div class="header" id="mainHeader">
       <div class="header-left">
         <div class="avatar-wrapper">
           <div class="avatar" id="avatar"></div>
@@ -230,10 +301,26 @@
       </div>
     </div>
 
-    <div class="content" id="pageContent">
-      <div class="sub" id="pageDesc">главная</div>
+    <!-- СТРАНИЦЫ -->
+    <div class="content">
+      <!-- Главная -->
+      <div id="page-home" class="page active">
+        <div class="sub">главная</div>
+      </div>
+
+      <!-- Профиль -->
+      <div id="page-profile" class="page">
+        <div class="profile-header">
+          <div class="profile-avatar-wrapper">
+            <div class="profile-avatar" id="profileAvatar"></div>
+          </div>
+          <div class="profile-name" id="profileName">Имя пользователя</div>
+          <div class="profile-username" id="profileUsername">@username</div>
+        </div>
+      </div>
     </div>
 
+    <!-- НАВИГАЦИЯ -->
     <div class="widget-wrapper">
       <div class="widget-panel" id="widgetPanel">
         <button class="nav-btn active" data-page="home">
@@ -264,6 +351,10 @@
       }
 
       const avatarEl = document.getElementById('avatar');
+      const profileAvatarEl = document.getElementById('profileAvatar');
+      const profileNameEl = document.getElementById('profileName');
+      const profileUsernameEl = document.getElementById('profileUsername');
+
       const colors = ['#FF6B6B', '#FF9F43', '#FECA57', '#48DBFB', '#0ABDE3', '#10AC84', '#EE5A24', '#5F27CD'];
 
       function getColorFromId(id) {
@@ -272,26 +363,39 @@
         return colors[index];
       }
 
-      if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe && window.Telegram.WebApp.initDataUnsafe.user) {
-        const user = window.Telegram.WebApp.initDataUnsafe.user;
+      function setAvatar(container, user) {
         const name = user.first_name || 'User';
         const firstLetter = name.charAt(0).toUpperCase();
-
         if (user.photo_url) {
-          avatarEl.innerHTML = `<img src="${user.photo_url}" alt="Аватар">`;
+          container.innerHTML = `<img src="${user.photo_url}" alt="Аватар">`;
         } else {
           const bgColor = getColorFromId(user.id);
-          avatarEl.style.background = bgColor;
-          avatarEl.textContent = firstLetter;
+          container.style.background = bgColor;
+          container.textContent = firstLetter;
         }
+      }
+
+      if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe && window.Telegram.WebApp.initDataUnsafe.user) {
+        const user = window.Telegram.WebApp.initDataUnsafe.user;
+        setAvatar(avatarEl, user);
+        setAvatar(profileAvatarEl, user);
+        profileNameEl.textContent = user.first_name || 'User';
+        profileUsernameEl.textContent = user.username ? '@' + user.username : 'нет юзернейма';
       } else {
         avatarEl.style.background = '#6C6C6C';
         avatarEl.textContent = '👤';
+        profileAvatarEl.style.background = '#6C6C6C';
+        profileAvatarEl.textContent = '👤';
+        profileNameEl.textContent = 'Гость';
+        profileUsernameEl.textContent = 'не авторизован';
       }
 
+      // Переключение вкладок
       const panel = document.getElementById('widgetPanel');
       const buttons = panel.querySelectorAll('.nav-btn');
-      const pageDesc = document.getElementById('pageDesc');
+      const pageHome = document.getElementById('page-home');
+      const pageProfile = document.getElementById('page-profile');
+      const mainHeader = document.getElementById('mainHeader');
 
       let current = 'home';
 
@@ -308,15 +412,18 @@
           current = target;
 
           if (target === 'home') {
-            pageDesc.textContent = 'главная';
+            pageHome.classList.add('active');
+            pageProfile.classList.remove('active');
+            mainHeader.classList.remove('hidden');
           } else {
-            pageDesc.textContent = 'профиль';
+            pageProfile.classList.add('active');
+            pageHome.classList.remove('active');
+            mainHeader.classList.add('hidden');
           }
         });
       });
 
       document.getElementById('topupBtn').addEventListener('click', function() {
-        // Здесь будет логика пополнения
         console.log('Пополнение');
       });
     })();
