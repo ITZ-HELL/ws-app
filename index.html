@@ -50,11 +50,22 @@
   .stats-label{font-family:'Montserrat',sans-serif;font-size:15px;font-weight:500;color:#9CA3AF;letter-spacing:0.3px}
   .stats-value{font-family:'Montserrat',sans-serif;font-size:17px;font-weight:700;color:#FFFFFF;letter-spacing:0.5px}
 
-  /* ИНВЕНТАРЬ И ПУСТО */
+  /* ИНВЕНТАРЬ */
   .divider-wrapper{width:calc(100% - 32px);max-width:380px;display:flex;align-items:center;gap:12px;margin-top:40px}
   .divider-line{flex:1;height:1px;background:rgba(255,255,255,0.08)}
   .divider-label{font-family:'Montserrat',sans-serif;font-size:14px;font-weight:700;color:#FFFFFF;letter-spacing:1.5px;white-space:nowrap;opacity:0.9}
   .empty-text{font-family:'Montserrat',sans-serif;font-size:24px;font-weight:700;color:#6B7280;letter-spacing:4px;text-transform:uppercase;margin-top:60px;opacity:0.4}
+
+  /* СТРАНИЦА ПОПОЛНЕНИЯ */
+  .topup-page{display:none;flex-direction:column;align-items:center;justify-content:center;width:100%;height:100%;position:absolute;top:0;left:0;z-index:20;background:rgba(11,14,20,0.8);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+  .topup-page.active{display:flex}
+  .topup-header{position:absolute;top:20px;left:20px;z-index:5}
+  .back-btn{background:none;border:none;color:#FFFFFF;font-size:28px;cursor:pointer;padding:8px 12px;border-radius:12px;transition:0.2s;display:flex;align-items:center;gap:6px}
+  .back-btn:hover{background:rgba(255,255,255,0.06)}
+  .topup-content{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:20px;width:100%;max-width:380px}
+  .topup-block{background:rgba(255,255,255,0.06);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border-radius:28px;padding:24px 32px;border:1px solid rgba(255,255,255,0.06);width:100%;text-align:center}
+  .topup-block .title{font-family:'Montserrat',sans-serif;font-size:18px;font-weight:600;color:#FFFFFF;margin-bottom:8px}
+  .topup-block .sub{font-family:'Montserrat',sans-serif;font-size:14px;font-weight:400;color:#9CA3AF}
 
   .widget-wrapper{display:flex;justify-content:center;align-items:center;padding:4px 20px 8px;width:100%}
   .widget-panel{width:100%;max-width:360px;height:70px;border-radius:24px;background:rgba(255,255,255,0.06);backdrop-filter:blur(10px) saturate(180%);-webkit-backdrop-filter:blur(10px) saturate(180%);border:1px solid rgba(255,255,255,0.08);display:flex;justify-content:space-around;align-items:center;padding:0 12px;box-shadow:0 4px 30px rgba(0,0,0,0.2)}
@@ -85,8 +96,10 @@
     </div>
 
     <div class="content">
+      <!-- ГЛАВНАЯ -->
       <div id="page-home" class="page active"></div>
 
+      <!-- ПРОФИЛЬ -->
       <div id="page-profile" class="page">
         <div class="profile-container">
           <div class="profile-avatar-wrapper">
@@ -98,7 +111,6 @@
             <div class="profile-id" id="profileId">ID: 0</div>
           </div>
         </div>
-
         <div class="stats-block">
           <div class="stats-row">
             <span class="stats-label">Открыто кейсов</span>
@@ -109,17 +121,29 @@
             <span class="stats-value" id="statsItems">0</span>
           </div>
         </div>
-
         <div class="divider-wrapper">
           <span class="divider-line"></span>
           <span class="divider-label">ИНВЕНТАРЬ</span>
           <span class="divider-line"></span>
         </div>
-
         <div class="empty-text">пусто</div>
       </div>
     </div>
 
+    <!-- СТРАНИЦА ПОПОЛНЕНИЯ -->
+    <div class="topup-page" id="topupPage">
+      <div class="topup-header">
+        <button class="back-btn" id="backBtn">← Назад</button>
+      </div>
+      <div class="topup-content">
+        <div class="topup-block">
+          <div class="title">Пополнение баланса</div>
+          <div class="sub">Здесь будет форма пополнения</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- НАВИГАЦИЯ -->
     <div class="widget-wrapper">
       <div class="widget-panel" id="widgetPanel">
         <button class="nav-btn active" data-page="home">
@@ -144,6 +168,7 @@
     (function() {
       if (window.Telegram && window.Telegram.WebApp) window.Telegram.WebApp.expand();
 
+      // Аватарки и данные
       const avatarEl = document.getElementById('avatar');
       const profileAvatarEl = document.getElementById('profileAvatar');
       const profileNameEl = document.getElementById('profileName');
@@ -187,11 +212,14 @@
         profileIdEl.textContent = 'ID: 0';
       }
 
+      // Переключение вкладок
       const panel = document.getElementById('widgetPanel');
       const buttons = panel.querySelectorAll('.nav-btn');
       const pageHome = document.getElementById('page-home');
       const pageProfile = document.getElementById('page-profile');
       const mainHeader = document.getElementById('mainHeader');
+      const topupPage = document.getElementById('topupPage');
+      const backBtn = document.getElementById('backBtn');
 
       let current = 'home';
 
@@ -211,16 +239,34 @@
             pageHome.classList.add('active');
             pageProfile.classList.remove('active');
             mainHeader.classList.remove('hidden');
+            topupPage.classList.remove('active');
           } else {
             pageProfile.classList.add('active');
             pageHome.classList.remove('active');
             mainHeader.classList.add('hidden');
+            topupPage.classList.remove('active');
           }
         });
       });
 
+      // Открытие страницы пополнения
       document.getElementById('topupBtn').addEventListener('click', function() {
-        console.log('Пополнение');
+        topupPage.classList.add('active');
+        pageHome.classList.remove('active');
+        pageProfile.classList.remove('active');
+        mainHeader.classList.add('hidden');
+        buttons.forEach(function(b) { b.classList.remove('active'); });
+      });
+
+      // Назад на главную
+      backBtn.addEventListener('click', function() {
+        topupPage.classList.remove('active');
+        pageHome.classList.add('active');
+        mainHeader.classList.remove('hidden');
+        buttons.forEach(function(b) {
+          b.classList.toggle('active', b.dataset.page === 'home');
+        });
+        current = 'home';
       });
     })();
   </script>
