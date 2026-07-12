@@ -49,12 +49,12 @@
     color: #fff;
     padding: 20px;
     text-align: center;
+    transition: opacity 0.3s ease;
   }
   .content h1 {
     font-size: 28px;
     font-weight: 600;
     margin-bottom: 12px;
-    transition: 0.3s;
   }
   .content h1 span {
     color: #FFD24C;
@@ -63,9 +63,9 @@
     color: #9CA3AF;
     font-size: 16px;
     max-width: 280px;
-    transition: 0.3s;
   }
 
+  /* ===== ВИДЖЕТ (CSS) ===== */
   .widget-wrapper {
     display: flex;
     justify-content: center;
@@ -73,29 +73,59 @@
     padding: 8px 20px 16px;
     width: 100%;
   }
-  .widget-btn {
-    border: none;
-    background: transparent;
-    cursor: pointer;
-    padding: 0;
+  .widget-panel {
     width: 100%;
-    max-width: 460px;
-    height: 200px;
+    max-width: 440px;
+    height: 160px;
     border-radius: 40px;
-    overflow: hidden;
-    outline: none;
-    -webkit-tap-highlight-color: transparent;
+    background: rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    border: 1px solid rgba(255, 255, 255, 0.06);
     display: flex;
+    justify-content: space-around;
     align-items: center;
-    justify-content: center;
-    transition: none;
+    padding: 0 16px;
+    box-shadow: 0 4px 30px rgba(0,0,0,0.3);
+    cursor: pointer;
+    transition: 0.2s;
   }
-  .widget-btn img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    display: block;
-    pointer-events: none;
+  .nav-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    background: none;
+    border: none;
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: 0.2s;
+    border-radius: 20px;
+    flex: 1;
+  }
+  .nav-btn .icon {
+    font-size: 32px;
+    line-height: 1;
+    color: #6B7280;
+    transition: 0.2s;
+  }
+  .nav-btn .label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #6B7280;
+    transition: 0.2s;
+  }
+  .nav-btn.active .icon,
+  .nav-btn.active .label {
+    color: #FFD24C;
+  }
+  .nav-btn.active .label {
+    font-weight: 600;
+  }
+  /* Ховер для всех кнопок */
+  .nav-btn:hover .icon,
+  .nav-btn:hover .label {
+    color: #FFD24C;
   }
 </style>
 </head>
@@ -107,36 +137,50 @@
     </div>
 
     <div class="widget-wrapper">
-      <button class="widget-btn" id="widget">
-        <img id="widgetImg" src="https://i.postimg.cc/yYHHgNwk/Picsart-26-07-12-11-20-57-902.png" alt="Переключить">
-      </button>
+      <div class="widget-panel" id="widgetPanel">
+        <button class="nav-btn active" data-page="home">
+          <span class="icon">🏠</span>
+          <span class="label">Главная</span>
+        </button>
+        <button class="nav-btn" data-page="profile">
+          <span class="icon">👤</span>
+          <span class="label">Профиль</span>
+        </button>
+      </div>
     </div>
   </div>
 
   <script>
     (function() {
-      const widget = document.getElementById('widget');
-      const widgetImg = document.getElementById('widgetImg');
+      const panel = document.getElementById('widgetPanel');
+      const buttons = panel.querySelectorAll('.nav-btn');
       const pageTitle = document.getElementById('pageTitle');
       const pageDesc = document.getElementById('pageDesc');
 
-      const homeSrc = 'https://i.postimg.cc/yYHHgNwk/Picsart-26-07-12-11-20-57-902.png';
-      const profileSrc = 'https://i.postimg.cc/X7VP6BRf/Picsart-26-07-12-11-23-18-386.png';
+      let current = 'home';
 
-      let isHome = true;
+      buttons.forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+          e.stopPropagation();
+          const target = btn.dataset.page;
+          if (target === current) return;
 
-      widget.addEventListener('click', function() {
-        if (isHome) {
-          widgetImg.src = profileSrc;
-          pageTitle.textContent = 'Профиль';
-          pageDesc.textContent = 'Информация о пользователе';
-          isHome = false;
-        } else {
-          widgetImg.src = homeSrc;
-          pageTitle.textContent = 'Главная';
-          pageDesc.textContent = 'Контент главной страницы';
-          isHome = true;
-        }
+          // Обновляем активную кнопку
+          buttons.forEach(function(b) {
+            b.classList.toggle('active', b.dataset.page === target);
+          });
+
+          current = target;
+
+          // Обновляем контент
+          if (target === 'home') {
+            pageTitle.textContent = 'Главная';
+            pageDesc.textContent = 'Контент главной страницы';
+          } else {
+            pageTitle.textContent = 'Профиль';
+            pageDesc.textContent = 'Информация о пользователе';
+          }
+        });
       });
     })();
   </script>
