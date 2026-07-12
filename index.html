@@ -35,10 +35,13 @@
     background: rgba(11, 14, 20, 0.5);
     z-index: 0;
   }
-  .content {
-    flex: 1;
+  .app > * {
     position: relative;
     z-index: 1;
+  }
+
+  .content {
+    flex: 1;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -61,38 +64,40 @@
     max-width: 280px;
   }
 
-  /* Виджет внизу */
-  .widget-wrapper {
-    position: relative;
-    z-index: 1;
+  .nav-row {
     display: flex;
     justify-content: center;
     align-items: center;
+    gap: 20px;
     padding: 16px 16px 24px;
     width: 100%;
   }
-  .widget-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  .nav-btn {
+    position: relative;
+    width: 92px;
+    height: 92px;
     border: none;
     background: transparent;
     cursor: pointer;
+    border-radius: 50%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    user-select: none;
     padding: 0;
-    width: 200px;
-    height: 72px;
-    border-radius: 30px;
     overflow: hidden;
     transition: none;
     outline: none;
     -webkit-tap-highlight-color: transparent;
   }
-  .widget-btn img {
+  .nav-btn img {
     width: 100%;
     height: 100%;
     object-fit: contain;
     display: block;
     pointer-events: none;
+    border-radius: 50%;
   }
 </style>
 </head>
@@ -103,31 +108,36 @@
       <p>Контент главной страницы</p>
     </div>
 
-    <div class="widget-wrapper">
-      <button class="widget-btn" id="widget">
-        <img id="widgetImg" src="https://i.postimg.cc/WbPj607K/Bez-nazvania55-20260712021411.png" alt="Переключить">
+    <div class="nav-row">
+      <button class="nav-btn" data-page="home">
+        <img src="https://i.postimg.cc/WbPj607K/Bez-nazvania55-20260712021411.png" alt="Главная">
+      </button>
+      <button class="nav-btn" data-page="profile">
+        <img src="https://i.postimg.cc/bvFpQM69/Bez-nazvania55-20260712015252.png" alt="Профиль">
       </button>
     </div>
   </div>
 
   <script>
     (function() {
-      const widget = document.getElementById('widget');
-      const widgetImg = document.getElementById('widgetImg');
+      var buttons = document.querySelectorAll('.nav-btn');
+      var current = 'home';
+      var homeImg = buttons[0].querySelector('img');
+      var profileImg = buttons[1].querySelector('img');
 
-      const homeSrc = 'https://i.postimg.cc/WbPj607K/Bez-nazvania55-20260712021411.png';
-      const profileSrc = 'https://i.postimg.cc/bvFpQM69/Bez-nazvania55-20260712015252.png';
+      var homeActive = 'https://i.postimg.cc/WbPj607K/Bez-nazvania55-20260712021411.png';
+      var profileActive = 'https://i.postimg.cc/bvFpQM69/Bez-nazvania55-20260712015252.png';
 
-      let isHome = true;
+      // Для простоты пока оставляем те же картинки, можно добавить неактивные позже
 
-      widget.addEventListener('click', function() {
-        if (isHome) {
-          widgetImg.src = profileSrc;
-          isHome = false;
-        } else {
-          widgetImg.src = homeSrc;
-          isHome = true;
-        }
+      buttons.forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          var target = btn.dataset.page;
+          if (target === current) return;
+          current = target;
+          console.log('переключились на:', target);
+          // Здесь будет логика смены страницы
+        });
       });
     })();
   </script>
