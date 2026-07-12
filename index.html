@@ -44,16 +44,13 @@
     z-index: 1;
   }
 
-  /* ===== ШАПКА (только для главной) ===== */
+  /* ===== ШАПКА (общая) ===== */
   .header {
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 16px 20px 8px;
     gap: 8px;
-  }
-  .header.hidden {
-    display: none;
   }
   .header-left {
     display: flex;
@@ -111,7 +108,7 @@
     transform: scale(1.02);
   }
 
-  /* ===== БАЛАНС (общий) ===== */
+  /* ===== БАЛАНС (общий, всегда виден) ===== */
   .balance-block {
     background: rgba(255, 255, 255, 0.06);
     backdrop-filter: blur(6px);
@@ -149,17 +146,19 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     padding: 20px;
     text-align: center;
+    overflow-y: auto;
   }
   .page {
     display: none;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     width: 100%;
     height: 100%;
+    padding-top: 10px;
   }
   .page.active {
     display: flex;
@@ -174,13 +173,13 @@
 
   /* ===== ПРОФИЛЬ ===== */
   .profile-container {
-    position: absolute;
-    top: 20px;
-    left: 16px;
     display: flex;
     align-items: center;
     gap: 14px;
-    z-index: 5;
+    width: 100%;
+    max-width: 400px;
+    padding: 0 16px;
+    margin-bottom: 6px;
   }
   .profile-avatar-wrapper {
     width: 64px;
@@ -239,20 +238,20 @@
     letter-spacing: 0.5px;
   }
 
-  /* СТАТИСТИКА (блок) */
+  /* СТАТИСТИКА (поднята выше) */
   .stats-block {
     background: rgba(255, 255, 255, 0.05);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border-radius: 28px;
-    padding: 16px 28px;
+    padding: 12px 28px;
     border: 1px solid rgba(255, 255, 255, 0.06);
-    width: calc(100% - 40px);
+    width: calc(100% - 32px);
     max-width: 380px;
     display: flex;
     flex-direction: column;
-    gap: 8px;
-    margin-top: 6px;
+    gap: 6px;
+    margin-top: 4px;
   }
   .stats-row {
     display: flex;
@@ -281,12 +280,12 @@
 
   /* РАЗДЕЛИТЕЛЬНАЯ ПОЛОСА С НАДПИСЬЮ */
   .divider-wrapper {
-    width: calc(100% - 40px);
+    width: calc(100% - 32px);
     max-width: 380px;
     display: flex;
     align-items: center;
     gap: 12px;
-    margin: 8px 0 6px;
+    margin: 8px 0 4px;
   }
   .divider-line {
     flex: 1;
@@ -301,6 +300,18 @@
     letter-spacing: 1.5px;
     white-space: nowrap;
     opacity: 0.9;
+  }
+
+  /* ПУСТО (под инвентарём) */
+  .empty-text {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    color: #6B7280;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-top: 12px;
+    opacity: 0.5;
   }
 
   /* ===== НАВИГАЦИЯ ===== */
@@ -366,8 +377,8 @@
 </head>
 <body>
   <div class="app">
-    <!-- ШАПКА -->
-    <div class="header" id="mainHeader">
+    <!-- ШАПКА (всегда видна) -->
+    <div class="header">
       <div class="header-left">
         <div class="avatar-wrapper">
           <div class="avatar" id="avatar"></div>
@@ -399,7 +410,7 @@
           </div>
         </div>
 
-        <!-- СТАТИСТИКА -->
+        <!-- СТАТИСТИКА (поднята выше) -->
         <div class="stats-block">
           <div class="stats-row">
             <span class="stats-label">Открыто кейсов</span>
@@ -411,12 +422,15 @@
           </div>
         </div>
 
-        <!-- РАЗДЕЛИТЕЛЬНАЯ ПОЛОСА С НАДПИСЬЮ -->
+        <!-- РАЗДЕЛИТЕЛЬНАЯ ПОЛОСА -->
         <div class="divider-wrapper">
           <span class="divider-line"></span>
           <span class="divider-label">ИНВЕНТАРЬ</span>
           <span class="divider-line"></span>
         </div>
+
+        <!-- ПУСТО -->
+        <div class="empty-text">пусто</div>
       </div>
     </div>
 
@@ -493,12 +507,11 @@
         profileIdEl.textContent = 'ID: 0';
       }
 
-      // Переключение вкладок
+      // Переключение вкладок (без скрытия шапки)
       const panel = document.getElementById('widgetPanel');
       const buttons = panel.querySelectorAll('.nav-btn');
       const pageHome = document.getElementById('page-home');
       const pageProfile = document.getElementById('page-profile');
-      const mainHeader = document.getElementById('mainHeader');
 
       let current = 'home';
 
@@ -517,11 +530,9 @@
           if (target === 'home') {
             pageHome.classList.add('active');
             pageProfile.classList.remove('active');
-            mainHeader.classList.remove('hidden');
           } else {
             pageProfile.classList.add('active');
             pageHome.classList.remove('active');
-            mainHeader.classList.add('hidden');
           }
         });
       });
@@ -532,4 +543,4 @@
     })();
   </script>
 </body>
- </html>
+</html>
