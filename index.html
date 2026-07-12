@@ -56,7 +56,7 @@
 
   .empty-page{display:none;flex-direction:column;align-items:center;justify-content:center;width:100%;height:100%;position:absolute;top:0;left:0;z-index:20;background:rgba(11,14,20,0.8);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
   .empty-page.active{display:flex}
-  .empty-back{position:absolute;top:12px;left:16px;background:rgba(255,255,255,0.06);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border-radius:12px;padding:6px 14px;border:1px solid rgba(255,255,255,0.06);z-index:5;color:#FFFFFF;font-family:'Montserrat',sans-serif;font-size:15px;font-weight:700;cursor:pointer;border:none}
+  .empty-back{position:absolute;top:16px;left:16px;background:rgba(255,255,255,0.06);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border-radius:12px;padding:8px 16px;border:1px solid rgba(255,255,255,0.06);z-index:5;color:#FFFFFF;font-family:'Montserrat',sans-serif;font-size:16px;font-weight:700;cursor:pointer;border:none}
 
   .topup-page{display:none;flex-direction:column;align-items:center;justify-content:flex-start;width:100%;height:100%;position:absolute;top:0;left:0;z-index:20;background:rgba(11,14,20,0.8);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);padding-top:70px}
   .topup-page.active{display:flex}
@@ -78,16 +78,6 @@
   .nav-btn .label{font-size:11px;font-weight:500;color:#9CA3AF;transition:0.2s;letter-spacing:0.3px}
   .nav-btn.active svg{stroke:#FFD24C}
   .nav-btn.active .label{color:#FFD24C;font-weight:600}
-
-  .upgrade-container{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px;width:100%;max-width:360px;padding:20px 20px 10px}
-  .wheel-wrapper{position:relative;width:260px;height:260px;margin:0 auto}
-  .wheel-canvas{width:260px;height:260px;border-radius:50%;background:rgba(255,255,255,0.05);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:2px solid rgba(255,210,76,0.15);position:relative;overflow:hidden;box-shadow:0 0 40px rgba(255,210,76,0.05)}
-  .wheel-canvas canvas{width:100%;height:100%;display:block;border-radius:50%}
-  .arrow-indicator{position:absolute;top:-8px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:16px solid transparent;border-right:16px solid transparent;border-top:26px solid #FFD24C;z-index:10;filter:drop-shadow(0 0 12px rgba(255,210,76,0.5))}
-  .spin-btn{background:#FFD24C;color:#0B0E14;padding:14px 20px;border-radius:16px;border:none;font-family:'Montserrat',sans-serif;font-size:18px;font-weight:700;cursor:pointer;width:100%;max-width:280px;transition:0.2s}
-  .spin-btn:active{transform:scale(0.96)}
-  .spin-btn:disabled{opacity:0.4;pointer-events:none}
-  .result-text{font-family:'Montserrat',sans-serif;font-size:18px;font-weight:600;color:#FFFFFF;text-align:center;min-height:28px;margin-top:4px}
 </style>
 </head>
 <body>
@@ -153,16 +143,6 @@
 
     <div class="empty-page" id="upgradePage">
       <button class="empty-back" id="upgradeBack">Назад</button>
-      <div class="upgrade-container">
-        <div class="wheel-wrapper">
-          <div class="arrow-indicator"></div>
-          <div class="wheel-canvas">
-            <canvas id="wheelCanvas" width="260" height="260"></canvas>
-          </div>
-        </div>
-        <div class="result-text" id="resultText">Нажми «Крутить»</div>
-        <button class="spin-btn" id="spinBtn">Крутить</button>
-      </div>
     </div>
 
     <div class="topup-page" id="topupPage">
@@ -343,97 +323,6 @@
         });
         current = 'home';
       });
-
-      // ===== КРУГ И СТРЕЛКА =====
-      const canvas = document.getElementById('wheelCanvas');
-      const ctx = canvas.getContext('2d');
-      const spinBtnWheel = document.getElementById('spinBtn');
-      const resultText = document.getElementById('resultText');
-
-      const sectors = [
-        { color: '#2ECC71' },
-        { color: '#E74C3C' },
-        { color: '#2ECC71' },
-        { color: '#E74C3C' },
-        { color: '#2ECC71' },
-        { color: '#E74C3C' },
-        { color: '#2ECC71' },
-        { color: '#E74C3C' }
-      ];
-      const numSectors = sectors.length;
-      const arcSize = (2 * Math.PI) / numSectors;
-      let currentAngle = 0;
-      let isSpinning = false;
-
-      function drawWheel(rotation) {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        const centerX = canvas.width / 2;
-        const centerY = canvas.height / 2;
-        const radius = canvas.width / 2 - 2;
-
-        for (let i = 0; i < numSectors; i++) {
-          const startAngle = rotation + i * arcSize;
-          const endAngle = startAngle + arcSize;
-          ctx.beginPath();
-          ctx.moveTo(centerX, centerY);
-          ctx.arc(centerX, centerY, radius, startAngle, endAngle);
-          ctx.closePath();
-          ctx.fillStyle = sectors[i].color;
-          ctx.fill();
-          ctx.strokeStyle = 'rgba(255,255,255,0.06)';
-          ctx.lineWidth = 1;
-          ctx.stroke();
-        }
-
-        ctx.beginPath();
-        ctx.arc(centerX, centerY, 10, 0, 2 * Math.PI);
-        ctx.fillStyle = '#0B0E14';
-        ctx.fill();
-        ctx.strokeStyle = 'rgba(255,210,76,0.3)';
-        ctx.lineWidth = 2;
-        ctx.stroke();
-      }
-
-      function spinWheel() {
-        if (isSpinning) return;
-        isSpinning = true;
-        spinBtnWheel.disabled = true;
-        spinBtnWheel.textContent = 'Крутится...';
-        resultText.textContent = '...';
-
-        const extraSpins = 5 + Math.random() * 5;
-        const stopAngle = Math.random() * 2 * Math.PI;
-        const totalRotation = extraSpins * 2 * Math.PI + stopAngle;
-        const targetAngle = currentAngle + totalRotation;
-
-        const startAngle = currentAngle;
-        const duration = 3000 + Math.random() * 1500;
-        const startTime = performance.now();
-
-        function animate(time) {
-          const elapsed = time - startTime;
-          const progress = Math.min(elapsed / duration, 1);
-          const ease = 1 - Math.pow(1 - progress, 3);
-          const currentRotation = startAngle + (targetAngle - startAngle) * ease;
-          drawWheel(currentRotation);
-
-          if (progress < 1) {
-            requestAnimationFrame(animate);
-          } else {
-            currentAngle = targetAngle;
-            const sectorIndex = Math.floor(((currentAngle % (2 * Math.PI)) + 2 * Math.PI) % (2 * Math.PI) / arcSize) % numSectors;
-            const isWin = sectors[sectorIndex].color === '#2ECC71';
-            resultText.textContent = isWin ? '✅ Выигрыш!' : '❌ Проигрыш!';
-            spinBtnWheel.textContent = 'Крутить';
-            spinBtnWheel.disabled = false;
-            isSpinning = false;
-          }
-        }
-        requestAnimationFrame(animate);
-      }
-
-      drawWheel(0);
-      spinBtnWheel.addEventListener('click', spinWheel);
     })();
   </script>
 </body>
