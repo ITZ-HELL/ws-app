@@ -89,7 +89,6 @@
     display: block;
   }
 
-  /* КНОПКА ПОПОЛНИТЬ */
   .topup-btn {
     font-family: 'Montserrat', sans-serif;
     font-size: 13px;
@@ -109,7 +108,6 @@
     transform: scale(1.02);
   }
 
-  /* БАЛАНС */
   .balance-block {
     background: rgba(255, 255, 255, 0.06);
     backdrop-filter: blur(6px);
@@ -225,7 +223,7 @@
         <div class="avatar-wrapper">
           <div class="avatar" id="avatar"></div>
         </div>
-        <button class="topup-btn" id="topupBtn">➕ Пополнить</button>
+        <button class="topup-btn" id="topupBtn">Пополнить</button>
       </div>
       <div class="balance-block">
         <div class="balance" id="balance">0 <span class="currency">₽</span></div>
@@ -317,9 +315,9 @@
         });
       });
 
-      // Кнопка пополнить — пока просто алерт
       document.getElementById('topupBtn').addEventListener('click', function() {
-        alert('Функция пополнения будет добавлена позже');
+        // Здесь будет логика пополнения
+        console.log('Пополнение');
       });
     })();
   </script>
