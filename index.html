@@ -27,8 +27,7 @@
   .balance{font-family:'Montserrat',sans-serif;font-size:20px;font-weight:700;color:#FFFFFF;letter-spacing:0.5px;white-space:nowrap}
   .balance .currency{font-family:'Montserrat',sans-serif;font-size:16px;font-weight:600;color:#FFFFFF;margin-left:2px;opacity:0.8}
 
-  /* КАРТОЧКИ НА ГЛАВНОЙ */
-  .card{width:calc(100% - 40px);max-width:600px;height:160px;margin:12px auto 0;border-radius:28px;overflow:hidden;background-size:cover;background-position:center;position:relative;box-shadow:0 4px 20px rgba(0,0,0,0.3)}
+  .card{width:calc(100% - 40px);max-width:600px;height:160px;margin:12px auto 0;border-radius:28px;overflow:hidden;background-size:cover;background-position:center;position:relative;box-shadow:0 4px 20px rgba(0,0,0,0.3);cursor:pointer}
   .card-label{position:absolute;bottom:16px;left:12px;font-family:'Montserrat',sans-serif;font-size:26px;font-weight:800;color:#FFFFFF;text-shadow:0 2px 20px rgba(0,0,0,0.9);letter-spacing:2px}
 
   .content{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:20px 0;text-align:center;overflow-y:auto}
@@ -54,6 +53,11 @@
   .divider-line{flex:1;height:1px;background:rgba(255,255,255,0.08)}
   .divider-label{font-family:'Montserrat',sans-serif;font-size:14px;font-weight:700;color:#FFFFFF;letter-spacing:1.5px;white-space:nowrap;opacity:0.9}
   .empty-text{font-family:'Montserrat',sans-serif;font-size:24px;font-weight:700;color:#6B7280;letter-spacing:4px;text-transform:uppercase;margin-top:60px;opacity:0.4}
+
+  /* ПУСТЫЕ СТРАНИЦЫ ДЛЯ РАКЕТЫ И UPGRADE */
+  .empty-page{display:none;flex-direction:column;align-items:center;justify-content:center;width:100%;height:100%;position:absolute;top:0;left:0;z-index:20;background:rgba(11,14,20,0.8);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+  .empty-page.active{display:flex}
+  .empty-back{position:absolute;top:16px;left:16px;background:rgba(255,255,255,0.06);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border-radius:12px;padding:8px 16px;border:1px solid rgba(255,255,255,0.06);z-index:5;color:#FFFFFF;font-family:'Montserrat',sans-serif;font-size:16px;font-weight:700;cursor:pointer;border:none}
 
   .topup-page{display:none;flex-direction:column;align-items:center;justify-content:center;width:100%;height:100%;position:absolute;top:0;left:0;z-index:20;background:rgba(11,14,20,0.8);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
   .topup-page.active{display:flex}
@@ -88,12 +92,10 @@
 
     <div class="content">
       <div id="page-home" class="page active">
-        <!-- РАКЕТА -->
-        <div class="card" style="background-image:url('https://i.postimg.cc/Bb6ZNrLB/quality-restoration-20260712180340135-2.jpg');margin-top:24px;">
+        <div class="card" style="background-image:url('https://i.postimg.cc/Bb6ZNrLB/quality-restoration-20260712180340135-2.jpg');margin-top:24px;" id="rocketCard">
           <div class="card-label">РАКЕТА</div>
         </div>
-        <!-- UPGRADE -->
-        <div class="card" style="background-image:url('https://i.postimg.cc/W31ptCvR/Bez-nazvania58-20260712200059.png');">
+        <div class="card" style="background-image:url('https://i.postimg.cc/W31ptCvR/Bez-nazvania58-20260712200059.png');" id="upgradeCard">
           <div class="card-label">UPGRADE</div>
         </div>
       </div>
@@ -126,6 +128,16 @@
         </div>
         <div class="empty-text">пусто</div>
       </div>
+    </div>
+
+    <!-- ПУСТАЯ СТРАНИЦА ДЛЯ РАКЕТЫ -->
+    <div class="empty-page" id="rocketPage">
+      <button class="empty-back" id="rocketBack">← Назад</button>
+    </div>
+
+    <!-- ПУСТАЯ СТРАНИЦА ДЛЯ UPGRADE -->
+    <div class="empty-page" id="upgradePage">
+      <button class="empty-back" id="upgradeBack">← Назад</button>
     </div>
 
     <div class="topup-page" id="topupPage">
@@ -209,6 +221,11 @@
       const topupPage = document.getElementById('topupPage');
       const backBtn = document.getElementById('backBtn');
 
+      const rocketPage = document.getElementById('rocketPage');
+      const upgradePage = document.getElementById('upgradePage');
+      const rocketBack = document.getElementById('rocketBack');
+      const upgradeBack = document.getElementById('upgradeBack');
+
       let current = 'home';
 
       buttons.forEach(function(btn) {
@@ -228,13 +245,55 @@
             pageProfile.classList.remove('active');
             mainHeader.classList.remove('hidden');
             topupPage.classList.remove('active');
+            rocketPage.classList.remove('active');
+            upgradePage.classList.remove('active');
           } else {
             pageProfile.classList.add('active');
             pageHome.classList.remove('active');
             mainHeader.classList.add('hidden');
             topupPage.classList.remove('active');
+            rocketPage.classList.remove('active');
+            upgradePage.classList.remove('active');
           }
         });
+      });
+
+      // Открытие страницы ракеты
+      document.getElementById('rocketCard').addEventListener('click', function() {
+        rocketPage.classList.add('active');
+        pageHome.classList.remove('active');
+        pageProfile.classList.remove('active');
+        mainHeader.classList.add('hidden');
+        buttons.forEach(function(b) { b.classList.remove('active'); });
+      });
+
+      rocketBack.addEventListener('click', function() {
+        rocketPage.classList.remove('active');
+        pageHome.classList.add('active');
+        mainHeader.classList.remove('hidden');
+        buttons.forEach(function(b) {
+          b.classList.toggle('active', b.dataset.page === 'home');
+        });
+        current = 'home';
+      });
+
+      // Открытие страницы upgrade
+      document.getElementById('upgradeCard').addEventListener('click', function() {
+        upgradePage.classList.add('active');
+        pageHome.classList.remove('active');
+        pageProfile.classList.remove('active');
+        mainHeader.classList.add('hidden');
+        buttons.forEach(function(b) { b.classList.remove('active'); });
+      });
+
+      upgradeBack.addEventListener('click', function() {
+        upgradePage.classList.remove('active');
+        pageHome.classList.add('active');
+        mainHeader.classList.remove('hidden');
+        buttons.forEach(function(b) {
+          b.classList.toggle('active', b.dataset.page === 'home');
+        });
+        current = 'home';
       });
 
       document.getElementById('topupBtn').addEventListener('click', function() {
