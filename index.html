@@ -56,7 +56,7 @@
 
   .empty-page{display:none;flex-direction:column;align-items:center;justify-content:center;width:100%;height:100%;position:absolute;top:0;left:0;z-index:20;background:rgba(11,14,20,0.8);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
   .empty-page.active{display:flex}
-  .empty-back{position:absolute;top:16px;left:16px;background:rgba(255,255,255,0.06);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border-radius:12px;padding:8px 16px;border:1px solid rgba(255,255,255,0.06);z-index:5;color:#FFFFFF;font-family:'Montserrat',sans-serif;font-size:16px;font-weight:700;cursor:pointer;border:none}
+  .empty-back{position:absolute;top:12px;left:16px;background:rgba(255,255,255,0.06);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border-radius:12px;padding:6px 14px;border:1px solid rgba(255,255,255,0.06);z-index:5;color:#FFFFFF;font-family:'Montserrat',sans-serif;font-size:15px;font-weight:700;cursor:pointer;border:none}
 
   .topup-page{display:none;flex-direction:column;align-items:center;justify-content:flex-start;width:100%;height:100%;position:absolute;top:0;left:0;z-index:20;background:rgba(11,14,20,0.8);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);padding-top:70px}
   .topup-page.active{display:flex}
@@ -79,14 +79,15 @@
   .nav-btn.active svg{stroke:#FFD24C}
   .nav-btn.active .label{color:#FFD24C;font-weight:600}
 
-  .upgrade-container{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px;width:100%;max-width:380px;padding:20px;margin-top:60px}
-  .slot-display{width:100%;max-width:320px;height:180px;border-radius:28px;background:rgba(255,255,255,0.05);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:2px solid rgba(255,210,76,0.15);display:flex;align-items:center;justify-content:center;font-family:'Montserrat',sans-serif;font-size:52px;font-weight:800;color:#FFFFFF;text-shadow:0 0 30px rgba(255,210,76,0.2);transition:all 0.1s;overflow:hidden;position:relative}
-  .slot-display .slot-text{transition:transform 0.05s;position:absolute;width:100%;text-align:center}
-  .slot-display .slot-text.up{transform:translateY(-60px);opacity:0.3}
-  .slot-display .slot-text.down{transform:translateY(60px);opacity:0.3}
+  .wheel-container{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;width:100%;max-width:320px;padding:10px 0 0 0}
+  .wheel-wrapper{position:relative;width:280px;height:280px;margin:0 auto}
+  .wheel-canvas{width:280px;height:280px;border-radius:50%;background:rgba(255,255,255,0.05);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:2px solid rgba(255,210,76,0.15);position:relative;overflow:hidden}
+  .wheel-canvas canvas{width:100%;height:100%;display:block;border-radius:50%}
+  .arrow-indicator{position:absolute;top:-6px;left:50%;transform:translateX(-50%);width:0;height:0;border-left:14px solid transparent;border-right:14px solid transparent;border-top:24px solid #FFD24C;z-index:10;filter:drop-shadow(0 0 12px rgba(255,210,76,0.5))}
   .spin-btn{background:#FFD24C;color:#0B0E14;padding:14px 20px;border-radius:16px;border:none;font-family:'Montserrat',sans-serif;font-size:18px;font-weight:700;cursor:pointer;width:100%;max-width:280px;transition:0.2s}
   .spin-btn:active{transform:scale(0.96)}
   .spin-btn:disabled{opacity:0.4;pointer-events:none}
+  .result-text{font-family:'Montserrat',sans-serif;font-size:20px;font-weight:700;color:#FFFFFF;text-align:center;min-height:30px;margin-top:4px}
 </style>
 </head>
 <body>
@@ -152,11 +153,17 @@
 
     <div class="empty-page" id="upgradePage">
       <button class="empty-back" id="upgradeBack">Назад</button>
-      <div class="upgrade-container">
-        <div class="slot-display" id="slotDisplay">
-          <span class="slot-text" id="slotText">1k</span>
+      <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%;max-width:380px;padding:10px 20px 20px;margin-top:0;">
+        <div class="wheel-container">
+          <div class="wheel-wrapper">
+            <div class="arrow-indicator"></div>
+            <div class="wheel-canvas">
+              <canvas id="wheelCanvas" width="280" height="280"></canvas>
+            </div>
+          </div>
+          <div class="result-text" id="resultText">Нажми «Крутить»</div>
+          <button class="spin-btn" id="spinBtn">Крутить</button>
         </div>
-        <button class="spin-btn" id="spinBtn">Крутить</button>
       </div>
     </div>
 
@@ -339,62 +346,102 @@
         current = 'home';
       });
 
-      // ===== UPGRADE SLOT =====
-      const slotDisplay = document.getElementById('slotDisplay');
-      const slotText = document.getElementById('slotText');
-      const spinBtn = document.getElementById('spinBtn');
+      // ===== КОЛЕСО =====
+      const canvas = document.getElementById('wheelCanvas');
+      const ctx = canvas.getContext('2d');
+      const spinBtnWheel = document.getElementById('spinBtn');
+      const resultText = document.getElementById('resultText');
 
-      const values = ['1k', '2k', '3k', '5k', '10k', '25k', '50k', '100k', '250k', '500k'];
-      const weights = [25, 20, 15, 12, 10, 7, 5, 3, 2, 1];
-      let totalWeight = weights.reduce((a, b) => a + b, 0);
+      const sectors = [
+        { label: '', color: '#FFD24C' },
+        { label: '', color: '#1A1F2E' },
+        { label: '', color: '#FFD24C' },
+        { label: '', color: '#1A1F2E' },
+        { label: '', color: '#FFD24C' },
+        { label: '', color: '#1A1F2E' },
+        { label: '', color: '#FFD24C' },
+        { label: '', color: '#1A1F2E' }
+      ];
+      const numSectors = sectors.length;
+      const arcSize = (2 * Math.PI) / numSectors;
+      let currentAngle = 0;
       let isSpinning = false;
 
-      function getRandomValue() {
-        let random = Math.random() * totalWeight;
-        for (let i = 0; i < weights.length; i++) {
-          random -= weights[i];
-          if (random <= 0) return values[i];
+      function drawWheel(rotation) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        const centerX = canvas.width / 2;
+        const centerY = canvas.height / 2;
+        const radius = canvas.width / 2 - 2;
+
+        for (let i = 0; i < numSectors; i++) {
+          const startAngle = rotation + i * arcSize;
+          const endAngle = startAngle + arcSize;
+          ctx.beginPath();
+          ctx.moveTo(centerX, centerY);
+          ctx.arc(centerX, centerY, radius, startAngle, endAngle);
+          ctx.closePath();
+          ctx.fillStyle = sectors[i].color;
+          ctx.fill();
+          ctx.strokeStyle = 'rgba(255,255,255,0.06)';
+          ctx.lineWidth = 1;
+          ctx.stroke();
         }
-        return values[0];
+
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, 12, 0, 2 * Math.PI);
+        ctx.fillStyle = '#0B0E14';
+        ctx.fill();
+        ctx.strokeStyle = 'rgba(255,210,76,0.3)';
+        ctx.lineWidth = 2;
+        ctx.stroke();
       }
 
-      function animateSlot(finalValue) {
-        return new Promise((resolve) => {
-          let count = 0;
-          const totalSteps = 20 + Math.floor(Math.random() * 15);
-          const interval = 50;
-          let currentValue = values[0];
-
-          function step() {
-            const randomIndex = Math.floor(Math.random() * values.length);
-            currentValue = values[randomIndex];
-            slotText.textContent = currentValue;
-            count++;
-            if (count < totalSteps) {
-              setTimeout(step, interval + count * 2);
-            } else {
-              slotText.textContent = finalValue;
-              resolve();
-            }
-          }
-          step();
-        });
+      function getResult(rotation) {
+        const normalized = ((rotation % (2 * Math.PI)) + 2 * Math.PI) % (2 * Math.PI);
+        const sectorIndex = Math.floor(normalized / arcSize) % numSectors;
+        return sectors[sectorIndex];
       }
 
-      spinBtn.addEventListener('click', async function() {
+      function spinWheel() {
         if (isSpinning) return;
         isSpinning = true;
-        spinBtn.disabled = true;
-        spinBtn.textContent = 'Крутится...';
+        spinBtnWheel.disabled = true;
+        spinBtnWheel.textContent = 'Крутится...';
+        resultText.textContent = '...';
 
-        const result = getRandomValue();
+        const extraSpins = 5 + Math.random() * 5;
+        const stopAngle = Math.random() * 2 * Math.PI;
+        const totalRotation = extraSpins * 2 * Math.PI + stopAngle;
+        const targetAngle = currentAngle + totalRotation;
 
-        await animateSlot(result);
+        const startAngle = currentAngle;
+        const duration = 3000 + Math.random() * 1500;
+        const startTime = performance.now();
 
-        spinBtn.textContent = 'Крутить';
-        spinBtn.disabled = false;
-        isSpinning = false;
-      });
+        function animate(time) {
+          const elapsed = time - startTime;
+          const progress = Math.min(elapsed / duration, 1);
+          const ease = 1 - Math.pow(1 - progress, 3);
+          const currentRotation = startAngle + (targetAngle - startAngle) * ease;
+          drawWheel(currentRotation);
+
+          if (progress < 1) {
+            requestAnimationFrame(animate);
+          } else {
+            currentAngle = targetAngle;
+            const result = getResult(targetAngle);
+            const isWin = result.color === '#FFD24C';
+            resultText.textContent = isWin ? '🎉 ВЫИГРЫШ!' : '😔 ПРОИГРЫШ';
+            spinBtnWheel.textContent = 'Крутить';
+            spinBtnWheel.disabled = false;
+            isSpinning = false;
+          }
+        }
+        requestAnimationFrame(animate);
+      }
+
+      drawWheel(0);
+      spinBtnWheel.addEventListener('click', spinWheel);
     })();
   </script>
 </body>
