@@ -32,7 +32,7 @@
     content: '';
     position: absolute;
     inset: 0;
-    background: rgba(11, 14, 20, 0.5);
+    background: rgba(11, 14, 20, 0.4);
     z-index: 0;
   }
   .app > * {
@@ -76,15 +76,15 @@
     max-width: 360px;
     height: 70px;
     border-radius: 24px;
-    background: rgba(255, 255, 255, 0.04);
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
-    border: 1px solid rgba(255, 255, 255, 0.06);
+    background: rgba(255, 255, 255, 0.06);
+    backdrop-filter: blur(10px) saturate(180%);
+    -webkit-backdrop-filter: blur(10px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
     display: flex;
     justify-content: space-around;
     align-items: center;
     padding: 0 12px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    box-shadow: 0 4px 30px rgba(0,0,0,0.2);
   }
   .nav-btn {
     display: flex;
@@ -103,7 +103,7 @@
   .nav-btn svg {
     width: 24px;
     height: 24px;
-    stroke: #6B7280;
+    stroke: #9CA3AF;
     stroke-width: 1.8;
     fill: none;
     transition: 0.2s;
@@ -111,7 +111,7 @@
   .nav-btn .label {
     font-size: 11px;
     font-weight: 500;
-    color: #6B7280;
+    color: #9CA3AF;
     transition: 0.2s;
     letter-spacing: 0.3px;
   }
