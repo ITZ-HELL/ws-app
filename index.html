@@ -245,14 +245,14 @@
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border-radius: 28px;
-    padding: 20px 28px;
+    padding: 16px 28px;
     border: 1px solid rgba(255, 255, 255, 0.06);
     width: calc(100% - 40px);
     max-width: 380px;
     display: flex;
     flex-direction: column;
-    gap: 12px;
-    margin-top: 16px;
+    gap: 8px;
+    margin-top: 6px;
   }
   .stats-row {
     display: flex;
@@ -279,38 +279,28 @@
     letter-spacing: 0.5px;
   }
 
-  /* РАЗДЕЛИТЕЛЬНАЯ ПОЛОСА */
-  .divider {
-    width: calc(100% - 40px);
-    max-width: 380px;
-    height: 1px;
-    background: rgba(255, 255, 255, 0.08);
-    margin: 12px 0 10px;
-  }
-
-  /* ИНВЕНТАРЬ */
-  .inventory-block {
-    background: rgba(255, 255, 255, 0.03);
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
-    border-radius: 20px;
-    padding: 16px 20px;
-    border: 1px solid rgba(255, 255, 255, 0.04);
+  /* РАЗДЕЛИТЕЛЬНАЯ ПОЛОСА С НАДПИСЬЮ */
+  .divider-wrapper {
     width: calc(100% - 40px);
     max-width: 380px;
     display: flex;
-    justify-content: center;
     align-items: center;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 16px;
-    font-weight: 600;
-    color: #9CA3AF;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
-    min-height: 50px;
+    gap: 12px;
+    margin: 8px 0 6px;
   }
-  .inventory-block span {
-    opacity: 0.5;
+  .divider-line {
+    flex: 1;
+    height: 1px;
+    background: rgba(255, 255, 255, 0.08);
+  }
+  .divider-label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    color: #FFFFFF;
+    letter-spacing: 1.5px;
+    white-space: nowrap;
+    opacity: 0.9;
   }
 
   /* ===== НАВИГАЦИЯ ===== */
@@ -421,12 +411,11 @@
           </div>
         </div>
 
-        <!-- РАЗДЕЛИТЕЛЬНАЯ ПОЛОСА -->
-        <div class="divider"></div>
-
-        <!-- ИНВЕНТАРЬ -->
-        <div class="inventory-block">
-          <span>🎒 Инвентарь</span>
+        <!-- РАЗДЕЛИТЕЛЬНАЯ ПОЛОСА С НАДПИСЬЮ -->
+        <div class="divider-wrapper">
+          <span class="divider-line"></span>
+          <span class="divider-label">ИНВЕНТАРЬ</span>
+          <span class="divider-line"></span>
         </div>
       </div>
     </div>
@@ -543,4 +532,4 @@
     })();
   </script>
 </body>
-           </html>
+ </html>
