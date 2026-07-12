@@ -30,6 +30,7 @@
     background-position: center;
     display: flex;
     flex-direction: column;
+    padding-bottom: env(safe-area-inset-bottom);
   }
   .app::before {
     content: '';
@@ -83,7 +84,7 @@
     display: block;
   }
 
-  /* БАЛАНС — прозрачный размытый блок */
+  /* БАЛАНС — адаптивный блок */
   .balance-block {
     background: rgba(255, 255, 255, 0.06);
     backdrop-filter: blur(6px);
@@ -91,9 +92,12 @@
     border-radius: 16px;
     padding: 6px 14px;
     border: 1px solid rgba(255, 255, 255, 0.06);
-    display: flex;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
+    min-width: 40px;
+    max-width: 200px;
+    transition: all 0.2s ease;
   }
   .balance {
     font-family: 'Montserrat', sans-serif;
@@ -196,7 +200,7 @@
         <div class="avatar" id="avatar"></div>
       </div>
       <div class="balance-block">
-        <div class="balance" id="balance">0 <span class="currency">₽</span></div>
+        <div class="balance" id="balance">1500 <span class="currency">₽</span></div>
       </div>
     </div>
 
