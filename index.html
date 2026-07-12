@@ -173,18 +173,18 @@
   }
 
   /* ===== ПРОФИЛЬ ===== */
-  .profile-header {
+  .profile-container {
+    position: absolute;
+    top: 20px;
+    left: 16px;
     display: flex;
-    flex-direction: column;
     align-items: center;
-    gap: 12px;
-    padding: 20px 16px;
-    width: 100%;
-    max-width: 400px;
+    gap: 14px;
+    z-index: 5;
   }
   .profile-avatar-wrapper {
-    width: 80px;
-    height: 80px;
+    width: 64px;
+    height: 64px;
     border-radius: 50%;
     background: #0B0E14;
     display: flex;
@@ -194,14 +194,14 @@
     border: 2px solid rgba(255,255,255,0.06);
   }
   .profile-avatar {
-    width: 72px;
-    height: 72px;
+    width: 56px;
+    height: 56px;
     border-radius: 50%;
     overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 32px;
+    font-size: 24px;
     font-weight: 600;
     color: #fff;
     background: #6C6C6C;
@@ -212,17 +212,31 @@
     height: 100%;
     object-fit: cover;
   }
+  .profile-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+  }
   .profile-name {
     font-family: 'Montserrat', sans-serif;
-    font-size: 24px;
+    font-size: 20px;
     font-weight: 700;
     color: #FFFFFF;
+    line-height: 1.2;
   }
   .profile-username {
     font-family: 'Montserrat', sans-serif;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 500;
     color: #9CA3AF;
+  }
+  .profile-id {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    color: #6B7280;
+    letter-spacing: 0.5px;
   }
 
   /* ===== НАВИГАЦИЯ ===== */
@@ -310,12 +324,15 @@
 
       <!-- Профиль -->
       <div id="page-profile" class="page">
-        <div class="profile-header">
+        <div class="profile-container">
           <div class="profile-avatar-wrapper">
             <div class="profile-avatar" id="profileAvatar"></div>
           </div>
-          <div class="profile-name" id="profileName">Имя пользователя</div>
-          <div class="profile-username" id="profileUsername">@username</div>
+          <div class="profile-info">
+            <div class="profile-name" id="profileName">Имя</div>
+            <div class="profile-username" id="profileUsername">@username</div>
+            <div class="profile-id" id="profileId">ID: 0</div>
+          </div>
         </div>
       </div>
     </div>
@@ -345,15 +362,13 @@
     (function() {
       if (window.Telegram && window.Telegram.WebApp) {
         window.Telegram.WebApp.expand();
-        console.log('Telegram Web App готов');
-      } else {
-        console.log('Не в Telegram Web App');
       }
 
       const avatarEl = document.getElementById('avatar');
       const profileAvatarEl = document.getElementById('profileAvatar');
       const profileNameEl = document.getElementById('profileName');
       const profileUsernameEl = document.getElementById('profileUsername');
+      const profileIdEl = document.getElementById('profileId');
 
       const colors = ['#FF6B6B', '#FF9F43', '#FECA57', '#48DBFB', '#0ABDE3', '#10AC84', '#EE5A24', '#5F27CD'];
 
@@ -381,6 +396,7 @@
         setAvatar(profileAvatarEl, user);
         profileNameEl.textContent = user.first_name || 'User';
         profileUsernameEl.textContent = user.username ? '@' + user.username : 'нет юзернейма';
+        profileIdEl.textContent = 'ID: ' + user.id;
       } else {
         avatarEl.style.background = '#6C6C6C';
         avatarEl.textContent = '👤';
@@ -388,6 +404,7 @@
         profileAvatarEl.textContent = '👤';
         profileNameEl.textContent = 'Гость';
         profileUsernameEl.textContent = 'не авторизован';
+        profileIdEl.textContent = 'ID: 0';
       }
 
       // Переключение вкладок
