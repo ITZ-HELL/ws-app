@@ -64,7 +64,7 @@
     max-width: 280px;
   }
 
-  /* ===== КОМПАКТНЫЙ ВИДЖЕТ ===== */
+  /* ===== ВИДЖЕТ С ЖИДКИМ СТЕКЛОМ ===== */
   .widget-wrapper {
     display: flex;
     justify-content: center;
@@ -75,7 +75,7 @@
   .widget-panel {
     width: 100%;
     max-width: 360px;
-    height: 70px;
+    height: 60px;
     border-radius: 24px;
     background: rgba(255, 255, 255, 0.04);
     backdrop-filter: blur(6px);
@@ -86,42 +86,60 @@
     align-items: center;
     padding: 0 12px;
     box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    position: relative;
+    overflow: hidden;
   }
   .nav-btn {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 2px;
     background: none;
     border: none;
-    padding: 4px 12px;
+    padding: 8px 12px;
     cursor: pointer;
     border-radius: 14px;
     flex: 1;
     font-family: inherit;
-    transition: 0.2s;
-  }
-  .nav-btn svg {
-    width: 24px;
-    height: 24px;
-    stroke: #6B7280;
-    stroke-width: 1.8;
-    fill: none;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    -webkit-tap-highlight-color: transparent;
     transition: 0.2s;
   }
   .nav-btn .label {
-    font-size: 11px;
+    font-size: 14px;
     font-weight: 500;
     color: #6B7280;
     transition: 0.2s;
-    letter-spacing: 0.3px;
-  }
-  .nav-btn.active svg {
-    stroke: #FFD24C;
+    letter-spacing: 0.5px;
   }
   .nav-btn.active .label {
     color: #FFD24C;
     font-weight: 600;
+  }
+
+  /* Эффект жидкого стекла (волна) */
+  .ripple {
+    position: absolute;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    background: radial-gradient(circle, rgba(255,255,255,0.3) 0%, rgba(255,215,0,0.1) 60%, transparent 100%);
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
+    pointer-events: none;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.1);
+    animation: rippleAnim 0.6s ease-out forwards;
+  }
+  @keyframes rippleAnim {
+    0% {
+      transform: translate(-50%, -50%) scale(0);
+      opacity: 0.8;
+    }
+    100% {
+      transform: translate(-50%, -50%) scale(6);
+      opacity: 0;
+    }
   }
 </style>
 </head>
@@ -135,17 +153,9 @@
     <div class="widget-wrapper">
       <div class="widget-panel" id="widgetPanel">
         <button class="nav-btn active" data-page="home">
-          <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none">
-            <path d="M3 12l9-9 9 9" />
-            <path d="M5 10v9a1 1 0 001 1h4v-6h4v6h4a1 1 0 001-1v-9" />
-          </svg>
           <span class="label">Главная</span>
         </button>
         <button class="nav-btn" data-page="profile">
-          <svg viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="none">
-            <circle cx="12" cy="8" r="4" />
-            <path d="M4 20c0-4 3.5-6 8-6s8 2 8 6" />
-          </svg>
           <span class="label">Профиль</span>
         </button>
       </div>
@@ -163,7 +173,21 @@
 
       buttons.forEach(function(btn) {
         btn.addEventListener('click', function(e) {
-          e.stopPropagation();
+          // Эффект жидкого стекла
+          const rect = btn.getBoundingClientRect();
+          const x = e.clientX - rect.left;
+          const y = e.clientY - rect.top;
+
+          const ripple = document.createElement('span');
+          ripple.className = 'ripple';
+          ripple.style.left = x + 'px';
+          ripple.style.top = y + 'px';
+          btn.appendChild(ripple);
+
+          // Удаляем элемент после анимации
+          setTimeout(() => ripple.remove(), 600);
+
+          // Переключение страницы
           const target = btn.dataset.page;
           if (target === current) return;
 
