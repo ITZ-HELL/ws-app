@@ -239,6 +239,49 @@
     letter-spacing: 0.5px;
   }
 
+  /* СТАТИСТИКА (большой блок в центре) */
+  .stats-block {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 28px;
+    padding: 24px 28px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    width: calc(100% - 40px);
+    max-width: 380px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-top: 40px;
+  }
+  .stats-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 4px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  }
+  .stats-row:last-child {
+    border-bottom: none;
+  }
+  .stats-label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    color: #9CA3AF;
+    letter-spacing: 0.3px;
+  }
+  .stats-value {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 17px;
+    font-weight: 700;
+    color: #FFFFFF;
+    letter-spacing: 0.5px;
+  }
+  .stats-value.gold {
+    color: #FFD24C;
+  }
+
   /* ===== НАВИГАЦИЯ ===== */
   .widget-wrapper {
     display: flex;
@@ -302,7 +345,7 @@
 </head>
 <body>
   <div class="app">
-    <!-- ШАПКА (только для главной) -->
+    <!-- ШАПКА -->
     <div class="header" id="mainHeader">
       <div class="header-left">
         <div class="avatar-wrapper">
@@ -317,12 +360,12 @@
 
     <!-- СТРАНИЦЫ -->
     <div class="content">
-      <!-- Главная -->
+      <!-- ГЛАВНАЯ -->
       <div id="page-home" class="page active">
         <div class="sub">главная</div>
       </div>
 
-      <!-- Профиль -->
+      <!-- ПРОФИЛЬ -->
       <div id="page-profile" class="page">
         <div class="profile-container">
           <div class="profile-avatar-wrapper">
@@ -332,6 +375,22 @@
             <div class="profile-name" id="profileName">Имя</div>
             <div class="profile-username" id="profileUsername">@username</div>
             <div class="profile-id" id="profileId">ID: 0</div>
+          </div>
+        </div>
+
+        <!-- БОЛЬШОЙ БЛОК СТАТИСТИКИ -->
+        <div class="stats-block">
+          <div class="stats-row">
+            <span class="stats-label">Открыто кейсов</span>
+            <span class="stats-value" id="statsCases">0</span>
+          </div>
+          <div class="stats-row">
+            <span class="stats-label">Лучший выигрыш</span>
+            <span class="stats-value gold" id="statsBest">—</span>
+          </div>
+          <div class="stats-row">
+            <span class="stats-label">Всего предметов</span>
+            <span class="stats-value" id="statsItems">0</span>
           </div>
         </div>
       </div>
@@ -369,6 +428,11 @@
       const profileNameEl = document.getElementById('profileName');
       const profileUsernameEl = document.getElementById('profileUsername');
       const profileIdEl = document.getElementById('profileId');
+
+      // Статистика (пока заглушки)
+      const statsCases = document.getElementById('statsCases');
+      const statsBest = document.getElementById('statsBest');
+      const statsItems = document.getElementById('statsItems');
 
       const colors = ['#FF6B6B', '#FF9F43', '#FECA57', '#48DBFB', '#0ABDE3', '#10AC84', '#EE5A24', '#5F27CD'];
 
@@ -446,4 +510,4 @@
     })();
   </script>
 </body>
-</html>
+           </html>
