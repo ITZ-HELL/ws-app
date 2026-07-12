@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>App</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
   * {
     margin: 0;
@@ -29,6 +30,7 @@
     background-position: center;
     display: flex;
     flex-direction: column;
+    padding: 0 env(safe-area-inset-right) 0 env(safe-area-inset-left);
   }
   .app::before {
     content: '';
@@ -45,6 +47,7 @@
   .header {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     padding: 16px 20px 8px;
     gap: 12px;
   }
@@ -81,6 +84,23 @@
     display: block;
   }
 
+  /* БАЛАНС (жирный, золотой) */
+  .balance {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: #FFD24C;
+    text-shadow: 0 0 30px rgba(255, 210, 76, 0.15);
+    letter-spacing: 1px;
+    white-space: nowrap;
+  }
+  .balance .currency {
+    font-size: 20px;
+    font-weight: 600;
+    color: #9CA3AF;
+    margin-left: 4px;
+  }
+
   .content {
     flex: 1;
     display: flex;
@@ -89,15 +109,6 @@
     justify-content: center;
     padding: 20px;
     text-align: center;
-  }
-  .content .title {
-    font-family: 'Georgia', 'Times New Roman', serif;
-    font-size: 38px;
-    font-weight: 700;
-    letter-spacing: 2px;
-    color: #FFD24C;
-    text-shadow: 0 0 30px rgba(255, 210, 76, 0.15);
-    margin-bottom: 8px;
   }
   .content .sub {
     font-size: 14px;
@@ -173,10 +184,10 @@
       <div class="avatar-wrapper">
         <div class="avatar" id="avatar"></div>
       </div>
+      <div class="balance" id="balance">1500 <span class="currency">₽</span></div>
     </div>
 
     <div class="content" id="pageContent">
-      <div class="title" id="pageTitle">вискас лох</div>
       <div class="sub" id="pageDesc">главная</div>
     </div>
 
@@ -237,7 +248,6 @@
 
       const panel = document.getElementById('widgetPanel');
       const buttons = panel.querySelectorAll('.nav-btn');
-      const pageTitle = document.getElementById('pageTitle');
       const pageDesc = document.getElementById('pageDesc');
 
       let current = 'home';
@@ -255,10 +265,8 @@
           current = target;
 
           if (target === 'home') {
-            pageTitle.textContent = 'вискас лох';
             pageDesc.textContent = 'главная';
           } else {
-            pageTitle.textContent = 'пусто';
             pageDesc.textContent = 'профиль';
           }
         });
