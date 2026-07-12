@@ -85,22 +85,24 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    color: #fff;
     padding: 20px;
     text-align: center;
   }
-  .content h1 {
-    font-size: 28px;
-    font-weight: 600;
-    margin-bottom: 12px;
-  }
-  .content h1 span {
+  .content .title {
+    font-family: 'Georgia', 'Times New Roman', serif;
+    font-size: 38px;
+    font-weight: 700;
+    letter-spacing: 2px;
     color: #FFD24C;
+    text-shadow: 0 0 30px rgba(255, 210, 76, 0.15);
+    margin-bottom: 8px;
   }
-  .content p {
+  .content .sub {
+    font-size: 14px;
     color: #9CA3AF;
-    font-size: 16px;
-    max-width: 280px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    opacity: 0.6;
   }
 
   .widget-wrapper {
@@ -172,8 +174,8 @@
     </div>
 
     <div class="content" id="pageContent">
-      <h1>🏠 <span id="pageTitle">Главная</span></h1>
-      <p id="pageDesc">Контент главной страницы</p>
+      <div class="title" id="pageTitle">вискас лох</div>
+      <div class="sub" id="pageDesc">главная</div>
     </div>
 
     <div class="widget-wrapper">
@@ -244,11 +246,11 @@
           current = target;
 
           if (target === 'home') {
-            pageTitle.textContent = 'Главная';
-            pageDesc.textContent = 'Контент главной страницы';
+            pageTitle.textContent = 'вискас лох';
+            pageDesc.textContent = 'главная';
           } else {
-            pageTitle.textContent = 'Профиль';
-            pageDesc.textContent = 'Информация о пользователе';
+            pageTitle.textContent = 'пусто';
+            pageDesc.textContent = 'профиль';
           }
         });
       });
