@@ -40,6 +40,34 @@
     z-index: 1;
   }
 
+  /* ===== ШАПКА С АВАТАРКОЙ ===== */
+  .header {
+    display: flex;
+    align-items: center;
+    padding: 16px 20px 8px;
+    gap: 12px;
+  }
+  .avatar {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.06);
+    border: 2px solid rgba(255,255,255,0.08);
+    overflow: hidden;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    color: #fff;
+  }
+  .avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
   .content {
     flex: 1;
     display: flex;
@@ -126,6 +154,13 @@
 </head>
 <body>
   <div class="app">
+    <!-- ШАПКА С АВАТАРКОЙ -->
+    <div class="header">
+      <div class="avatar" id="avatar">
+        <span>👤</span>
+      </div>
+    </div>
+
     <div class="content" id="pageContent">
       <h1>🏠 <span id="pageTitle">Главная</span></h1>
       <p id="pageDesc">Контент главной страницы</p>
@@ -153,6 +188,21 @@
 
   <script>
     (function() {
+      // Загружаем данные пользователя Telegram
+      const avatarEl = document.getElementById('avatar');
+      if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe && window.Telegram.WebApp.initDataUnsafe.user) {
+        const user = window.Telegram.WebApp.initDataUnsafe.user;
+        // Если есть фото профиля, показываем его
+        if (user.photo_url) {
+          avatarEl.innerHTML = `<img src="${user.photo_url}" alt="Аватар">`;
+        } else {
+          // Иначе показываем инициалы или заглушку
+          const name = user.first_name || 'User';
+          const firstLetter = name.charAt(0).toUpperCase();
+          avatarEl.innerHTML = `<span style="font-size:18px;font-weight:600;">${firstLetter}</span>`;
+        }
+      }
+
       const panel = document.getElementById('widgetPanel');
       const buttons = panel.querySelectorAll('.nav-btn');
       const pageTitle = document.getElementById('pageTitle');
