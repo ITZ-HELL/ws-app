@@ -40,7 +40,6 @@
     z-index: 1;
   }
 
-  /* СТРАНИЦЫ */
   .pages-viewport {
     flex: 1;
     position: relative;
@@ -82,13 +81,12 @@
     max-width: 280px;
   }
 
-  /* НАВИГАЦИЯ — ВНИЗУ, КРУГЛЫЙ ХИТБОКС */
   .nav-row {
     display: flex;
     gap: 8px;
     justify-content: center;
     align-items: center;
-    padding: 0 16px 8px;
+    padding: 0 16px 16px;
     width: 100%;
     position: fixed;
     bottom: 0;
@@ -118,7 +116,6 @@
     pointer-events: none;
     border-radius: 50%;
   }
-  /* ЖИДКОЕ СТЕКЛО */
   .ripple {
     position: absolute;
     border-radius: 50%;
@@ -161,9 +158,11 @@
   </div>
 
   <div class="nav-row">
+    <!-- Главная (активная) -->
     <button class="nav-btn active" data-page="home">
       <img src="https://i.postimg.cc/WbPj607K/Bez-nazvania55-20260712021411.png" alt="Главная">
     </button>
+    <!-- Профиль -->
     <button class="nav-btn" data-page="profile">
       <img src="https://i.postimg.cc/bvFpQM69/Bez-nazvania55-20260712015252.png" alt="Профиль">
     </button>
