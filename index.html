@@ -7,378 +7,70 @@
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
-  * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    -webkit-tap-highlight-color: transparent;
-  }
-  html, body {
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    background: #0B0E14;
-  }
-  .app {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image: url('https://i.postimg.cc/CLtRpSWb/Bez-nazvania53-20260711220711.png');
-    background-size: cover;
-    background-position: center;
-    display: flex;
-    flex-direction: column;
-    padding-bottom: env(safe-area-inset-bottom);
-  }
-  .app::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: rgba(11, 14, 20, 0.4);
-    z-index: 0;
-  }
-  .app > * {
-    position: relative;
-    z-index: 1;
-  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{width:100%;height:100%;overflow:hidden;background:#0B0E14}
+  .app{position:fixed;top:0;left:0;width:100%;height:100%;background-image:url('https://i.postimg.cc/CLtRpSWb/Bez-nazvania53-20260711220711.png');background-size:cover;background-position:center;display:flex;flex-direction:column;padding-bottom:env(safe-area-inset-bottom)}
+  .app::before{content:'';position:absolute;inset:0;background:rgba(11,14,20,0.4);z-index:0}
+  .app>*{position:relative;z-index:1}
 
-  /* ===== ШАПКА (общая) ===== */
-  .header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 16px 20px 8px;
-    gap: 8px;
-  }
-  .header-left {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-  .avatar-wrapper {
-    width: 52px;
-    height: 52px;
-    border-radius: 50%;
-    background: #0B0E14;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    border: 2px solid rgba(255,255,255,0.06);
-  }
-  .avatar {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    overflow: hidden;
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 18px;
-    font-weight: 600;
-    color: #fff;
-    background: #6C6C6C;
-    text-transform: uppercase;
-  }
-  .avatar img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-  }
-  .topup-btn {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 13px;
-    font-weight: 700;
-    color: #0B0E14;
-    background: #FFD24C;
-    padding: 6px 16px;
-    border: none;
-    border-radius: 20px;
-    cursor: pointer;
-    transition: 0.2s;
-    white-space: nowrap;
-    box-shadow: 0 0 20px rgba(255, 210, 76, 0.15);
-  }
-  .topup-btn:hover {
-    background: #F5C53B;
-    transform: scale(1.02);
-  }
+  /* ШАПКА (только для главной) */
+  .header{display:flex;align-items:center;justify-content:space-between;padding:16px 20px 8px;gap:8px}
+  .header.hidden{display:none}
+  .header-left{display:flex;align-items:center;gap:12px}
+  .avatar-wrapper{width:52px;height:52px;border-radius:50%;background:#0B0E14;display:flex;align-items:center;justify-content:center;flex-shrink:0;border:2px solid rgba(255,255,255,0.06)}
+  .avatar{width:40px;height:40px;border-radius:50%;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:600;color:#fff;background:#6C6C6C;text-transform:uppercase}
+  .avatar img{width:100%;height:100%;object-fit:cover;display:block}
+  .topup-btn{font-family:'Montserrat',sans-serif;font-size:13px;font-weight:700;color:#0B0E14;background:#FFD24C;padding:6px 16px;border:none;border-radius:20px;cursor:pointer;transition:0.2s;white-space:nowrap;box-shadow:0 0 20px rgba(255,210,76,0.15)}
+  .topup-btn:hover{background:#F5C53B;transform:scale(1.02)}
 
-  /* ===== БАЛАНС (общий, всегда виден) ===== */
-  .balance-block {
-    background: rgba(255, 255, 255, 0.06);
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
-    border-radius: 16px;
-    padding: 6px 14px;
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 40px;
-    max-width: 200px;
-    transition: all 0.2s ease;
-  }
-  .balance {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 20px;
-    font-weight: 700;
-    color: #FFFFFF;
-    letter-spacing: 0.5px;
-    white-space: nowrap;
-  }
-  .balance .currency {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 16px;
-    font-weight: 600;
-    color: #FFFFFF;
-    margin-left: 2px;
-    opacity: 0.8;
-  }
+  /* БАЛАНС (всегда виден) */
+  .balance-block{background:rgba(255,255,255,0.06);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border-radius:16px;padding:6px 14px;border:1px solid rgba(255,255,255,0.06);display:inline-flex;align-items:center;justify-content:center;min-width:40px;max-width:200px;transition:all 0.2s ease}
+  .balance{font-family:'Montserrat',sans-serif;font-size:20px;font-weight:700;color:#FFFFFF;letter-spacing:0.5px;white-space:nowrap}
+  .balance .currency{font-family:'Montserrat',sans-serif;font-size:16px;font-weight:600;color:#FFFFFF;margin-left:2px;opacity:0.8}
 
-  /* ===== СТРАНИЦЫ ===== */
-  .content {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    padding: 20px;
-    text-align: center;
-    overflow-y: auto;
-  }
-  .page {
-    display: none;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    width: 100%;
-    height: 100%;
-    padding-top: 10px;
-  }
-  .page.active {
-    display: flex;
-  }
-  .page .sub {
-    font-size: 14px;
-    color: #9CA3AF;
-    letter-spacing: 4px;
-    text-transform: uppercase;
-    opacity: 0.6;
-  }
+  /* СТРАНИЦЫ */
+  .content{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:20px;text-align:center;overflow-y:auto}
+  .page{display:none;flex-direction:column;align-items:center;justify-content:flex-start;width:100%;height:100%;padding-top:10px}
+  .page.active{display:flex}
+  .page .sub{font-size:14px;color:#9CA3AF;letter-spacing:4px;text-transform:uppercase;opacity:0.6}
 
-  /* ===== ПРОФИЛЬ ===== */
-  .profile-container {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    width: 100%;
-    max-width: 400px;
-    padding: 0 16px;
-    margin-bottom: 6px;
-  }
-  .profile-avatar-wrapper {
-    width: 64px;
-    height: 64px;
-    border-radius: 50%;
-    background: #0B0E14;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    border: 2px solid rgba(255,255,255,0.06);
-  }
-  .profile-avatar {
-    width: 56px;
-    height: 56px;
-    border-radius: 50%;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 24px;
-    font-weight: 600;
-    color: #fff;
-    background: #6C6C6C;
-    text-transform: uppercase;
-  }
-  .profile-avatar img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-  .profile-info {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 2px;
-  }
-  .profile-name {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 20px;
-    font-weight: 700;
-    color: #FFFFFF;
-    line-height: 1.2;
-  }
-  .profile-username {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 14px;
-    font-weight: 500;
-    color: #9CA3AF;
-  }
-  .profile-id {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 12px;
-    font-weight: 400;
-    color: #6B7280;
-    letter-spacing: 0.5px;
-  }
+  /* ПРОФИЛЬ */
+  .profile-container{display:flex;align-items:center;gap:14px;width:100%;max-width:400px;padding:0 16px;margin-bottom:6px}
+  .profile-avatar-wrapper{width:64px;height:64px;border-radius:50%;background:#0B0E14;display:flex;align-items:center;justify-content:center;flex-shrink:0;border:2px solid rgba(255,255,255,0.06)}
+  .profile-avatar{width:56px;height:56px;border-radius:50%;overflow:hidden;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:600;color:#fff;background:#6C6C6C;text-transform:uppercase}
+  .profile-avatar img{width:100%;height:100%;object-fit:cover}
+  .profile-info{display:flex;flex-direction:column;align-items:flex-start;gap:2px}
+  .profile-name{font-family:'Montserrat',sans-serif;font-size:20px;font-weight:700;color:#FFFFFF;line-height:1.2}
+  .profile-username{font-family:'Montserrat',sans-serif;font-size:14px;font-weight:500;color:#9CA3AF}
+  .profile-id{font-family:'Montserrat',sans-serif;font-size:12px;font-weight:400;color:#6B7280;letter-spacing:0.5px}
 
-  /* СТАТИСТИКА (поднята выше) */
-  .stats-block {
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border-radius: 28px;
-    padding: 12px 28px;
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    width: calc(100% - 32px);
-    max-width: 380px;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    margin-top: 4px;
-  }
-  .stats-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 4px 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-  }
-  .stats-row:last-child {
-    border-bottom: none;
-  }
-  .stats-label {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 15px;
-    font-weight: 500;
-    color: #9CA3AF;
-    letter-spacing: 0.3px;
-  }
-  .stats-value {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 17px;
-    font-weight: 700;
-    color: #FFFFFF;
-    letter-spacing: 0.5px;
-  }
+  /* СТАТИСТИКА */
+  .stats-block{background:rgba(255,255,255,0.05);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-radius:28px;padding:12px 28px;border:1px solid rgba(255,255,255,0.06);width:calc(100% - 32px);max-width:380px;display:flex;flex-direction:column;gap:6px;margin-top:4px}
+  .stats-row{display:flex;justify-content:space-between;align-items:center;padding:4px 0;border-bottom:1px solid rgba(255,255,255,0.04)}
+  .stats-row:last-child{border-bottom:none}
+  .stats-label{font-family:'Montserrat',sans-serif;font-size:15px;font-weight:500;color:#9CA3AF;letter-spacing:0.3px}
+  .stats-value{font-family:'Montserrat',sans-serif;font-size:17px;font-weight:700;color:#FFFFFF;letter-spacing:0.5px}
 
-  /* РАЗДЕЛИТЕЛЬНАЯ ПОЛОСА С НАДПИСЬЮ */
-  .divider-wrapper {
-    width: calc(100% - 32px);
-    max-width: 380px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin: 8px 0 4px;
-  }
-  .divider-line {
-    flex: 1;
-    height: 1px;
-    background: rgba(255, 255, 255, 0.08);
-  }
-  .divider-label {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 14px;
-    font-weight: 700;
-    color: #FFFFFF;
-    letter-spacing: 1.5px;
-    white-space: nowrap;
-    opacity: 0.9;
-  }
+  /* ИНВЕНТАРЬ + ПУСТО */
+  .divider-wrapper{width:calc(100% - 32px);max-width:380px;display:flex;align-items:center;gap:12px;margin:8px 0 4px}
+  .divider-line{flex:1;height:1px;background:rgba(255,255,255,0.08)}
+  .divider-label{font-family:'Montserrat',sans-serif;font-size:14px;font-weight:700;color:#FFFFFF;letter-spacing:1.5px;white-space:nowrap;opacity:0.9}
+  .empty-text{font-family:'Montserrat',sans-serif;font-size:22px;font-weight:700;color:#6B7280;letter-spacing:4px;text-transform:uppercase;margin-top:16px;opacity:0.4}
 
-  /* ПУСТО (под инвентарём) */
-  .empty-text {
-    font-family: 'Montserrat', sans-serif;
-    font-size: 16px;
-    font-weight: 600;
-    color: #6B7280;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    margin-top: 12px;
-    opacity: 0.5;
-  }
-
-  /* ===== НАВИГАЦИЯ ===== */
-  .widget-wrapper {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 4px 20px 8px;
-    width: 100%;
-  }
-  .widget-panel {
-    width: 100%;
-    max-width: 360px;
-    height: 70px;
-    border-radius: 24px;
-    background: rgba(255, 255, 255, 0.06);
-    backdrop-filter: blur(10px) saturate(180%);
-    -webkit-backdrop-filter: blur(10px) saturate(180%);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    padding: 0 12px;
-    box-shadow: 0 4px 30px rgba(0,0,0,0.2);
-  }
-  .nav-btn {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 2px;
-    background: none;
-    border: none;
-    padding: 4px 12px;
-    cursor: pointer;
-    border-radius: 14px;
-    flex: 1;
-    font-family: inherit;
-    transition: 0.2s;
-  }
-  .nav-btn svg {
-    width: 24px;
-    height: 24px;
-    stroke: #9CA3AF;
-    stroke-width: 1.8;
-    fill: none;
-    transition: 0.2s;
-  }
-  .nav-btn .label {
-    font-size: 11px;
-    font-weight: 500;
-    color: #9CA3AF;
-    transition: 0.2s;
-    letter-spacing: 0.3px;
-  }
-  .nav-btn.active svg {
-    stroke: #FFD24C;
-  }
-  .nav-btn.active .label {
-    color: #FFD24C;
-    font-weight: 600;
-  }
+  /* НАВИГАЦИЯ */
+  .widget-wrapper{display:flex;justify-content:center;align-items:center;padding:4px 20px 8px;width:100%}
+  .widget-panel{width:100%;max-width:360px;height:70px;border-radius:24px;background:rgba(255,255,255,0.06);backdrop-filter:blur(10px) saturate(180%);-webkit-backdrop-filter:blur(10px) saturate(180%);border:1px solid rgba(255,255,255,0.08);display:flex;justify-content:space-around;align-items:center;padding:0 12px;box-shadow:0 4px 30px rgba(0,0,0,0.2)}
+  .nav-btn{display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:none;padding:4px 12px;cursor:pointer;border-radius:14px;flex:1;font-family:inherit;transition:0.2s}
+  .nav-btn svg{width:24px;height:24px;stroke:#9CA3AF;stroke-width:1.8;fill:none;transition:0.2s}
+  .nav-btn .label{font-size:11px;font-weight:500;color:#9CA3AF;transition:0.2s;letter-spacing:0.3px}
+  .nav-btn.active svg{stroke:#FFD24C}
+  .nav-btn.active .label{color:#FFD24C;font-weight:600}
 </style>
 </head>
 <body>
   <div class="app">
-    <!-- ШАПКА (всегда видна) -->
-    <div class="header">
+    <!-- ШАПКА -->
+    <div class="header" id="mainHeader">
       <div class="header-left">
         <div class="avatar-wrapper">
           <div class="avatar" id="avatar"></div>
@@ -390,7 +82,6 @@
       </div>
     </div>
 
-    <!-- СТРАНИЦЫ -->
     <div class="content">
       <!-- ГЛАВНАЯ -->
       <div id="page-home" class="page active">
@@ -410,7 +101,6 @@
           </div>
         </div>
 
-        <!-- СТАТИСТИКА (поднята выше) -->
         <div class="stats-block">
           <div class="stats-row">
             <span class="stats-label">Открыто кейсов</span>
@@ -422,19 +112,16 @@
           </div>
         </div>
 
-        <!-- РАЗДЕЛИТЕЛЬНАЯ ПОЛОСА -->
         <div class="divider-wrapper">
           <span class="divider-line"></span>
           <span class="divider-label">ИНВЕНТАРЬ</span>
           <span class="divider-line"></span>
         </div>
 
-        <!-- ПУСТО -->
         <div class="empty-text">пусто</div>
       </div>
     </div>
 
-    <!-- НАВИГАЦИЯ -->
     <div class="widget-wrapper">
       <div class="widget-panel" id="widgetPanel">
         <button class="nav-btn active" data-page="home">
@@ -457,16 +144,13 @@
 
   <script>
     (function() {
-      if (window.Telegram && window.Telegram.WebApp) {
-        window.Telegram.WebApp.expand();
-      }
+      if (window.Telegram && window.Telegram.WebApp) window.Telegram.WebApp.expand();
 
       const avatarEl = document.getElementById('avatar');
       const profileAvatarEl = document.getElementById('profileAvatar');
       const profileNameEl = document.getElementById('profileName');
       const profileUsernameEl = document.getElementById('profileUsername');
       const profileIdEl = document.getElementById('profileId');
-
       const statsCases = document.getElementById('statsCases');
       const statsItems = document.getElementById('statsItems');
 
@@ -507,11 +191,11 @@
         profileIdEl.textContent = 'ID: 0';
       }
 
-      // Переключение вкладок (без скрытия шапки)
       const panel = document.getElementById('widgetPanel');
       const buttons = panel.querySelectorAll('.nav-btn');
       const pageHome = document.getElementById('page-home');
       const pageProfile = document.getElementById('page-profile');
+      const mainHeader = document.getElementById('mainHeader');
 
       let current = 'home';
 
@@ -530,9 +214,11 @@
           if (target === 'home') {
             pageHome.classList.add('active');
             pageProfile.classList.remove('active');
+            mainHeader.classList.remove('hidden');
           } else {
             pageProfile.classList.add('active');
             pageHome.classList.remove('active');
+            mainHeader.classList.add('hidden');
           }
         });
       });
