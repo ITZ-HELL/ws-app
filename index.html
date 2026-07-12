@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>App</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Exo+2:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
   * {
     margin: 0;
@@ -30,7 +30,6 @@
     background-position: center;
     display: flex;
     flex-direction: column;
-    padding: 0 env(safe-area-inset-right) 0 env(safe-area-inset-left);
   }
   .app::before {
     content: '';
@@ -84,21 +83,36 @@
     display: block;
   }
 
-  /* БАЛАНС (жирный, золотой) */
+  /* БАЛАНС — отдельный блок справа */
+  .balance-block {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 2px;
+  }
   .balance {
-    font-family: 'Montserrat', sans-serif;
+    font-family: 'Exo 2', sans-serif;
     font-size: 28px;
     font-weight: 700;
     color: #FFD24C;
-    text-shadow: 0 0 30px rgba(255, 210, 76, 0.15);
     letter-spacing: 1px;
-    white-space: nowrap;
+    line-height: 1;
+    text-shadow: 0 0 30px rgba(255, 210, 76, 0.1);
   }
   .balance .currency {
-    font-size: 20px;
+    font-family: 'Exo 2', sans-serif;
+    font-size: 18px;
     font-weight: 600;
+    color: #FFFFFF;
+    margin-left: 2px;
+  }
+  .balance-label {
+    font-size: 10px;
+    font-weight: 500;
     color: #9CA3AF;
-    margin-left: 4px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    opacity: 0.5;
   }
 
   .content {
@@ -184,7 +198,10 @@
       <div class="avatar-wrapper">
         <div class="avatar" id="avatar"></div>
       </div>
-      <div class="balance" id="balance">1500 <span class="currency">₽</span></div>
+      <div class="balance-block">
+        <div class="balance" id="balance">1500 <span class="currency">₽</span></div>
+        <div class="balance-label">баланс</div>
+      </div>
     </div>
 
     <div class="content" id="pageContent">
