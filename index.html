@@ -54,24 +54,16 @@
   .divider-label{font-family:'Montserrat',sans-serif;font-size:14px;font-weight:700;color:#FFFFFF;letter-spacing:1.5px;white-space:nowrap;opacity:0.9}
   .empty-text{font-family:'Montserrat',sans-serif;font-size:24px;font-weight:700;color:#6B7280;letter-spacing:4px;text-transform:uppercase;margin-top:60px;opacity:0.4}
 
-  .sub-page{display:none;flex-direction:column;align-items:center;justify-content:flex-start;width:100%;height:100%;position:absolute;top:0;left:0;z-index:20;background:rgba(11,14,20,0.85);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);padding-top:12px}
-  .sub-page.active{display:flex}
-  .sub-back{position:absolute;top:12px;left:16px;background:rgba(255,255,255,0.06);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border-radius:12px;padding:6px 14px;border:1px solid rgba(255,255,255,0.06);z-index:5;color:#FFFFFF;font-family:'Montserrat',sans-serif;font-size:15px;font-weight:700;cursor:pointer;border:none}
+  .empty-page{display:none;flex-direction:column;align-items:center;justify-content:center;width:100%;height:100%;position:absolute;top:0;left:0;z-index:20;background:rgba(11,14,20,0.8);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+  .empty-page.active{display:flex}
+  .empty-back{position:absolute;top:16px;left:16px;background:rgba(255,255,255,0.06);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border-radius:12px;padding:8px 16px;border:1px solid rgba(255,255,255,0.06);z-index:5;color:#FFFFFF;font-family:'Montserrat',sans-serif;font-size:16px;font-weight:700;cursor:pointer;border:none}
 
-  .upgrade-content{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;width:100%;max-width:380px;padding:20px;margin-top:40px}
-  .wheel-container{width:100%;max-width:320px;height:320px;border-radius:50%;background:rgba(255,255,255,0.05);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:2px solid rgba(255,210,76,0.2);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;box-shadow:0 0 40px rgba(255,210,76,0.05)}
-  .wheel{width:280px;height:280px;border-radius:50%;position:relative;transition:transform 4s cubic-bezier(0.33,1,0.68,1);display:flex;align-items:center;justify-content:center}
-  .wheel-item{position:absolute;width:50px;height:50px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Montserrat',sans-serif;font-size:14px;font-weight:700;color:#FFFFFF;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.05);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);top:50%;left:50%;transform-origin:center center}
-  .wheel-center{position:absolute;width:60px;height:60px;border-radius:50%;background:#FFD24C;display:flex;align-items:center;justify-content:center;font-family:'Montserrat',sans-serif;font-size:16px;font-weight:800;color:#0B0E14;z-index:5;box-shadow:0 0 30px rgba(255,210,76,0.3)}
-  .spin-btn{background:#FFD24C;color:#0B0E14;padding:14px 20px;border-radius:16px;border:none;font-family:'Montserrat',sans-serif;font-size:18px;font-weight:700;cursor:pointer;width:100%;max-width:280px;transition:0.2s}
-  .spin-btn:hover{background:#F5C53B}
-  .spin-btn:active{transform:scale(0.96)}
-  .spin-btn.disabled{opacity:0.5;pointer-events:none}
-
-  .topup-page{display:none;flex-direction:column;align-items:center;justify-content:flex-start;width:100%;height:100%;position:absolute;top:0;left:0;z-index:20;background:rgba(11,14,20,0.85);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);padding-top:12px}
+  .topup-page{display:none;flex-direction:column;align-items:center;justify-content:flex-start;width:100%;height:100%;position:absolute;top:0;left:0;z-index:20;background:rgba(11,14,20,0.8);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);padding-top:70px}
   .topup-page.active{display:flex}
-  .topup-back{position:absolute;top:12px;left:16px;background:rgba(255,255,255,0.06);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border-radius:12px;padding:6px 14px;border:1px solid rgba(255,255,255,0.06);z-index:5;color:#FFFFFF;font-family:'Montserrat',sans-serif;font-size:15px;font-weight:700;cursor:pointer;border:none}
-  .topup-content{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:0 20px;width:100%;max-width:380px;margin-top:40px}
+  .back-wrapper{position:absolute;top:16px;left:16px;background:rgba(255,255,255,0.06);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border-radius:12px;padding:8px 16px;border:1px solid rgba(255,255,255,0.06);z-index:5}
+  .back-btn{background:none;border:none;color:#FFFFFF;font-family:'Montserrat',sans-serif;font-size:16px;font-weight:700;cursor:pointer;padding:0;line-height:1}
+
+  .topup-content{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:0 20px;width:100%;max-width:380px;margin-top:10px}
   .topup-input-block{background:rgba(255,255,255,0.06);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border-radius:16px;padding:14px 18px;border:1px solid rgba(255,255,255,0.06);width:100%;display:flex;flex-direction:column;align-items:flex-start;gap:6px}
   .topup-input-block label{font-family:'Montserrat',sans-serif;font-size:13px;font-weight:600;color:#9CA3AF;letter-spacing:0.3px}
   .topup-input-block input{width:100%;padding:10px 14px;border-radius:10px;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.03);color:#FFFFFF;font-family:'Montserrat',sans-serif;font-size:18px;font-weight:600;text-align:left;outline:none;height:48px}
@@ -86,6 +78,13 @@
   .nav-btn .label{font-size:11px;font-weight:500;color:#9CA3AF;transition:0.2s;letter-spacing:0.3px}
   .nav-btn.active svg{stroke:#FFD24C}
   .nav-btn.active .label{color:#FFD24C;font-weight:600}
+
+  .upgrade-wheel{width:100%;max-width:320px;height:320px;border-radius:50%;background:rgba(255,255,255,0.05);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border:2px solid rgba(255,210,76,0.2);display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;box-shadow:0 0 40px rgba(255,210,76,0.05)}
+  .wheel{width:280px;height:280px;border-radius:50%;position:relative;transition:transform 4s cubic-bezier(0.33,1,0.68,1);display:flex;align-items:center;justify-content:center}
+  .wheel-item{position:absolute;width:50px;height:50px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Montserrat',sans-serif;font-size:13px;font-weight:700;color:#FFFFFF;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.05);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);top:50%;left:50%;transform-origin:center center}
+  .wheel-center{position:absolute;width:60px;height:60px;border-radius:50%;background:#FFD24C;display:flex;align-items:center;justify-content:center;font-family:'Montserrat',sans-serif;font-size:14px;font-weight:800;color:#0B0E14;z-index:5;box-shadow:0 0 30px rgba(255,210,76,0.3)}
+  .spin-btn{background:#FFD24C;color:#0B0E14;padding:14px 20px;border-radius:16px;border:none;font-family:'Montserrat',sans-serif;font-size:18px;font-weight:700;cursor:pointer;width:100%;max-width:280px;transition:0.2s}
+  .spin-btn:active{transform:scale(0.96)}
 </style>
 </head>
 <body>
@@ -110,11 +109,11 @@
         <div class="card" style="background-image:url('https://i.postimg.cc/Bb6ZNrLB/quality-restoration-20260712180340135-2.jpg');margin-top:24px;" id="rocketCard">
           <div class="card-label">РАКЕТА</div>
         </div>
+      
         <div class="card" style="background-image:url('https://i.postimg.cc/W31ptCvR/Bez-nazvania58-20260712200059.png');" id="upgradeCard">
           <div class="card-label">UPGRADE</div>
         </div>
-      </div>
-
+      </div> 
       <div id="page-profile" class="page">
         <div class="profile-container">
           <div class="profile-avatar-wrapper">
@@ -145,14 +144,14 @@
       </div>
     </div>
 
-    <div class="sub-page" id="rocketPage">
-      <button class="sub-back" id="rocketBack">Назад</button>
+    <div class="empty-page" id="rocketPage">
+      <button class="empty-back" id="rocketBack">Назад</button>
     </div>
 
-    <div class="sub-page" id="upgradePage">
-      <button class="sub-back" id="upgradeBack">Назад</button>
-      <div class="upgrade-content">
-        <div class="wheel-container">
+    <div class="empty-page" id="upgradePage">
+      <button class="empty-back" id="upgradeBack">Назад</button>
+      <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;gap:24px;width:100%;max-width:380px;padding:20px;margin-top:40px;">
+        <div class="upgrade-wheel">
           <div class="wheel" id="wheel">
             <div class="wheel-item" style="transform:rotate(0deg) translateX(100px)">1k</div>
             <div class="wheel-item" style="transform:rotate(36deg) translateX(100px)">2k</div>
@@ -164,15 +163,17 @@
             <div class="wheel-item" style="transform:rotate(252deg) translateX(100px)">100k</div>
             <div class="wheel-item" style="transform:rotate(288deg) translateX(100px)">250k</div>
             <div class="wheel-item" style="transform:rotate(324deg) translateX(100px)">500k</div>
+            <div class="wheel-center">SPIN</div>
           </div>
-          <div class="wheel-center">SPIN</div>
         </div>
         <button class="spin-btn" id="spinBtn">Крутить</button>
       </div>
     </div>
 
     <div class="topup-page" id="topupPage">
-      <button class="topup-back" id="topupBack">Назад</button>
+      <div class="back-wrapper">
+        <button class="back-btn" id="backBtn">Назад</button>
+      </div>
       <div class="topup-content">
         <div class="topup-input-block">
           <label>Сумма (минимум 50₽)</label>
@@ -255,7 +256,8 @@
       const pageProfile = document.getElementById('page-profile');
       const mainHeader = document.getElementById('mainHeader');
       const topupPage = document.getElementById('topupPage');
-      const topupBack = document.getElementById('topupBack');
+      const backBtn = document.getElementById('backBtn');
+
       const rocketPage = document.getElementById('rocketPage');
       const upgradePage = document.getElementById('upgradePage');
       const rocketBack = document.getElementById('rocketBack');
@@ -263,56 +265,109 @@
 
       let current = 'home';
 
-      function hideAll() {
-        pageHome.classList.remove('active');
-        pageProfile.classList.remove('active');
-        mainHeader.classList.add('hidden');
-        topupPage.classList.remove('active');
-        rocketPage.classList.remove('active');
-        upgradePage.classList.remove('active');
-        buttons.forEach(function(b) { b.classList.remove('active'); });
-      }
-
-      function showHome() {
-        hideAll();
-        pageHome.classList.add('active');
-        mainHeader.classList.remove('hidden');
-        buttons.forEach(function(b) {
-          if (b.dataset.page === 'home') b.classList.add('active');
-        });
-        current = 'home';
-      }
-
       buttons.forEach(function(btn) {
         btn.addEventListener('click', function(e) {
           e.stopPropagation();
           const target = btn.dataset.page;
           if (target === current) return;
+
+          buttons.forEach(function(b) {
+            b.classList.toggle('active', b.dataset.page === target);
+          });
+
+          current = target;
+
           if (target === 'home') {
-            showHome();
+            pageHome.classList.add('active');
+            pageProfile.classList.remove('active');
+            mainHeader.classList.remove('hidden');
+            topupPage.classList.remove('active');
+            rocketPage.classList.remove('active');
+            upgradePage.classList.remove('active');
           } else {
-            hideAll();
             pageProfile.classList.add('active');
-            buttons.forEach(function(b) {
-              if (b.dataset.page === 'profile') b.classList.add('active');
-            });
-            current = 'profile';
+            pageHome.classList.remove('active');
+            mainHeader.classList.add('hidden');
+            topupPage.classList.remove('active');
+            rocketPage.classList.remove('active');
+            upgradePage.classList.remove('active');
           }
         });
       });
 
       document.getElementById('rocketCard').addEventListener('click', function() {
-        hideAll();
         rocketPage.classList.add('active');
+        pageHome.classList.remove('active');
+        pageProfile.classList.remove('active');
+        mainHeader.classList.add('hidden');
+        buttons.forEach(function(b) { b.classList.remove('active'); });
       });
 
-      rocketBack.addEventListener('click', showHome);
+      rocketBack.addEventListener('click', function() {
+        rocketPage.classList.remove('active');
+        pageHome.classList.add('active');
+        mainHeader.classList.remove('hidden');
+        buttons.forEach(function(b) {
+          b.classList.toggle('active', b.dataset.page === 'home');
+        });
+        current = 'home';
+      });
 
       document.getElementById('upgradeCard').addEventListener('click', function() {
-        hideAll();
         upgradePage.classList.add('active');
+        pageHome.classList.remove('active');
+        pageProfile.classList.remove('active');
+        mainHeader.classList.add('hidden');
+        buttons.forEach(function(b) { b.classList.remove('active'); });
       });
 
-      upgradeBack.addEventListener('click', showHome);
+      upgradeBack.addEventListener('click', function() {
+        upgradePage.classList.remove('active');
+        pageHome.classList.add('active');
+        mainHeader.classList.remove('hidden');
+        buttons.forEach(function(b) {
+          b.classList.toggle('active', b.dataset.page === 'home');
+        });
+        current = 'home';
+      });
 
-      document.getElementById('topupBtn').addEventLi
+      document.getElementById('topupBtn').addEventListener('click', function() {
+        topupPage.classList.add('active');
+        pageHome.classList.remove('active');
+        pageProfile.classList.remove('active');
+        mainHeader.classList.add('hidden');
+        buttons.forEach(function(b) { b.classList.remove('active'); });
+      });
+
+      backBtn.addEventListener('click', function() {
+        topupPage.classList.remove('active');
+        pageHome.classList.add('active');
+        mainHeader.classList.remove('hidden');
+        buttons.forEach(function(b) {
+          b.classList.toggle('active', b.dataset.page === 'home');
+        });
+        current = 'home';
+      });
+
+      // ===== КОЛЕСО =====
+      const wheel = document.getElementById('wheel');
+      const spinBtn = document.getElementById('spinBtn');
+      let isSpinning = false;
+
+      spinBtn.addEventListener('click', function() {
+        if (isSpinning) return;
+        isSpinning = true;
+        spinBtn.style.opacity = '0.5';
+        spinBtn.style.pointerEvents = 'none';
+        const randomDeg = 360 * 5 + Math.floor(Math.random() * 360);
+        wheel.style.transform = 'rotate(' + randomDeg + 'deg)';
+        setTimeout(function() {
+          isSpinning = false;
+          spinBtn.style.opacity = '1';
+          spinBtn.style.pointerEvents = 'auto';
+        }, 4500);
+      });
+    })();
+  </script>
+</body>
+ </html>
