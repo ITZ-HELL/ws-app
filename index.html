@@ -64,6 +64,7 @@
   .back-btn{background:none;border:none;color:#FFFFFF;font-family:'Montserrat',sans-serif;font-size:16px;font-weight:700;cursor:pointer;padding:0;line-height:1}
 
   .topup-content{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:0 20px;width:100%;max-width:380px;margin-top:10px}
+  .topup-title{font-family:'Montserrat',sans-serif;font-size:24px;font-weight:800;color:#FFFFFF;letter-spacing:2px;text-align:center;margin-bottom:4px}
   .topup-input-block{background:rgba(255,255,255,0.05);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-radius:14px;padding:10px 16px;border:1px solid rgba(255,255,255,0.06);width:100%;display:flex;flex-direction:column;align-items:flex-start;gap:4px}
   .topup-input-block label{font-family:'Montserrat',sans-serif;font-size:13px;font-weight:600;color:#9CA3AF;letter-spacing:0.3px}
   .topup-input-block input{width:100%;padding:8px 12px;border-radius:10px;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.03);color:#FFFFFF;font-family:'Montserrat',sans-serif;font-size:18px;font-weight:600;text-align:left;outline:none;height:42px}
@@ -72,6 +73,12 @@
   .topup-confirm{background:#FFD24C;color:#0B0E14;padding:14px 20px;border-radius:16px;border:none;font-family:'Montserrat',sans-serif;font-size:18px;font-weight:700;cursor:pointer;width:100%;max-width:380px;transition:0.2s;margin-top:auto;margin-bottom:24px;position:absolute;bottom:0;left:50%;transform:translateX(-50%)}
   .topup-confirm:active{transform:translateX(-50%) scale(0.96)}
   .topup-confirm.disabled{opacity:0.4;pointer-events:none}
+
+  .notification{position:fixed;top:80px;left:-100%;transform:translateX(0);background:#E74C3C;padding:12px 20px;border-radius:12px;box-shadow:0 4px 20px rgba(231,76,60,0.3);z-index:100;display:flex;align-items:center;gap:12px;transition:left 0.5s cubic-bezier(0.22,1,0.36,1);max-width:calc(100% - 32px);width:auto}
+  .notification.show{left:16px}
+  .notification-text{font-family:'Montserrat',sans-serif;font-size:15px;font-weight:600;color:#FFFFFF;letter-spacing:0.3px}
+  .notification-close{background:#0B0E14;border:none;color:#FFFFFF;font-size:16px;cursor:pointer;padding:0 4px;line-height:1;border-radius:4px;font-weight:700;opacity:0.7;transition:0.2s}
+  .notification-close:hover{opacity:1}
 
   .widget-wrapper{display:flex;justify-content:center;align-items:center;padding:4px 20px 8px;width:100%}
   .widget-panel{width:100%;max-width:360px;height:70px;border-radius:24px;background:rgba(255,255,255,0.06);backdrop-filter:blur(10px) saturate(180%);-webkit-backdrop-filter:blur(10px) saturate(180%);border:1px solid rgba(255,255,255,0.08);display:flex;justify-content:space-around;align-items:center;padding:0 12px;box-shadow:0 4px 30px rgba(0,0,0,0.2)}
@@ -152,12 +159,18 @@
         <button class="back-btn" id="backBtn">Назад</button>
       </div>
       <div class="topup-content">
+        <div class="topup-title">ПОПОЛНЕНИЕ</div>
         <div class="topup-input-block">
           <label>Сумма (минимум 50₽)</label>
           <input type="number" id="amountInput" placeholder="Введите сумму.." min="50" step="1">
         </div>
       </div>
       <button class="topup-confirm disabled" id="topupConfirmBtn">Оплатить</button>
+    </div>
+
+    <div class="notification" id="notification">
+      <span class="notification-text" id="notificationText">Минимальная сумма — 50 ₽</span>
+      <button class="notification-close" id="notificationClose">✕</button>
     </div>
 
     <div class="widget-wrapper">
@@ -324,6 +337,52 @@
           b.classList.toggle('active', b.dataset.page === 'home');
         });
         current = 'home';
+      });
+
+      const notification = document.getElementById('notification');
+      const notificationText = document.getElementById('notificationText');
+      const notificationClose = document.getElementById('notificationClose');
+      const amountInput = document.getElementById('amountInput');
+      const confirmBtn = document.getElementById('topupConfirmBtn');
+
+      let notificationTimeout = null;
+
+      function showNotification(text) {
+        clearTimeout(notificationTimeout);
+        notificationText.textContent = text;
+        notification.classList.add('show');
+        notificationTimeout = setTimeout(function() {
+          notification.classList.remove('show');
+        }, 3000);
+      }
+
+      function hideNotification() {
+        clearTimeout(notificationTimeout);
+        notification.classList.remove('show');
+      }
+
+      notificationClose.addEventListener('click', hideNotification);
+
+      amountInput.addEventListener('input', function() {
+        const value = parseInt(this.value);
+        if (value >= 50) {
+          confirmBtn.classList.remove('disabled');
+        } else {
+          confirmBtn.classList.add('disabled');
+        }
+      });
+
+      confirmBtn.addEventListener('click', function() {
+        const value = parseInt(amountInput.value);
+        if (!amountInput.value || isNaN(value)) {
+          showNotification('Введите сумму');
+          return;
+        }
+        if (value < 50) {
+          showNotification('Минимальная сумма — 50 ₽');
+          return;
+        }
+        showNotification('Заявка отправлена!');
       });
     })();
   </script>
