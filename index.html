@@ -83,6 +83,22 @@
   .topup-confirm:active{transform:scale(0.96)}
   .topup-confirm a{color:#0B0E14;text-decoration:none;display:block;width:100%;height:100%}
 
+  .upgrade-container{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;width:100%;max-width:380px;padding:20px}
+  .wheel-wrap{position:relative;width:280px;height:280px}
+  .ring-ticks{position:absolute;inset:0;border-radius:50%;background:repeating-conic-gradient(from 0deg,#35353f 0deg 1.2deg,transparent 1.2deg 6deg);-webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 12px),#000 calc(100% - 12px));mask:radial-gradient(farthest-side,transparent calc(100% - 12px),#000 calc(100% - 12px));opacity:0.7}
+  .wheel-bg{position:absolute;inset:12px;border-radius:50%;background:#17171d}
+  .wheel-arc{position:absolute;inset:12px;border-radius:50%;background:conic-gradient(from 0deg,#232329 0deg,#232329 125deg,#ff7a00 125deg,#ffcc00 180deg,#ff7a00 235deg,#232329 235deg,#232329 360deg);-webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 26px),#000 calc(100% - 26px));mask:radial-gradient(farthest-side,transparent calc(100% - 26px),#000 calc(100% - 26px));filter:drop-shadow(0 0 14px rgba(255,150,0,0.35))}
+  .center-empty{position:absolute;inset:40px;border-radius:50%;background:radial-gradient(circle at 50% 40%,#1c1c24,#101014 80%)}
+  .pointer-rotator{position:absolute;inset:0;transform:rotate(0deg);z-index:5}
+  .arrow{position:absolute;bottom:-14px;left:50%;width:40px;height:26px;transform:translateX(-50%)}
+  .arrow svg{width:100%;height:100%;filter:drop-shadow(0 0 6px rgba(255,212,0,0.85))}
+  .spin-btn{background:#FFD24C;color:#0B0E14;padding:14px 20px;border-radius:16px;border:none;font-family:'Montserrat',sans-serif;font-size:18px;font-weight:700;cursor:pointer;width:100%;max-width:280px;transition:0.2s}
+  .spin-btn:active{transform:scale(0.96)}
+  .spin-btn:disabled{opacity:0.4;pointer-events:none}
+  .result{font-family:'Montserrat',sans-serif;font-size:20px;font-weight:800;height:26px;letter-spacing:1px}
+  .result.success{color:#FFD24C}
+  .result.fail{color:#ff4d4d}
+
   .widget-wrapper{display:flex;justify-content:center;align-items:center;padding:4px 20px 8px;width:100%}
   .widget-panel{width:100%;max-width:360px;height:70px;border-radius:24px;background:rgba(255,255,255,0.06);backdrop-filter:blur(10px) saturate(180%);-webkit-backdrop-filter:blur(10px) saturate(180%);border:1px solid rgba(255,255,255,0.08);display:flex;justify-content:space-around;align-items:center;padding:0 12px;box-shadow:0 4px 30px rgba(0,0,0,0.2)}
   .nav-btn{display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:none;padding:4px 12px;cursor:pointer;border-radius:14px;flex:1;font-family:inherit;transition:0.2s}
@@ -155,6 +171,23 @@
 
     <div class="empty-page" id="upgradePage">
       <button class="empty-back" id="upgradeBack">Назад</button>
+      <div class="upgrade-container">
+        <div class="wheel-wrap">
+          <div class="wheel-bg"></div>
+          <div class="wheel-arc"></div>
+          <div class="center-empty"></div>
+          <div class="pointer-rotator" id="spinLayer">
+            <div class="arrow">
+              <svg viewBox="0 0 40 26" xmlns="http://www.w3.org/2000/svg">
+                <polygon points="20,0 40,18 28,18 20,10 12,18 0,18" fill="#ffd400"/>
+                <polygon points="20,8 40,26 28,26 20,18 12,26 0,26" fill="#7a6100"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+        <button class="spin-btn" id="spinBtn">КРУТИТЬ</button>
+        <div class="result" id="result"></div>
+      </div>
     </div>
 
     <div class="topup-page" id="topupPage">
@@ -362,6 +395,130 @@
           this.classList.add('active');
         });
       });
+
+      // ===== КОЛЕСО =====
+      const spinLayer = document.getElementById('spinLayer');
+      const spinBtn = document.getElementById('spinBtn');
+      const resultEl = document.getElementById('result');
+      let currentRotation = 0;
+      let spinning = false;
+      let audioCtx;
+
+      function getCtx() {
+        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        return audioCtx;
+      }
+
+      function playTick(volume, pitch) {
+        const ctx = getCtx();
+        const now = ctx.currentTime;
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'square';
+        osc.frequency.setValueAtTime(pitch, now);
+        gain.gain.setValueAtTime(0.0001, now);
+        gain.gain.linearRampToValueAtTime(volume, now + 0.002);
+        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.03);
+        osc.connect(gain).connect(ctx.destination);
+        osc.start(now);
+        osc.stop(now + 0.035);
+      }
+
+      function playResultSound(success) {
+        const ctx = getCtx();
+        const now = ctx.currentTime;
+        if (success) {
+          [660, 880, 1320].forEach((freq, i) => {
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.type = 'sine';
+            const start = now + i * 0.09;
+            osc.frequency.setValueAtTime(freq, start);
+            gain.gain.setValueAtTime(0.0001, start);
+            gain.gain.linearRampToValueAtTime(0.18, start + 0.02);
+            gain.gain.exponentialRampToValueAtTime(0.0001, start + 0.5);
+            osc.connect(gain).connect(ctx.destination);
+            osc.start(start);
+            osc.stop(start + 0.55);
+          });
+        } else {
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'sawtooth';
+          osc.frequency.setValueAtTime(180, now);
+          osc.frequency.exponentialRampToValueAtTime(55, now + 0.45);
+          gain.gain.setValueAtTime(0.0001, now);
+          gain.gain.linearRampToValueAtTime(0.16, now + 0.02);
+          gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.5);
+          osc.connect(gain).connect(ctx.destination);
+          osc.start(now);
+          osc.stop(now + 0.55);
+        }
+      }
+
+      function easeOutQuint(t) {
+        return 1 - Math.pow(1 - t, 5);
+      }
+
+      const ZONE_HALF = 55;
+
+      function spin() {
+        if (spinning) return;
+        spinning = true;
+        spinBtn.disabled = true;
+        resultEl.textContent = '';
+        resultEl.className = 'result';
+
+        const isSuccess = Math.random() < 0.5;
+        let targetOffset;
+        if (isSuccess) {
+          targetOffset = (Math.random() * 2 - 1) * ZONE_HALF;
+        } else {
+          do {
+            targetOffset = Math.random() * 360 - 180;
+          } while (Math.abs(targetOffset) <= ZONE_HALF + 8);
+        }
+
+        const extraSpins = 3 + Math.floor(Math.random() * 2);
+        const duration = 900 + Math.random() * 300;
+        const startRotation = currentRotation;
+        const currentMod = ((startRotation % 360) + 360) % 360;
+        let deltaToTarget = ((targetOffset - currentMod) % 360 + 360) % 360;
+        const totalDelta = extraSpins * 360 + deltaToTarget;
+        const endRotation = startRotation + totalDelta;
+        const startTime = performance.now();
+        let lastTickStep = Math.floor(startRotation / 14);
+        let lastTickTime = 0;
+        const MIN_TICK_GAP = 28;
+
+        function frame(now) {
+          const elapsed = now - startTime;
+          const t = Math.min(elapsed / duration, 1);
+          const eased = easeOutQuint(t);
+          const rotation = startRotation + totalDelta * eased;
+          spinLayer.style.transform = 'rotate(' + rotation + 'deg)';
+          const step = Math.floor(rotation / 14);
+          if (step !== lastTickStep && (now - lastTickTime) > MIN_TICK_GAP) {
+            const intensity = 1 - t;
+            playTick(0.06 * intensity + 0.015, 420 + 380 * intensity);
+            lastTickStep = step;
+            lastTickTime = now;
+          }
+          if (t < 1) {
+            requestAnimationFrame(frame);
+          } else {
+            currentRotation = endRotation;
+            spinning = false;
+            spinBtn.disabled = false;
+            playResultSound(isSuccess);
+            resultEl.textContent = isSuccess ? 'УСПЕХ!' : 'ПРОВАЛ';
+            resultEl.className = 'result ' + (isSuccess ? 'success' : 'fail');
+          }
+        }
+        requestAnimationFrame(frame);
+      }
+
+      spinBtn.addEventListener('click', spin);
     })();
   </script>
 </body>
