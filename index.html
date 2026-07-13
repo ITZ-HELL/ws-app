@@ -84,16 +84,18 @@
   .topup-confirm a{color:#0B0E14;text-decoration:none;display:block;width:100%;height:100%}
 
   .upgrade-container{display:flex;flex-direction:column;align-items:center;justify-content:flex-start;width:100%;max-width:380px;padding:2px 20px 20px}
-  .wheel-wrap{position:relative;top:-5px;width:240px;height:240px;margin-bottom:-20px}
+  .wheel-wrap{position:relative;width:240px;height:240px;margin-bottom:0px;pointer-events:none}
   .wheel-bg{position:absolute;inset:12px;border-radius:50%;background:#17171d}
   .wheel-arc{position:absolute;inset:12px;border-radius:50%;background:conic-gradient(from 0deg,#232329 0deg,#232329 125deg,#ff7a00 125deg,#ffcc00 180deg,#ff7a00 235deg,#232329 235deg,#232329 360deg);-webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 26px),#000 calc(100% - 26px));mask:radial-gradient(farthest-side,transparent calc(100% - 26px),#000 calc(100% - 26px));filter:drop-shadow(0 0 14px rgba(255,150,0,0.35))}
   .center-empty{position:absolute;inset:40px;border-radius:50%;background:radial-gradient(circle at 50% 40%,#1c1c24,#101014 80%)}
-  .pointer-rotator{position:absolute;inset:0;transform:rotate(0deg);z-index:5}
+  .pointer-rotator{position:absolute;inset:0;transform:rotate(0deg);z-index:5;pointer-events:none}
   .arrow{position:absolute;bottom:-14px;left:50%;width:40px;height:26px;transform:translateX(-50%)}
   .arrow svg{width:100%;height:100%;filter:drop-shadow(0 0 6px rgba(255,212,0,0.85))}
-  .result{font-family:'Montserrat',sans-serif;font-size:16px;font-weight:800;height:22px;letter-spacing:1px;margin-top:-40px;margin-bottom:20px}
+  .result{font-family:'Montserrat',sans-serif;font-size:16px;font-weight:800;height:22px;letter-spacing:1px;margin-top:10px;margin-bottom:20px}
   .result.success{color:#FFD24C}
   .result.fail{color:#ff4d4d}
+  .upgrade-btn{background:linear-gradient(135deg,#FFD24C,#F5A623);color:#0B0E14;padding:12px 32px;border-radius:50px;border:none;font-family:'Montserrat',sans-serif;font-size:18px;font-weight:800;cursor:pointer;transition:0.2s;box-shadow:0 4px 20px rgba(255,210,76,0.3);letter-spacing:1.5px;margin-top:4px}
+  .upgrade-btn:active{transform:scale(0.95)}
 
   .widget-wrapper{display:flex;justify-content:center;align-items:center;padding:4px 20px 8px;width:100%}
   .widget-panel{width:100%;max-width:360px;height:70px;border-radius:24px;background:rgba(255,255,255,0.06);backdrop-filter:blur(10px) saturate(180%);-webkit-backdrop-filter:blur(10px) saturate(180%);border:1px solid rgba(255,255,255,0.08);display:flex;justify-content:space-around;align-items:center;padding:0 12px;box-shadow:0 4px 30px rgba(0,0,0,0.2)}
@@ -181,6 +183,7 @@
             </div>
           </div>
         </div>
+        <button class="upgrade-btn" id="spinBtn">UPGRADE</button>
         <div class="result" id="result"></div>
       </div>
     </div>
@@ -393,83 +396,27 @@
 
       // ===== КОЛЕСО =====
       const spinLayer = document.getElementById('spinLayer');
+      const spinBtn = document.getElementById('spinBtn');
       const resultEl = document.getElementById('result');
       let currentRotation = 0;
       let spinning = false;
       let audioCtx;
 
-      function getCtx() {
-        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        return audioCtx;
-      }
-
-      function playTick(volume, pitch) {
-        const ctx = getCtx();
-        const now = ctx.currentTime;
-        const osc = ctx.createOscillator();
-        const gain = ctx.createGain();
-        osc.type = 'square';
-        osc.frequency.setValueAtTime(pitch, now);
-        gain.gain.setValueAtTime(0.0001, now);
-        gain.gain.linearRampToValueAtTime(volume, now + 0.002);
-        gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.03);
-        osc.connect(gain).connect(ctx.destination);
-        osc.start(now);
-        osc.stop(now + 0.035);
-      }
-
-      function playResultSound(success) {
-        const ctx = getCtx();
-        const now = ctx.currentTime;
-        if (success) {
-          [660, 880, 1320].forEach((freq, i) => {
-            const osc = ctx.createOscillator();
-            const gain = ctx.createGain();
-            osc.type = 'sine';
-            const start = now + i * 0.09;
-            osc.frequency.setValueAtTime(freq, start);
-            gain.gain.setValueAtTime(0.0001, start);
-            gain.gain.linearRampToValueAtTime(0.18, start + 0.02);
-            gain.gain.exponentialRampToValueAtTime(0.0001, start + 0.5);
-            osc.connect(gain).connect(ctx.destination);
-            osc.start(start);
-            osc.stop(start + 0.55);
-          });
-        } else {
-          const osc = ctx.createOscillator();
-          const gain = ctx.createGain();
-          osc.type = 'sawtooth';
-          osc.frequency.setValueAtTime(180, now);
-          osc.frequency.exponentialRampToValueAtTime(55, now + 0.45);
-          gain.gain.setValueAtTime(0.0001, now);
-          gain.gain.linearRampToValueAtTime(0.16, now + 0.02);
-          gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.5);
-          osc.connect(gain).connect(ctx.destination);
-          osc.start(now);
-          osc.stop(now + 0.55);
-        }
-      }
-
-      function easeOutQuint(t) {
-        return 1 - Math.pow(1 - t, 5);
-      }
-
-      const ZONE_HALF = 55;
-
-      spinLayer.addEventListener('click', function() {
+      spinBtn.addEventListener('click', function() {
         if (spinning) return;
         spinning = true;
+        spinBtn.disabled = true;
         resultEl.textContent = '';
         resultEl.className = 'result';
 
         const isSuccess = Math.random() < 0.5;
         let targetOffset;
         if (isSuccess) {
-          targetOffset = (Math.random() * 2 - 1) * ZONE_HALF;
+          targetOffset = (Math.random() * 2 - 1) * 55;
         } else {
           do {
             targetOffset = Math.random() * 360 - 180;
-          } while (Math.abs(targetOffset) <= ZONE_HALF + 8);
+          } while (Math.abs(targetOffset) <= 55 + 8);
         }
 
         const extraSpins = 3 + Math.floor(Math.random() * 2);
@@ -483,6 +430,62 @@
         let lastTickStep = Math.floor(startRotation / 14);
         let lastTickTime = 0;
         const MIN_TICK_GAP = 28;
+
+        function getCtx() {
+          if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+          return audioCtx;
+        }
+
+        function playTick(volume, pitch) {
+          const ctx = getCtx();
+          const now = ctx.currentTime;
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'square';
+          osc.frequency.setValueAtTime(pitch, now);
+          gain.gain.setValueAtTime(0.0001, now);
+          gain.gain.linearRampToValueAtTime(volume, now + 0.002);
+          gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.03);
+          osc.connect(gain).connect(ctx.destination);
+          osc.start(now);
+          osc.stop(now + 0.035);
+        }
+
+        function playResultSound(success) {
+          const ctx = getCtx();
+          const now = ctx.currentTime;
+          if (success) {
+            [660, 880, 1320].forEach((freq, i) => {
+              const osc = ctx.createOscillator();
+              const gain = ctx.createGain();
+              osc.type = 'sine';
+              const start = now + i * 0.09;
+              osc.frequency.setValueAtTime(freq, start);
+              gain.gain.setValueAtTime(0.0001, start);
+              gain.gain.linearRampToValueAtTime(0.18, start + 0.02);
+              gain.gain.exponentialRampToValueAtTime(0.0001, start + 0.5);
+              osc.connect(gain).connect(ctx.destination);
+              osc.start(start);
+              osc.stop(start + 0.55);
+            });
+          } else {
+            const osc = ctx.createOscillator();
+            const gain = ctx.createGain();
+            osc.type = 'sawtooth';
+            osc.frequency.setValueAtTime(180, now);
+            osc.frequency.exponentialRampToValueAtTime(55, now + 0.45);
+            gain.gain.setValueAtTime(0.0001, now);
+            gain.gain.linearRampToValueAtTime(0.16, now + 0.02);
+            gain.gain.exponentialRampToValueAtTime(0.0001, now + 0.5);
+            osc.connect(gain).connect(ctx.destination);
+            osc.start(now);
+            osc.stop(now + 0.55);
+          }
+        }
+
+        function easeOutQuint(t) {
+          return 1 - Math.pow(1 - t, 5);
+        }
 
         function frame(now) {
           const elapsed = now - startTime;
@@ -502,6 +505,7 @@
           } else {
             currentRotation = endRotation;
             spinning = false;
+            spinBtn.disabled = false;
             playResultSound(isSuccess);
             resultEl.textContent = isSuccess ? 'УСПЕХ!' : 'ПРОВАЛ';
             resultEl.className = 'result ' + (isSuccess ? 'success' : 'fail');
