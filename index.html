@@ -58,21 +58,21 @@
   .empty-page.active{display:flex}
   .empty-back{position:absolute;top:16px;left:16px;background:rgba(255,255,255,0.06);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border-radius:12px;padding:8px 16px;border:1px solid rgba(255,255,255,0.06);z-index:5;color:#FFFFFF;font-family:'Montserrat',sans-serif;font-size:16px;font-weight:700;cursor:pointer;border:none}
 
-  .topup-page{display:none;flex-direction:column;align-items:center;justify-content:flex-start;width:100%;height:100%;position:absolute;top:0;left:0;z-index:20;background:rgba(11,14,20,0.8);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);padding-top:60px}
+  .topup-page{display:none;flex-direction:column;align-items:center;justify-content:flex-start;width:100%;height:100%;position:absolute;top:0;left:0;z-index:20;background:rgba(11,14,20,0.8);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);padding-top:55px}
   .topup-page.active{display:flex}
   .back-wrapper{position:absolute;top:12px;left:16px;background:rgba(255,255,255,0.06);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border-radius:12px;padding:6px 14px;border:1px solid rgba(255,255,255,0.06);z-index:5}
   .back-btn{background:none;border:none;color:#FFFFFF;font-family:'Montserrat',sans-serif;font-size:16px;font-weight:700;cursor:pointer;padding:0;line-height:1}
 
   .topup-content{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:0 20px;width:100%;max-width:380px;margin-top:0}
-  .topup-title{font-family:'Montserrat',sans-serif;font-size:24px;font-weight:800;background:linear-gradient(90deg,#FFD24C,#FF6B35);-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-align:center;margin-bottom:8px;letter-spacing:2px;position:relative;left:20px}
+  .topup-title{font-family:'Montserrat',sans-serif;font-size:24px;font-weight:800;color:#FFFFFF;text-align:center;margin-bottom:8px;letter-spacing:2px;position:relative;left:20px}
   .topup-input-block{background:rgba(255,255,255,0.05);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-radius:14px;padding:10px 16px;border:1px solid rgba(255,255,255,0.06);width:100%;display:flex;flex-direction:column;align-items:flex-start;gap:4px}
   .topup-input-block label{font-family:'Montserrat',sans-serif;font-size:13px;font-weight:600;color:#9CA3AF;letter-spacing:0.3px}
   .topup-input-block input{width:100%;padding:8px 12px;border-radius:10px;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.03);color:#FFFFFF;font-family:'Montserrat',sans-serif;font-size:18px;font-weight:600;text-align:left;outline:none;height:42px}
   .topup-input-block input:focus{border-color:#FFD24C}
   .topup-input-block input::placeholder{color:#6B7280;font-weight:400;font-size:15px}
-  .topup-confirm{background:linear-gradient(135deg,#E74C3C,#FF6B35,#F1C40F);color:#FFFFFF;padding:14px 20px;border-radius:16px;border:none;font-family:'Montserrat',sans-serif;font-size:18px;font-weight:700;cursor:pointer;width:100%;max-width:380px;transition:0.3s;margin-top:auto;margin-bottom:24px;position:absolute;bottom:0;left:50%;transform:translateX(-50%);box-shadow:0 4px 20px rgba(231,76,60,0.3)}
+  .topup-confirm{background:#FFD24C;color:#0B0E14;padding:14px 20px;border-radius:16px;border:none;font-family:'Montserrat',sans-serif;font-size:18px;font-weight:700;cursor:pointer;width:100%;max-width:380px;transition:0.3s;margin-top:auto;margin-bottom:24px;position:absolute;bottom:0;left:50%;transform:translateX(-50%);box-shadow:0 4px 20px rgba(255,210,76,0.2)}
   .topup-confirm:active{transform:translateX(-50%) scale(0.96)}
-  .topup-confirm.disabled{opacity:0.5;pointer-events:none}
+  .topup-confirm.disabled{opacity:0.4;pointer-events:none;box-shadow:none}
 
   .notification{position:fixed;top:80px;left:-100%;transform:translateX(0);background:#E74C3C;padding:12px 20px;border-radius:12px;box-shadow:0 4px 20px rgba(231,76,60,0.3);z-index:100;display:flex;align-items:center;gap:12px;transition:left 0.5s cubic-bezier(0.22,1,0.36,1);max-width:calc(100% - 32px);width:auto}
   .notification.show{left:16px}
