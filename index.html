@@ -72,8 +72,6 @@
   .currency-btn{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);border-radius:14px;padding:14px 12px;text-align:center;font-family:'Montserrat',sans-serif;font-size:15px;font-weight:600;color:#FFFFFF;cursor:pointer;transition:0.2s}
   .currency-btn:active{transform:scale(0.96)}
   .currency-btn.active{background:rgba(255,210,76,0.12);border-color:#FFD24C;color:#FFD24C}
-  .currency-btn.extra{background:rgba(255,255,255,0.02);border-color:rgba(255,255,255,0.04);color:#9CA3AF;font-weight:400}
-  .currency-btn.extra.active{background:rgba(255,210,76,0.08);border-color:#FFD24C;color:#FFD24C}
 
   .widget-wrapper{display:flex;justify-content:center;align-items:center;padding:4px 20px 8px;width:100%}
   .widget-panel{width:100%;max-width:360px;height:70px;border-radius:24px;background:rgba(255,255,255,0.06);backdrop-filter:blur(10px) saturate(180%);-webkit-backdrop-filter:blur(10px) saturate(180%);border:1px solid rgba(255,255,255,0.08);display:flex;justify-content:space-around;align-items:center;padding:0 12px;box-shadow:0 4px 30px rgba(0,0,0,0.2)}
@@ -162,13 +160,13 @@
           <button class="currency-btn active">Рубли</button>
           <button class="currency-btn">Gram</button>
           <button class="currency-btn">Telegram Stars</button>
-          <button class="currency-btn extra" onclick="this.classList.toggle('active')">Ещё</button>
+          <button class="currency-btn">Ещё</button>
         </div>
         <div class="currency-grid" style="margin-top:4px;">
-          <button class="currency-btn extra">USDT</button>
-          <button class="currency-btn extra">Белорусские рубли</button>
-          <button class="currency-btn extra">Тенге</button>
-          <button class="currency-btn extra">ММ2</button>
+          <button class="currency-btn">USDT</button>
+          <button class="currency-btn">Белорусские рубли</button>
+          <button class="currency-btn">Тенге</button>
+          <button class="currency-btn">ММ2</button>
         </div>
       </div>
     </div>
@@ -341,14 +339,10 @@
 
       document.querySelectorAll('.currency-btn').forEach(function(btn) {
         btn.addEventListener('click', function() {
-          if (this.classList.contains('extra')) {
-            this.classList.toggle('active');
-          } else {
-            document.querySelectorAll('.currency-btn:not(.extra)').forEach(function(b) {
-              b.classList.remove('active');
-            });
-            this.classList.add('active');
-          }
+          document.querySelectorAll('.currency-btn').forEach(function(b) {
+            b.classList.remove('active');
+          });
+          this.classList.add('active');
         });
       });
     })();
