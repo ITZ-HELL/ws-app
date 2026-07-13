@@ -89,8 +89,8 @@
   .wheel-arc{position:absolute;inset:12px;border-radius:50%;background:conic-gradient(from 0deg,#232329 0deg,#232329 125deg,#ff7a00 125deg,#ffcc00 180deg,#ff7a00 235deg,#232329 235deg,#232329 360deg);-webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 26px),#000 calc(100% - 26px));mask:radial-gradient(farthest-side,transparent calc(100% - 26px),#000 calc(100% - 26px));filter:drop-shadow(0 0 14px rgba(255,150,0,0.35))}
   .center-empty{position:absolute;inset:48px;border-radius:50%;background:radial-gradient(circle at 50% 40%,#1c1c24,#101014 80%)}
   .pointer-rotator{position:absolute;inset:0;transform:rotate(0deg);z-index:5;pointer-events:none}
-  .arrow{position:absolute;bottom:-8px;left:50%;width:40px;height:26px;transform:translateX(-50%)}
-  .arrow svg{width:100%;height:100%;filter:drop-shadow(0 0 6px rgba(255,212,0,0.85))}
+  .arrow{position:absolute;bottom:-6px;left:50%;width:36px;height:14px;transform:translateX(-50%);overflow:hidden}
+  .arrow svg{width:100%;height:100%;filter:drop-shadow(0 0 6px rgba(255,212,0,0.85));margin-top:-2px}
   .result{font-family:'Montserrat',sans-serif;font-size:16px;font-weight:800;height:22px;letter-spacing:1px;margin-top:10px;margin-bottom:10px;opacity:0}
   .result.success{color:#FFD24C}
   .result.fail{color:#ff4d4d}
@@ -179,7 +179,6 @@
             <div class="arrow">
               <svg viewBox="0 0 40 26" xmlns="http://www.w3.org/2000/svg">
                 <polygon points="20,0 40,18 28,18 20,10 12,18 0,18" fill="#ffd400"/>
-                <polygon points="20,8 40,26 28,26 20,18 12,26 0,26" fill="#7a6100"/>
               </svg>
             </div>
           </div>
