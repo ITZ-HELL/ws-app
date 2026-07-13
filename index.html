@@ -54,7 +54,7 @@
   .divider-label{font-family:'Montserrat',sans-serif;font-size:14px;font-weight:700;color:#FFFFFF;letter-spacing:1.5px;white-space:nowrap;opacity:0.9}
   .empty-text{font-family:'Montserrat',sans-serif;font-size:24px;font-weight:700;color:#6B7280;letter-spacing:4px;text-transform:uppercase;margin-top:60px;opacity:0.4}
 
-  .empty-page{display:none;flex-direction:column;align-items:center;justify-content:flex-start;width:100%;height:100%;position:absolute;top:0;left:0;z-index:20;background:rgba(11,14,20,0.8);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);padding-top:20px}
+  .empty-page{display:none;flex-direction:column;align-items:center;justify-content:flex-start;width:100%;height:100%;position:absolute;top:0;left:0;z-index:20;background:rgba(11,14,20,0.8);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);padding-top:20px;overflow-y:auto}
   .empty-page.active{display:flex}
   .empty-back{position:absolute;top:12px;left:16px;background:rgba(255,255,255,0.06);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border-radius:12px;padding:6px 14px;border:1px solid rgba(255,255,255,0.06);z-index:5;color:#FFFFFF;font-family:'Montserrat',sans-serif;font-size:15px;font-weight:700;cursor:pointer;border:none}
 
@@ -83,7 +83,7 @@
   .topup-confirm:active{transform:scale(0.96)}
   .topup-confirm a{color:#0B0E14;text-decoration:none;display:block;width:100%;height:100%}
 
-  .upgrade-container{display:flex;flex-direction:column;align-items:center;justify-content:flex-start;width:100%;max-width:430px;padding:2px 20px 20px;flex:1}
+  .upgrade-container{display:flex;flex-direction:column;align-items:center;justify-content:flex-start;width:100%;max-width:445px;padding:2px 20px 20px;flex:1;min-height:100%}
   .wheel-wrap{position:relative;width:280px;height:280px;margin-bottom:0px;pointer-events:none;flex-shrink:0}
   .wheel-bg{position:absolute;inset:12px;border-radius:50%;background:#17171d}
   .wheel-arc{position:absolute;inset:12px;border-radius:50%;background:conic-gradient(from 0deg,#232329 0deg,#232329 125deg,#ff7a00 125deg,#ffcc00 180deg,#ff7a00 235deg,#232329 235deg,#232329 360deg);-webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 26px),#000 calc(100% - 26px));mask:radial-gradient(farthest-side,transparent calc(100% - 26px),#000 calc(100% - 26px));filter:drop-shadow(0 0 14px rgba(255,150,0,0.35))}
@@ -98,7 +98,12 @@
   .upgrade-btn:active{transform:scale(0.95)}
   .spacer{flex:0;min-height:4px}
 
-  .upgrade-bottom{width:100%;max-width:430px;padding:0;margin-top:20px;display:flex;gap:16px;flex:1;min-height:170px}
+  .upgrade-top{width:100%;max-width:445px;padding:0;margin-top:16px;display:flex;gap:12px;flex:0;align-items:stretch}
+  .upgrade-top-col{flex:1;background:rgba(255,255,255,0.05);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-radius:12px;border:1px solid rgba(255,255,255,0.06);padding:10px 12px;display:flex;flex-direction:column;align-items:center;min-height:50px;max-height:50px;justify-content:center}
+  .upgrade-top-col-title{font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;color:#9CA3AF;letter-spacing:0.5px;text-transform:uppercase}
+  .upgrade-top-col-value{font-family:'Montserrat',sans-serif;font-size:16px;font-weight:800;color:#FFD24C;margin-top:2px}
+
+  .upgrade-bottom{width:100%;max-width:445px;padding:0;margin-top:12px;display:flex;gap:16px;flex:1;min-height:170px}
   .upgrade-col{flex:1;background:rgba(255,255,255,0.05);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-radius:16px;border:1px solid rgba(255,255,255,0.06);padding:14px 12px;display:flex;flex-direction:column;align-items:center;min-height:170px}
   .upgrade-col-title{font-family:'Montserrat',sans-serif;font-size:12px;font-weight:700;color:#9CA3AF;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px}
   .upgrade-col-empty{font-family:'Montserrat',sans-serif;font-size:13px;color:#6B7280;text-align:center;margin-top:20px;flex:1;display:flex;align-items:center;justify-content:center}
@@ -191,6 +196,17 @@
         <div class="spacer"></div>
         <button class="upgrade-btn" id="spinBtn">UPGRADE</button>
         <div class="result" id="result"></div>
+
+        <div class="upgrade-top">
+          <div class="upgrade-top-col">
+            <div class="upgrade-top-col-title">Уровень</div>
+            <div class="upgrade-top-col-value">2к</div>
+          </div>
+          <div class="upgrade-top-col">
+            <div class="upgrade-top-col-title">Опыт</div>
+            <div class="upgrade-top-col-value">0/100</div>
+          </div>
+        </div>
 
         <div class="upgrade-bottom">
           <div class="upgrade-col">
