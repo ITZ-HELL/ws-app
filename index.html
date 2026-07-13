@@ -100,8 +100,7 @@
 
   .upgrade-top{width:100%;max-width:445px;padding:0;margin-top:16px;display:flex;gap:12px;flex:0;align-items:stretch}
   .upgrade-top-col{flex:1;background:rgba(255,255,255,0.05);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-radius:12px;border:1px solid rgba(255,255,255,0.06);padding:10px 12px;display:flex;flex-direction:column;align-items:center;min-height:50px;max-height:50px;justify-content:center}
-  .upgrade-top-col-title{font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;color:#9CA3AF;letter-spacing:0.5px;text-transform:uppercase}
-  .upgrade-top-col-value{font-family:'Montserrat',sans-serif;font-size:16px;font-weight:800;color:#FFD24C;margin-top:2px}
+  .upgrade-top-col.empty{background:transparent;border:1px dashed rgba(255,255,255,0.1)}
 
   .upgrade-bottom{width:100%;max-width:445px;padding:0;margin-top:12px;display:flex;gap:16px;flex:1;min-height:170px}
   .upgrade-col{flex:1;background:rgba(255,255,255,0.05);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-radius:16px;border:1px solid rgba(255,255,255,0.06);padding:14px 12px;display:flex;flex-direction:column;align-items:center;min-height:170px}
@@ -198,14 +197,8 @@
         <div class="result" id="result"></div>
 
         <div class="upgrade-top">
-          <div class="upgrade-top-col">
-            <div class="upgrade-top-col-title">Уровень</div>
-            <div class="upgrade-top-col-value">2к</div>
-          </div>
-          <div class="upgrade-top-col">
-            <div class="upgrade-top-col-title">Опыт</div>
-            <div class="upgrade-top-col-value">0/100</div>
-          </div>
+          <div class="upgrade-top-col empty"></div>
+          <div class="upgrade-top-col empty"></div>
         </div>
 
         <div class="upgrade-bottom">
