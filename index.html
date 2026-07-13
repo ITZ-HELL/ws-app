@@ -64,12 +64,14 @@
   .back-btn{background:none;border:none;color:#FFFFFF;font-family:'Montserrat',sans-serif;font-size:16px;font-weight:700;cursor:pointer;padding:0;line-height:1}
 
   .topup-content{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:0 20px;width:100%;max-width:380px;margin-top:10px}
-  .topup-input-block{background:rgba(255,255,255,0.06);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border-radius:16px;padding:14px 18px;border:1px solid rgba(255,255,255,0.06);width:100%;display:flex;flex-direction:column;align-items:flex-start;gap:6px}
+  .topup-input-block{background:rgba(255,255,255,0.05);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border-radius:14px;padding:10px 16px;border:1px solid rgba(255,255,255,0.06);width:100%;display:flex;flex-direction:column;align-items:flex-start;gap:4px}
   .topup-input-block label{font-family:'Montserrat',sans-serif;font-size:13px;font-weight:600;color:#9CA3AF;letter-spacing:0.3px}
-  .topup-input-block input{width:100%;padding:10px 14px;border-radius:10px;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.03);color:#FFFFFF;font-family:'Montserrat',sans-serif;font-size:18px;font-weight:600;text-align:left;outline:none;height:48px}
+  .topup-input-block input{width:100%;padding:8px 12px;border-radius:10px;border:1px solid rgba(255,255,255,0.08);background:rgba(255,255,255,0.03);color:#FFFFFF;font-family:'Montserrat',sans-serif;font-size:18px;font-weight:600;text-align:left;outline:none;height:42px}
   .topup-input-block input:focus{border-color:#FFD24C}
   .topup-input-block input::placeholder{color:#6B7280;font-weight:400;font-size:15px}
-  .topup-confirm{background:#FFD24C;color:#0B0E14;padding:14px 20px;border-radius:16px;border:none;font-family:'Montserrat',sans-serif;font-size:18px;font-weight:700;cursor:pointer;width:100%;transition:0.2s;margin-top:8px;opacity:0.5;pointer-events:none}
+  .topup-confirm{background:#FFD24C;color:#0B0E14;padding:14px 20px;border-radius:16px;border:none;font-family:'Montserrat',sans-serif;font-size:18px;font-weight:700;cursor:pointer;width:100%;max-width:380px;transition:0.2s;margin-top:auto;margin-bottom:24px;position:absolute;bottom:0;left:50%;transform:translateX(-50%)}
+  .topup-confirm:active{transform:translateX(-50%) scale(0.96)}
+  .topup-confirm.disabled{opacity:0.4;pointer-events:none}
 
   .widget-wrapper{display:flex;justify-content:center;align-items:center;padding:4px 20px 8px;width:100%}
   .widget-panel{width:100%;max-width:360px;height:70px;border-radius:24px;background:rgba(255,255,255,0.06);backdrop-filter:blur(10px) saturate(180%);-webkit-backdrop-filter:blur(10px) saturate(180%);border:1px solid rgba(255,255,255,0.08);display:flex;justify-content:space-around;align-items:center;padding:0 12px;box-shadow:0 4px 30px rgba(0,0,0,0.2)}
@@ -154,8 +156,8 @@
           <label>Сумма (минимум 50₽)</label>
           <input type="number" id="amountInput" placeholder="Введите сумму.." min="50" step="1">
         </div>
-        <button class="topup-confirm" id="topupConfirmBtn">Оплатить</button>
       </div>
+      <button class="topup-confirm disabled" id="topupConfirmBtn">Оплатить</button>
     </div>
 
     <div class="widget-wrapper">
