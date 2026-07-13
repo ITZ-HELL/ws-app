@@ -63,10 +63,17 @@
   .back-wrapper{position:absolute;top:16px;left:16px;background:rgba(255,255,255,0.06);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border-radius:12px;padding:8px 16px;border:1px solid rgba(255,255,255,0.06);z-index:5}
   .back-btn{background:none;border:none;color:#FFFFFF;font-family:'Montserrat',sans-serif;font-size:16px;font-weight:700;cursor:pointer;padding:0;line-height:1}
 
-  .topup-content{display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:0 20px;width:100%;max-width:380px;margin-top:10px}
-  .topup-island{background:#000000;border-radius:24px;padding:20px 24px;border:1px solid rgba(255,255,255,0.04);box-shadow:0 4px 30px rgba(0,0,0,0.3);width:100%;margin-bottom:16px}
+  .topup-content{display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding:0 20px;width:100%;max-width:380px;margin-top:10px;gap:12px}
+  .topup-island{background:#000000;border-radius:24px;padding:20px 24px;border:1px solid rgba(255,255,255,0.04);box-shadow:0 4px 30px rgba(0,0,0,0.3);width:100%}
   .topup-island .title{font-family:'Montserrat',sans-serif;font-size:18px;font-weight:700;color:#FFFFFF;margin-bottom:4px}
   .topup-island .sub{font-family:'Montserrat',sans-serif;font-size:13px;font-weight:400;color:#9CA3AF;letter-spacing:0.3px}
+
+  .currency-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;width:100%}
+  .currency-btn{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);border-radius:14px;padding:14px 12px;text-align:center;font-family:'Montserrat',sans-serif;font-size:15px;font-weight:600;color:#FFFFFF;cursor:pointer;transition:0.2s}
+  .currency-btn:active{transform:scale(0.96)}
+  .currency-btn.active{background:rgba(255,210,76,0.12);border-color:#FFD24C;color:#FFD24C}
+  .currency-btn.extra{background:rgba(255,255,255,0.02);border-color:rgba(255,255,255,0.04);color:#9CA3AF;font-weight:400}
+  .currency-btn.extra.active{background:rgba(255,210,76,0.08);border-color:#FFD24C;color:#FFD24C}
 
   .widget-wrapper{display:flex;justify-content:center;align-items:center;padding:4px 20px 8px;width:100%}
   .widget-panel{width:100%;max-width:360px;height:70px;border-radius:24px;background:rgba(255,255,255,0.06);backdrop-filter:blur(10px) saturate(180%);-webkit-backdrop-filter:blur(10px) saturate(180%);border:1px solid rgba(255,255,255,0.08);display:flex;justify-content:space-around;align-items:center;padding:0 12px;box-shadow:0 4px 30px rgba(0,0,0,0.2)}
@@ -148,8 +155,20 @@
       </div>
       <div class="topup-content">
         <div class="topup-island">
-          <div class="title">Пополнение</div>
-          <div class="sub">Здесь будет форма пополнения</div>
+          <div class="title">Выберите валюту</div>
+          <div class="sub">Способ пополнения</div>
+        </div>
+        <div class="currency-grid">
+          <button class="currency-btn active">Рубли</button>
+          <button class="currency-btn">Gram</button>
+          <button class="currency-btn">Telegram Stars</button>
+          <button class="currency-btn extra" onclick="this.classList.toggle('active')">Ещё</button>
+        </div>
+        <div class="currency-grid" style="margin-top:4px;">
+          <button class="currency-btn extra">USDT</button>
+          <button class="currency-btn extra">Белорусские рубли</button>
+          <button class="currency-btn extra">Тенге</button>
+          <button class="currency-btn extra">ММ2</button>
         </div>
       </div>
     </div>
@@ -318,6 +337,19 @@
           b.classList.toggle('active', b.dataset.page === 'home');
         });
         current = 'home';
+      });
+
+      document.querySelectorAll('.currency-btn').forEach(function(btn) {
+        btn.addEventListener('click', function() {
+          if (this.classList.contains('extra')) {
+            this.classList.toggle('active');
+          } else {
+            document.querySelectorAll('.currency-btn:not(.extra)').forEach(function(b) {
+              b.classList.remove('active');
+            });
+            this.classList.add('active');
+          }
+        });
       });
     })();
   </script>
