@@ -56,7 +56,7 @@
 
   .empty-page{display:none;flex-direction:column;align-items:center;justify-content:center;width:100%;height:100%;position:absolute;top:0;left:0;z-index:20;background:rgba(11,14,20,0.8);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
   .empty-page.active{display:flex}
-  .empty-back{position:absolute;top:16px;left:16px;background:rgba(255,255,255,0.06);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border-radius:12px;padding:8px 16px;border:1px solid rgba(255,255,255,0.06);z-index:5;color:#FFFFFF;font-family:'Montserrat',sans-serif;font-size:16px;font-weight:700;cursor:pointer;border:none}
+  .empty-back{position:absolute;top:12px;left:16px;background:rgba(255,255,255,0.06);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border-radius:12px;padding:6px 14px;border:1px solid rgba(255,255,255,0.06);z-index:5;color:#FFFFFF;font-family:'Montserrat',sans-serif;font-size:15px;font-weight:700;cursor:pointer;border:none}
 
   .topup-page{display:none;flex-direction:column;align-items:center;justify-content:flex-start;width:100%;height:100%;position:absolute;top:0;left:0;z-index:20;background:rgba(11,14,20,0.8);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);padding-top:70px}
   .topup-page.active{display:flex}
@@ -83,19 +83,18 @@
   .topup-confirm:active{transform:scale(0.96)}
   .topup-confirm a{color:#0B0E14;text-decoration:none;display:block;width:100%;height:100%}
 
-  .upgrade-container{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;width:100%;max-width:380px;padding:20px}
-  .wheel-wrap{position:relative;width:280px;height:280px}
-  .ring-ticks{position:absolute;inset:0;border-radius:50%;background:repeating-conic-gradient(from 0deg,#35353f 0deg 1.2deg,transparent 1.2deg 6deg);-webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 12px),#000 calc(100% - 12px));mask:radial-gradient(farthest-side,transparent calc(100% - 12px),#000 calc(100% - 12px));opacity:0.7}
+  .upgrade-container{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;width:100%;max-width:380px;padding:10px 20px 20px;margin-top:-8px}
+  .wheel-wrap{position:relative;width:260px;height:260px}
   .wheel-bg{position:absolute;inset:12px;border-radius:50%;background:#17171d}
   .wheel-arc{position:absolute;inset:12px;border-radius:50%;background:conic-gradient(from 0deg,#232329 0deg,#232329 125deg,#ff7a00 125deg,#ffcc00 180deg,#ff7a00 235deg,#232329 235deg,#232329 360deg);-webkit-mask:radial-gradient(farthest-side,transparent calc(100% - 26px),#000 calc(100% - 26px));mask:radial-gradient(farthest-side,transparent calc(100% - 26px),#000 calc(100% - 26px));filter:drop-shadow(0 0 14px rgba(255,150,0,0.35))}
   .center-empty{position:absolute;inset:40px;border-radius:50%;background:radial-gradient(circle at 50% 40%,#1c1c24,#101014 80%)}
   .pointer-rotator{position:absolute;inset:0;transform:rotate(0deg);z-index:5}
   .arrow{position:absolute;bottom:-14px;left:50%;width:40px;height:26px;transform:translateX(-50%)}
   .arrow svg{width:100%;height:100%;filter:drop-shadow(0 0 6px rgba(255,212,0,0.85))}
-  .spin-btn{background:#FFD24C;color:#0B0E14;padding:14px 20px;border-radius:16px;border:none;font-family:'Montserrat',sans-serif;font-size:18px;font-weight:700;cursor:pointer;width:100%;max-width:280px;transition:0.2s}
+  .spin-btn{background:#FFD24C;color:#0B0E14;padding:8px 24px;border-radius:14px;border:none;font-family:'Montserrat',sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:0.2s;letter-spacing:1.5px;width:auto}
   .spin-btn:active{transform:scale(0.96)}
   .spin-btn:disabled{opacity:0.4;pointer-events:none}
-  .result{font-family:'Montserrat',sans-serif;font-size:20px;font-weight:800;height:26px;letter-spacing:1px}
+  .result{font-family:'Montserrat',sans-serif;font-size:18px;font-weight:800;height:24px;letter-spacing:1px;margin-top:2px}
   .result.success{color:#FFD24C}
   .result.fail{color:#ff4d4d}
 
@@ -185,7 +184,7 @@
             </div>
           </div>
         </div>
-        <button class="spin-btn" id="spinBtn">КРУТИТЬ</button>
+        <button class="spin-btn" id="spinBtn">UPGRADE</button>
         <div class="result" id="result"></div>
       </div>
     </div>
