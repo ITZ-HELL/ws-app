@@ -98,18 +98,10 @@
   .upgrade-btn:active{transform:scale(0.95)}
   .spacer{flex:0;min-height:4px}
 
-  .upgrade-bottom{width:100%;max-width:380px;padding:0 20px;margin-top:20px;display:flex;gap:12px;flex:1;min-height:0}
-  .upgrade-col{flex:1;background:rgba(255,255,255,0.05);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-radius:16px;border:1px solid rgba(255,255,255,0.06);padding:12px;display:flex;flex-direction:column;align-items:center;overflow:hidden}
+  .upgrade-bottom{width:100%;max-width:380px;padding:0;margin-top:20px;display:flex;gap:16px;flex:1;min-height:120px}
+  .upgrade-col{flex:1;background:rgba(255,255,255,0.05);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-radius:16px;border:1px solid rgba(255,255,255,0.06);padding:14px 12px;display:flex;flex-direction:column;align-items:center;min-height:120px}
   .upgrade-col-title{font-family:'Montserrat',sans-serif;font-size:12px;font-weight:700;color:#9CA3AF;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px}
-  .upgrade-col-items{display:flex;flex-direction:column;gap:6px;width:100%;overflow-y:auto;flex:1}
-  .upgrade-item{background:rgba(255,255,255,0.04);border-radius:10px;padding:8px 10px;display:flex;justify-content:space-between;align-items:center;font-family:'Montserrat',sans-serif;font-size:13px;color:#FFFFFF;border:1px solid rgba(255,255,255,0.04);cursor:pointer;transition:0.2s;flex-shrink:0}
-  .upgrade-item:hover{background:rgba(255,255,255,0.08)}
-  .upgrade-item .name{font-weight:600}
-  .upgrade-item .count{color:#9CA3AF;font-weight:500}
-  .upgrade-item .select-btn{background:rgba(255,210,76,0.15);color:#FFD24C;border:1px solid rgba(255,210,76,0.2);border-radius:8px;padding:2px 12px;font-size:11px;font-weight:700;cursor:pointer;transition:0.2s;font-family:'Montserrat',sans-serif}
-  .upgrade-item .select-btn:hover{background:rgba(255,210,76,0.25)}
-  .upgrade-item .select-btn.active{background:#FFD24C;color:#0B0E14;border-color:#FFD24C}
-  .upgrade-col-empty{font-family:'Montserrat',sans-serif;font-size:13px;color:#6B7280;text-align:center;margin-top:20px}
+  .upgrade-col-empty{font-family:'Montserrat',sans-serif;font-size:13px;color:#6B7280;text-align:center;margin-top:20px;flex:1;display:flex;align-items:center;justify-content:center}
 
   .widget-wrapper{display:flex;justify-content:center;align-items:center;padding:4px 20px 8px;width:100%}
   .widget-panel{width:100%;max-width:360px;height:70px;border-radius:24px;background:rgba(255,255,255,0.06);backdrop-filter:blur(10px) saturate(180%);-webkit-backdrop-filter:blur(10px) saturate(180%);border:1px solid rgba(255,255,255,0.08);display:flex;justify-content:space-around;align-items:center;padding:0 12px;box-shadow:0 4px 30px rgba(0,0,0,0.2)}
@@ -203,37 +195,11 @@
         <div class="upgrade-bottom">
           <div class="upgrade-col">
             <div class="upgrade-col-title">Инвентарь</div>
-            <div class="upgrade-col-items" id="inventoryList">
-              <div class="upgrade-item">
-                <span class="name">AK-47</span>
-                <span class="count">×2</span>
-              </div>
-              <div class="upgrade-item">
-                <span class="name">M4A4</span>
-                <span class="count">×1</span>
-              </div>
-              <div class="upgrade-item">
-                <span class="name">Knife</span>
-                <span class="count">×1</span>
-              </div>
-            </div>
+            <div class="upgrade-col-empty">Пусто</div>
           </div>
           <div class="upgrade-col">
-            <div class="upgrade-col-title">Выбрать</div>
-            <div class="upgrade-col-items" id="upgradeSelectList">
-              <div class="upgrade-item">
-                <span class="name">AK-47</span>
-                <button class="select-btn active">✓</button>
-              </div>
-              <div class="upgrade-item">
-                <span class="name">M4A4</span>
-                <button class="select-btn">Выбрать</button>
-              </div>
-              <div class="upgrade-item">
-                <span class="name">Knife</span>
-                <button class="select-btn">Выбрать</button>
-              </div>
-            </div>
+            <div class="upgrade-col-title">Улучшить на..</div>
+            <div class="upgrade-col-empty">Пусто</div>
           </div>
         </div>
       </div>
@@ -442,18 +408,6 @@
             b.classList.remove('active');
           });
           this.classList.add('active');
-        });
-      });
-
-      document.querySelectorAll('.select-btn').forEach(function(btn) {
-        btn.addEventListener('click', function(e) {
-          e.stopPropagation();
-          document.querySelectorAll('.select-btn').forEach(function(b) {
-            b.classList.remove('active');
-            b.textContent = 'Выбрать';
-          });
-          this.classList.add('active');
-          this.textContent = '✓';
         });
       });
 
