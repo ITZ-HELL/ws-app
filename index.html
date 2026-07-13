@@ -107,6 +107,16 @@
   .upgrade-col-title{font-family:'Montserrat',sans-serif;font-size:12px;font-weight:700;color:#9CA3AF;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px}
   .upgrade-col-empty{font-family:'Montserrat',sans-serif;font-size:13px;color:#6B7280;text-align:center;margin-top:20px;flex:1;display:flex;align-items:center;justify-content:center}
 
+  /* --- СТИЛИ ДЛЯ ТАЧКИ --- */
+  .cars-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;width:100%;margin-top:4px}
+  .car-card{background:linear-gradient(145deg,rgba(255,215,0,0.15),rgba(255,215,0,0.05));border:1px solid rgba(255,215,0,0.3);border-radius:12px;padding:6px;display:flex;flex-direction:column;align-items:center;cursor:pointer;transition:all 0.3s ease;position:relative;overflow:hidden;box-shadow:0 0 20px rgba(255,215,0,0.1)}
+  .car-card::before{content:'';position:absolute;inset:-2px;background:linear-gradient(45deg,transparent,rgba(255,215,0,0.1),transparent);background-size:200% 200%;animation:goldShine 3s ease-in-out infinite;border-radius:12px;z-index:0}
+  .car-card::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at 30% 20%,rgba(255,215,0,0.08),transparent 70%);z-index:0;pointer-events:none}
+  @keyframes goldShine{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+  .car-card:active{transform:scale(0.95)}
+  .car-card img{width:100%;height:auto;max-height:70px;object-fit:contain;position:relative;z-index:1;filter:drop-shadow(0 2px 8px rgba(255,215,0,0.2))}
+  .car-card .car-name{font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;color:#FFD24C;position:relative;z-index:1;margin-top:2px;text-shadow:0 0 10px rgba(255,215,0,0.3)}
+
   .widget-wrapper{display:flex;justify-content:center;align-items:center;padding:4px 20px 8px;width:100%}
   .widget-panel{width:100%;max-width:360px;height:70px;border-radius:24px;background:rgba(255,255,255,0.06);backdrop-filter:blur(10px) saturate(180%);-webkit-backdrop-filter:blur(10px) saturate(180%);border:1px solid rgba(255,255,255,0.08);display:flex;justify-content:space-around;align-items:center;padding:0 12px;box-shadow:0 4px 30px rgba(0,0,0,0.2)}
   .nav-btn{display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:none;padding:4px 12px;cursor:pointer;border-radius:14px;flex:1;font-family:inherit;transition:0.2s}
@@ -208,7 +218,12 @@
           </div>
           <div class="upgrade-col">
             <div class="upgrade-col-title">Улучшение</div>
-            <div class="upgrade-col-empty">Пусто</div>
+            <div class="cars-grid">
+              <div class="car-card" data-car="Ferrari F40">
+                <img src="https://i.postimg.cc/hvyKkhLg/Picsart-26-07-13-22-48-03-144.png" alt="Ferrari F40" loading="lazy">
+                <span class="car-name">Ferrari F40</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
