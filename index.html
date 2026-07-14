@@ -108,16 +108,18 @@
   .upgrade-col-empty{font-family:'Montserrat',sans-serif;font-size:13px;color:#6B7280;text-align:center;margin-top:12px;flex:1;display:flex;align-items:center;justify-content:center}
 
   .cars-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;width:100%;margin-top:2px}
-  .car-card{position:relative;background:#0B0E14;border-radius:12px;padding:4px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.2s ease;min-height:80px;border:2px solid rgba(255,215,0,0.15);box-shadow:0 0 20px rgba(255,215,0,0.03)}
-  .car-card::before{content:'';position:absolute;inset:-2px;border-radius:14px;padding:2px;background:linear-gradient(135deg,rgba(255,215,0,0.3),transparent 40%,rgba(255,215,0,0.1));-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none}
-  .car-card::after{content:'';position:absolute;inset:0;border-radius:12px;background:radial-gradient(circle at 30% 30%,rgba(255,215,0,0.04),transparent 70%);pointer-events:none}
-  .car-card:active{transform:scale(0.95);border-color:rgba(255,215,0,0.4);box-shadow:0 0 40px rgba(255,215,0,0.1)}
-  .car-card .corner{position:absolute;width:10px;height:10px;border-color:rgba(255,215,0,0.25);border-style:solid;border-width:0;pointer-events:none}
-  .car-card .corner.tl{top:3px;left:3px;border-top-width:2px;border-left-width:2px;border-radius:2px 0 0 0}
-  .car-card .corner.tr{top:3px;right:3px;border-top-width:2px;border-right-width:2px;border-radius:0 2px 0 0}
-  .car-card .corner.bl{bottom:3px;left:3px;border-bottom-width:2px;border-left-width:2px;border-radius:0 0 0 2px}
-  .car-card .corner.br{bottom:3px;right:3px;border-bottom-width:2px;border-right-width:2px;border-radius:0 0 2px 0}
-  .car-card img{width:100%;height:auto;max-height:65px;object-fit:contain;position:relative;z-index:1;pointer-events:none;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;filter:drop-shadow(0 2px 12px rgba(0,0,0,0.5))}
+  .car-card{position:relative;background:rgba(0,0,0,0.6);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);border-radius:10px;padding:3px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.2s ease;min-height:68px;border:1.5px solid transparent;background-clip:padding-box;box-shadow:0 0 25px rgba(255,215,0,0.03)}
+  .car-card::before{content:'';position:absolute;inset:-1.5px;border-radius:11px;padding:1.5px;background:linear-gradient(135deg,rgba(255,215,0,0.6),rgba(255,200,0,0.2),rgba(255,215,0,0.6),rgba(255,180,0,0.1));background-size:300% 300%;-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none;animation:borderShine 4s ease-in-out infinite}
+  .car-card::after{content:'';position:absolute;inset:0;border-radius:10px;background:radial-gradient(circle at 30% 30%,rgba(255,215,0,0.05),transparent 70%);pointer-events:none}
+  @keyframes borderShine{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+  .car-card:active{transform:scale(0.94);background:rgba(0,0,0,0.8)}
+  .car-card .corner{position:absolute;width:8px;height:8px;border-color:rgba(255,215,0,0.3);border-style:solid;border-width:0;pointer-events:none;transition:border-color 0.3s}
+  .car-card .corner.tl{top:3px;left:3px;border-top-width:1.5px;border-left-width:1.5px;border-radius:2px 0 0 0}
+  .car-card .corner.tr{top:3px;right:3px;border-top-width:1.5px;border-right-width:1.5px;border-radius:0 2px 0 0}
+  .car-card .corner.bl{bottom:3px;left:3px;border-bottom-width:1.5px;border-left-width:1.5px;border-radius:0 0 0 2px}
+  .car-card .corner.br{bottom:3px;right:3px;border-bottom-width:1.5px;border-right-width:1.5px;border-radius:0 0 2px 0}
+  .car-card:active .corner{border-color:rgba(255,215,0,0.7)}
+  .car-card img{width:100%;height:auto;max-height:58px;object-fit:contain;position:relative;z-index:1;pointer-events:none;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;filter:drop-shadow(0 2px 10px rgba(0,0,0,0.6))}
 
   .widget-wrapper{display:flex;justify-content:center;align-items:center;padding:4px 20px 8px;width:100%}
   .widget-panel{width:100%;max-width:360px;height:70px;border-radius:24px;background:rgba(255,255,255,0.06);backdrop-filter:blur(10px) saturate(180%);-webkit-backdrop-filter:blur(10px) saturate(180%);border:1px solid rgba(255,255,255,0.08);display:flex;justify-content:space-around;align-items:center;padding:0 12px;box-shadow:0 4px 30px rgba(0,0,0,0.2)}
