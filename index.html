@@ -98,9 +98,14 @@
   .upgrade-btn:active{transform:scale(0.95)}
   .spacer{flex:0;min-height:4px}
 
-  .upgrade-top{width:100%;max-width:480px;padding:0;margin-top:16px;display:flex;gap:12px;flex:0;align-items:stretch}
-  .upgrade-top-col{flex:1;background:rgba(255,255,255,0.05);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-radius:12px;border:1px solid rgba(255,255,255,0.06);padding:10px 12px;display:flex;flex-direction:column;align-items:center;min-height:50px;max-height:50px;justify-content:center}
-  .upgrade-top-col.empty{background:transparent;border:1px dashed rgba(255,255,255,0.1)}
+  .upgrade-top{width:100%;max-width:480px;padding:0;margin-top:16px;display:flex;gap:16px;flex:0;align-items:stretch}
+  .upgrade-top-col{flex:1;background:rgba(255,255,255,0.05);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-radius:16px;border:1px solid rgba(255,255,255,0.06);padding:14px 12px;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100px;max-height:100px;transition:all 0.3s ease}
+  .upgrade-top-col.empty{background:rgba(255,255,255,0.03);border:1px dashed rgba(255,255,255,0.12)}
+  .upgrade-top-col .placeholder{font-family:'Montserrat',sans-serif;font-size:13px;color:#6B7280;text-align:center}
+  .upgrade-top-col .selected-car{display:flex;flex-direction:column;align-items:center;width:100%;height:100%;justify-content:center;padding:4px}
+  .upgrade-top-col .selected-car img{width:100%;height:auto;max-height:70px;object-fit:contain;filter:drop-shadow(0 2px 8px rgba(0,0,0,0.4))}
+  .upgrade-top-col .selected-car .car-price{font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;color:#FFD24C;margin-top:2px;text-shadow:0 0 10px rgba(255,215,0,0.2)}
+  .upgrade-top-col .selected-car .car-rarity{position:absolute;top:4px;right:6px;font-size:8px;font-weight:700;color:rgba(255,215,0,0.4);text-transform:uppercase;letter-spacing:0.5px}
 
   .upgrade-bottom{width:100%;max-width:480px;padding:0;margin-top:12px;display:flex;gap:16px;flex:1;min-height:120px}
   .upgrade-col{flex:1;background:rgba(255,255,255,0.05);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-radius:16px;border:1px solid rgba(255,255,255,0.06);padding:10px 10px;display:flex;flex-direction:column;align-items:center;min-height:120px;max-height:300px;overflow-y:auto}
@@ -127,6 +132,12 @@
   .car-card.blue::before{background:linear-gradient(135deg,rgba(50,150,255,0.7),rgba(0,80,200,0.3),rgba(50,150,255,0.7),rgba(0,50,150,0.2));background-size:300% 300%}
   .car-card.blue .glow{background:radial-gradient(circle at 30% 20%,rgba(50,150,255,0.15),transparent 60%)}
   .car-card.blue{box-shadow:0 0 30px rgba(50,150,255,0.06)}
+
+  .car-card.selected{border-color:rgba(255,215,0,0.5);box-shadow:0 0 30px rgba(255,215,0,0.15)}
+  .car-card.selected::before{opacity:1;animation:borderShine 1.5s ease-in-out infinite}
+
+  .car-card.selected.red{border-color:rgba(255,50,50,0.6);box-shadow:0 0 30px rgba(255,50,50,0.15)}
+  .car-card.selected.blue{border-color:rgba(50,150,255,0.6);box-shadow:0 0 30px rgba(50,150,255,0.15)}
 
   .widget-wrapper{display:flex;justify-content:center;align-items:center;padding:4px 20px 8px;width:100%}
   .widget-panel{width:100%;max-width:360px;height:70px;border-radius:24px;background:rgba(255,255,255,0.06);backdrop-filter:blur(10px) saturate(180%);-webkit-backdrop-filter:blur(10px) saturate(180%);border:1px solid rgba(255,255,255,0.08);display:flex;justify-content:space-around;align-items:center;padding:0 12px;box-shadow:0 4px 30px rgba(0,0,0,0.2)}
@@ -217,8 +228,12 @@
         <div class="result" id="result"></div>
 
         <div class="upgrade-top">
-          <div class="upgrade-top-col empty"></div>
-          <div class="upgrade-top-col empty"></div>
+          <div class="upgrade-top-col empty" id="leftSlot">
+            <div class="placeholder">Выберите тачку</div>
+          </div>
+          <div class="upgrade-top-col empty" id="rightSlot">
+            <div class="placeholder">Для апгрейда</div>
+          </div>
         </div>
 
         <div class="upgrade-bottom">
@@ -228,8 +243,8 @@
           </div>
           <div class="upgrade-col">
             <div class="upgrade-col-title">Улучшение</div>
-            <div class="cars-grid">
-              <div class="car-card">
+            <div class="cars-grid" id="carsGrid">
+              <div class="car-card" data-price="3КК" data-image="https://i.postimg.cc/hvyKkhLg/Picsart-26-07-13-22-48-03-144.png" data-rarity="yellow">
                 <div class="glow"></div>
                 <div class="badge">
                   <img src="https://i.postimg.cc/8z0TVWNs/Picsart-26-07-14-09-26-34-836.png" alt="3KK" loading="lazy">
@@ -237,7 +252,7 @@
                 </div>
                 <img src="https://i.postimg.cc/hvyKkhLg/Picsart-26-07-13-22-48-03-144.png" alt="" loading="lazy">
               </div>
-              <div class="car-card">
+              <div class="car-card" data-price="1.3КК" data-image="https://i.postimg.cc/Hsd1yzBN/Picsart-26-07-14-08-34-49-039.png" data-rarity="yellow">
                 <div class="glow"></div>
                 <div class="badge">
                   <img src="https://i.postimg.cc/8z0TVWNs/Picsart-26-07-14-09-26-34-836.png" alt="1.3KK" loading="lazy">
@@ -245,7 +260,7 @@
                 </div>
                 <img src="https://i.postimg.cc/Hsd1yzBN/Picsart-26-07-14-08-34-49-039.png" alt="" loading="lazy">
               </div>
-              <div class="car-card">
+              <div class="car-card" data-price="950К" data-image="https://i.postimg.cc/CMcD9hz8/Picsart-26-07-14-09-46-03-456.png" data-rarity="yellow">
                 <div class="glow"></div>
                 <div class="badge">
                   <img src="https://i.postimg.cc/8z0TVWNs/Picsart-26-07-14-09-26-34-836.png" alt="950K" loading="lazy">
@@ -253,7 +268,7 @@
                 </div>
                 <img src="https://i.postimg.cc/CMcD9hz8/Picsart-26-07-14-09-46-03-456.png" alt="" loading="lazy">
               </div>
-              <div class="car-card red">
+              <div class="car-card red" data-price="800К" data-image="https://i.postimg.cc/2SSCMYLB/Picsart-26-07-14-09-50-24-714.png" data-rarity="red">
                 <div class="glow"></div>
                 <div class="badge">
                   <img src="https://i.postimg.cc/8z0TVWNs/Picsart-26-07-14-09-26-34-836.png" alt="800K" loading="lazy">
@@ -261,7 +276,7 @@
                 </div>
                 <img src="https://i.postimg.cc/2SSCMYLB/Picsart-26-07-14-09-50-24-714.png" alt="" loading="lazy">
               </div>
-              <div class="car-card red">
+              <div class="car-card red" data-price="700К" data-image="https://i.postimg.cc/P5VvF2xb/Picsart-26-07-14-10-00-02-455.png" data-rarity="red">
                 <div class="glow"></div>
                 <div class="badge">
                   <img src="https://i.postimg.cc/8z0TVWNs/Picsart-26-07-14-09-26-34-836.png" alt="700K" loading="lazy">
@@ -269,7 +284,7 @@
                 </div>
                 <img src="https://i.postimg.cc/P5VvF2xb/Picsart-26-07-14-10-00-02-455.png" alt="" loading="lazy">
               </div>
-              <div class="car-card red">
+              <div class="car-card red" data-price="600К" data-image="https://i.postimg.cc/RCGSRqqs/Picsart-26-07-14-10-03-05-921.png" data-rarity="red">
                 <div class="glow"></div>
                 <div class="badge">
                   <img src="https://i.postimg.cc/8z0TVWNs/Picsart-26-07-14-09-26-34-836.png" alt="600K" loading="lazy">
@@ -277,7 +292,7 @@
                 </div>
                 <img src="https://i.postimg.cc/RCGSRqqs/Picsart-26-07-14-10-03-05-921.png" alt="" loading="lazy">
               </div>
-              <div class="car-card red">
+              <div class="car-card red" data-price="600К" data-image="https://i.postimg.cc/LX6764Rf/Picsart-26-07-14-10-05-31-892.png" data-rarity="red">
                 <div class="glow"></div>
                 <div class="badge">
                   <img src="https://i.postimg.cc/8z0TVWNs/Picsart-26-07-14-09-26-34-836.png" alt="600K" loading="lazy">
@@ -285,7 +300,7 @@
                 </div>
                 <img src="https://i.postimg.cc/LX6764Rf/Picsart-26-07-14-10-05-31-892.png" alt="" loading="lazy">
               </div>
-              <div class="car-card red">
+              <div class="car-card red" data-price="550К" data-image="https://i.postimg.cc/7LY3c5wn/Picsart-26-07-14-10-23-14-110.png" data-rarity="red">
                 <div class="glow"></div>
                 <div class="badge">
                   <img src="https://i.postimg.cc/8z0TVWNs/Picsart-26-07-14-09-26-34-836.png" alt="550K" loading="lazy">
@@ -293,7 +308,7 @@
                 </div>
                 <img src="https://i.postimg.cc/7LY3c5wn/Picsart-26-07-14-10-23-14-110.png" alt="" loading="lazy">
               </div>
-              <div class="car-card blue">
+              <div class="car-card blue" data-price="450К" data-image="https://i.postimg.cc/BQmQpb7q/Picsart-26-07-14-10-27-06-491.png" data-rarity="blue">
                 <div class="glow"></div>
                 <div class="badge">
                   <img src="https://i.postimg.cc/8z0TVWNs/Picsart-26-07-14-09-26-34-836.png" alt="450K" loading="lazy">
@@ -301,7 +316,7 @@
                 </div>
                 <img src="https://i.postimg.cc/BQmQpb7q/Picsart-26-07-14-10-27-06-491.png" alt="" loading="lazy">
               </div>
-              <div class="car-card blue">
+              <div class="car-card blue" data-price="350К" data-image="https://i.postimg.cc/mk6JcvVB/Picsart-26-07-14-10-30-06-069.png" data-rarity="blue">
                 <div class="glow"></div>
                 <div class="badge">
                   <img src="https://i.postimg.cc/8z0TVWNs/Picsart-26-07-14-09-26-34-836.png" alt="350K" loading="lazy">
@@ -309,7 +324,7 @@
                 </div>
                 <img src="https://i.postimg.cc/mk6JcvVB/Picsart-26-07-14-10-30-06-069.png" alt="" loading="lazy">
               </div>
-              <div class="car-card blue">
+              <div class="car-card blue" data-price="330К" data-image="https://i.postimg.cc/tRS0xZ4b/Picsart-26-07-14-11-59-11-576.png" data-rarity="blue">
                 <div class="glow"></div>
                 <div class="badge">
                   <img src="https://i.postimg.cc/8z0TVWNs/Picsart-26-07-14-09-26-34-836.png" alt="330K" loading="lazy">
@@ -317,7 +332,7 @@
                 </div>
                 <img src="https://i.postimg.cc/tRS0xZ4b/Picsart-26-07-14-11-59-11-576.png" alt="" loading="lazy">
               </div>
-              <div class="car-card blue">
+              <div class="car-card blue" data-price="270К" data-image="https://i.postimg.cc/Jh1KxxTw/Picsart-26-07-14-12-01-46-379.png" data-rarity="blue">
                 <div class="glow"></div>
                 <div class="badge">
                   <img src="https://i.postimg.cc/8z0TVWNs/Picsart-26-07-14-09-26-34-836.png" alt="270K" loading="lazy">
@@ -325,7 +340,7 @@
                 </div>
                 <img src="https://i.postimg.cc/Jh1KxxTw/Picsart-26-07-14-12-01-46-379.png" alt="" loading="lazy">
               </div>
-              <div class="car-card blue">
+              <div class="car-card blue" data-price="270К" data-image="https://i.postimg.cc/T1qJnWrp/Picsart-26-07-14-12-04-12-558.png" data-rarity="blue">
                 <div class="glow"></div>
                 <div class="badge">
                   <img src="https://i.postimg.cc/8z0TVWNs/Picsart-26-07-14-09-26-34-836.png" alt="270K" loading="lazy">
@@ -333,7 +348,7 @@
                 </div>
                 <img src="https://i.postimg.cc/T1qJnWrp/Picsart-26-07-14-12-04-12-558.png" alt="" loading="lazy">
               </div>
-              <div class="car-card blue">
+              <div class="car-card blue" data-price="250К" data-image="https://i.postimg.cc/qqbzfJr2/Picsart-26-07-14-12-06-30-489.png" data-rarity="blue">
                 <div class="glow"></div>
                 <div class="badge">
                   <img src="https://i.postimg.cc/8z0TVWNs/Picsart-26-07-14-09-26-34-836.png" alt="250K" loading="lazy">
@@ -341,7 +356,7 @@
                 </div>
                 <img src="https://i.postimg.cc/qqbzfJr2/Picsart-26-07-14-12-06-30-489.png" alt="" loading="lazy">
               </div>
-              <div class="car-card blue">
+              <div class="car-card blue" data-price="210К" data-image="https://i.postimg.cc/28JnVDLf/Picsart-26-07-14-12-36-03-208.png" data-rarity="blue">
                 <div class="glow"></div>
                 <div class="badge">
                   <img src="https://i.postimg.cc/8z0TVWNs/Picsart-26-07-14-09-26-34-836.png" alt="210K" loading="lazy">
@@ -349,7 +364,7 @@
                 </div>
                 <img src="https://i.postimg.cc/28JnVDLf/Picsart-26-07-14-12-36-03-208.png" alt="" loading="lazy">
               </div>
-              <div class="car-card blue">
+              <div class="car-card blue" data-price="210К" data-image="https://i.postimg.cc/ZYvd2QDd/Picsart-26-07-14-12-38-28-443.png" data-rarity="blue">
                 <div class="glow"></div>
                 <div class="badge">
                   <img src="https://i.postimg.cc/8z0TVWNs/Picsart-26-07-14-09-26-34-836.png" alt="210K" loading="lazy">
@@ -357,7 +372,7 @@
                 </div>
                 <img src="https://i.postimg.cc/ZYvd2QDd/Picsart-26-07-14-12-38-28-443.png" alt="" loading="lazy">
               </div>
-              <div class="car-card blue">
+              <div class="car-card blue" data-price="180К" data-image="https://i.postimg.cc/R0q7FZGk/Picsart-26-07-14-12-47-32-951.png" data-rarity="blue">
                 <div class="glow"></div>
                 <div class="badge">
                   <img src="https://i.postimg.cc/8z0TVWNs/Picsart-26-07-14-09-26-34-836.png" alt="180K" loading="lazy">
@@ -365,7 +380,7 @@
                 </div>
                 <img src="https://i.postimg.cc/R0q7FZGk/Picsart-26-07-14-12-47-32-951.png" alt="" loading="lazy">
               </div>
-              <div class="car-card blue">
+              <div class="car-card blue" data-price="180К" data-image="https://i.postimg.cc/J4WSB9fJ/Picsart-26-07-14-12-53-22-742.png" data-rarity="blue">
                 <div class="glow"></div>
                 <div class="badge">
                   <img src="https://i.postimg.cc/8z0TVWNs/Picsart-26-07-14-09-26-34-836.png" alt="180K" loading="lazy">
@@ -373,7 +388,7 @@
                 </div>
                 <img src="https://i.postimg.cc/J4WSB9fJ/Picsart-26-07-14-12-53-22-742.png" alt="" loading="lazy">
               </div>
-              <div class="car-card blue">
+              <div class="car-card blue" data-price="170К" data-image="https://i.postimg.cc/5yk1fp01/Picsart-26-07-14-12-49-37-862.png" data-rarity="blue">
                 <div class="glow"></div>
                 <div class="badge">
                   <img src="https://i.postimg.cc/8z0TVWNs/Picsart-26-07-14-09-26-34-836.png" alt="170K" loading="lazy">
@@ -381,7 +396,7 @@
                 </div>
                 <img src="https://i.postimg.cc/5yk1fp01/Picsart-26-07-14-12-49-37-862.png" alt="" loading="lazy">
               </div>
-              <div class="car-card blue">
+              <div class="car-card blue" data-price="160К" data-image="https://i.postimg.cc/VL6n46Pd/Picsart-26-07-14-12-56-36-344.png" data-rarity="blue">
                 <div class="glow"></div>
                 <div class="badge">
                   <img src="https://i.postimg.cc/8z0TVWNs/Picsart-26-07-14-09-26-34-836.png" alt="160K" loading="lazy">
@@ -389,7 +404,7 @@
                 </div>
                 <img src="https://i.postimg.cc/VL6n46Pd/Picsart-26-07-14-12-56-36-344.png" alt="" loading="lazy">
               </div>
-              <div class="car-card blue">
+              <div class="car-card blue" data-price="160К" data-image="https://i.postimg.cc/1XLmpJZy/Picsart-26-07-14-12-58-24-136.png" data-rarity="blue">
                 <div class="glow"></div>
                 <div class="badge">
                   <img src="https://i.postimg.cc/8z0TVWNs/Picsart-26-07-14-09-26-34-836.png" alt="160K" loading="lazy">
@@ -397,7 +412,7 @@
                 </div>
                 <img src="https://i.postimg.cc/1XLmpJZy/Picsart-26-07-14-12-58-24-136.png" alt="" loading="lazy">
               </div>
-              <div class="car-card blue">
+              <div class="car-card blue" data-price="150К" data-image="https://i.postimg.cc/bNg8YyZ2/Picsart-26-07-14-13-00-44-901.png" data-rarity="blue">
                 <div class="glow"></div>
                 <div class="badge">
                   <img src="https://i.postimg.cc/8z0TVWNs/Picsart-26-07-14-09-26-34-836.png" alt="150K" loading="lazy">
@@ -405,7 +420,7 @@
                 </div>
                 <img src="https://i.postimg.cc/bNg8YyZ2/Picsart-26-07-14-13-00-44-901.png" alt="" loading="lazy">
               </div>
-              <div class="car-card blue">
+              <div class="car-card blue" data-price="110К" data-image="https://i.postimg.cc/mZFyGk6y/Picsart-26-07-14-13-05-17-137.png" data-rarity="blue">
                 <div class="glow"></div>
                 <div class="badge">
                   <img src="https://i.postimg.cc/8z0TVWNs/Picsart-26-07-14-09-26-34-836.png" alt="110K" loading="lazy">
@@ -413,7 +428,7 @@
                 </div>
                 <img src="https://i.postimg.cc/mZFyGk6y/Picsart-26-07-14-13-05-17-137.png" alt="" loading="lazy">
               </div>
-              <div class="car-card blue">
+              <div class="car-card blue" data-price="110К" data-image="https://i.postimg.cc/B62bMrMP/Picsart-26-07-14-13-06-44-823.png" data-rarity="blue">
                 <div class="glow"></div>
                 <div class="badge">
                   <img src="https://i.postimg.cc/8z0TVWNs/Picsart-26-07-14-09-26-34-836.png" alt="110K" loading="lazy">
@@ -421,7 +436,7 @@
                 </div>
                 <img src="https://i.postimg.cc/B62bMrMP/Picsart-26-07-14-13-06-44-823.png" alt="" loading="lazy">
               </div>
-              <div class="car-card blue">
+              <div class="car-card blue" data-price="110К" data-image="https://i.postimg.cc/QxzDK6qr/Picsart-26-07-14-13-08-25-296.png" data-rarity="blue">
                 <div class="glow"></div>
                 <div class="badge">
                   <img src="https://i.postimg.cc/8z0TVWNs/Picsart-26-07-14-09-26-34-836.png" alt="110K" loading="lazy">
@@ -429,7 +444,7 @@
                 </div>
                 <img src="https://i.postimg.cc/QxzDK6qr/Picsart-26-07-14-13-08-25-296.png" alt="" loading="lazy">
               </div>
-              <div class="car-card blue">
+              <div class="car-card blue" data-price="100К" data-image="https://i.postimg.cc/sDsm9ywB/Picsart-26-07-14-13-16-22-131.png" data-rarity="blue">
                 <div class="glow"></div>
                 <div class="badge">
                   <img src="https://i.postimg.cc/8z0TVWNs/Picsart-26-07-14-09-26-34-836.png" alt="100K" loading="lazy">
@@ -437,7 +452,7 @@
                 </div>
                 <img src="https://i.postimg.cc/sDsm9ywB/Picsart-26-07-14-13-16-22-131.png" alt="" loading="lazy">
               </div>
-              <div class="car-card blue">
+              <div class="car-card blue" data-price="100К" data-image="https://i.postimg.cc/fTRXRbHR/Picsart-26-07-14-13-18-10-723.png" data-rarity="blue">
                 <div class="glow"></div>
                 <div class="badge">
                   <img src="https://i.postimg.cc/8z0TVWNs/Picsart-26-07-14-09-26-34-836.png" alt="100K" loading="lazy">
@@ -445,7 +460,7 @@
                 </div>
                 <img src="https://i.postimg.cc/fTRXRbHR/Picsart-26-07-14-13-18-10-723.png" alt="" loading="lazy">
               </div>
-              <div class="car-card blue">
+              <div class="car-card blue" data-price="90К" data-image="https://i.postimg.cc/cCrsPPmN/Picsart-26-07-14-13-22-02-704.png" data-rarity="blue">
                 <div class="glow"></div>
                 <div class="badge">
                   <img src="https://i.postimg.cc/8z0TVWNs/Picsart-26-07-14-09-26-34-836.png" alt="90K" loading="lazy">
@@ -453,7 +468,7 @@
                 </div>
                 <img src="https://i.postimg.cc/cCrsPPmN/Picsart-26-07-14-13-22-02-704.png" alt="" loading="lazy">
               </div>
-              <div class="car-card blue">
+              <div class="car-card blue" data-price="90К" data-image="https://i.postimg.cc/sgpVFY5L/Picsart-26-07-14-13-21-39-773.png" data-rarity="blue">
                 <div class="glow"></div>
                 <div class="badge">
                   <img src="https://i.postimg.cc/8z0TVWNs/Picsart-26-07-14-09-26-34-836.png" alt="90K" loading="lazy">
@@ -461,7 +476,7 @@
                 </div>
                 <img src="https://i.postimg.cc/sgpVFY5L/Picsart-26-07-14-13-21-39-773.png" alt="" loading="lazy">
               </div>
-              <div class="car-card blue">
+              <div class="car-card blue" data-price="80К" data-image="https://i.postimg.cc/j2PssPGX/Picsart-26-07-14-13-24-56-988.png" data-rarity="blue">
                 <div class="glow"></div>
                 <div class="badge">
                   <img src="https://i.postimg.cc/8z0TVWNs/Picsart-26-07-14-09-26-34-836.png" alt="80K" loading="lazy">
@@ -469,7 +484,7 @@
                 </div>
                 <img src="https://i.postimg.cc/j2PssPGX/Picsart-26-07-14-13-24-56-988.png" alt="" loading="lazy">
               </div>
-              <div class="car-card blue">
+              <div class="car-card blue" data-price="75К" data-image="https://i.postimg.cc/yY7qJM9x/Picsart-26-07-14-13-27-39-085.png" data-rarity="blue">
                 <div class="glow"></div>
                 <div class="badge">
                   <img src="https://i.postimg.cc/8z0TVWNs/Picsart-26-07-14-09-26-34-836.png" alt="75K" loading="lazy">
@@ -477,7 +492,7 @@
                 </div>
                 <img src="https://i.postimg.cc/yY7qJM9x/Picsart-26-07-14-13-27-39-085.png" alt="" loading="lazy">
               </div>
-              <div class="car-card blue">
+              <div class="car-card blue" data-price="75К" data-image="https://i.postimg.cc/Ssc5RdNH/Picsart-26-07-14-13-28-09-066.png" data-rarity="blue">
                 <div class="glow"></div>
                 <div class="badge">
                   <img src="https://i.postimg.cc/8z0TVWNs/Picsart-26-07-14-09-26-34-836.png" alt="75K" loading="lazy">
@@ -485,7 +500,7 @@
                 </div>
                 <img src="https://i.postimg.cc/Ssc5RdNH/Picsart-26-07-14-13-28-09-066.png" alt="" loading="lazy">
               </div>
-              <div class="car-card blue">
+              <div class="car-card blue" data-price="70К" data-image="https://i.postimg.cc/mrs7RyJP/Picsart-26-07-14-13-33-14-814.png" data-rarity="blue">
                 <div class="glow"></div>
                 <div class="badge">
                   <img src="https://i.postimg.cc/8z0TVWNs/Picsart-26-07-14-09-26-34-836.png" alt="70K" loading="lazy">
@@ -493,7 +508,7 @@
                 </div>
                 <img src="https://i.postimg.cc/mrs7RyJP/Picsart-26-07-14-13-33-14-814.png" alt="" loading="lazy">
               </div>
-              <div class="car-card blue">
+              <div class="car-card blue" data-price="70К" data-image="https://i.postimg.cc/vBmgHqzS/Picsart-26-07-14-13-34-53-880.png" data-rarity="blue">
                 <div class="glow"></div>
                 <div class="badge">
                   <img src="https://i.postimg.cc/8z0TVWNs/Picsart-26-07-14-09-26-34-836.png" alt="70K" loading="lazy">
@@ -501,7 +516,7 @@
                 </div>
                 <img src="https://i.postimg.cc/vBmgHqzS/Picsart-26-07-14-13-34-53-880.png" alt="" loading="lazy">
               </div>
-              <div class="car-card blue">
+              <div class="car-card blue" data-price="65К" data-image="https://i.postimg.cc/3JZBLRRv/Picsart-26-07-14-13-43-56-148.png" data-rarity="blue">
                 <div class="glow"></div>
                 <div class="badge">
                   <img src="https://i.postimg.cc/8z0TVWNs/Picsart-26-07-14-09-26-34-836.png" alt="65K" loading="lazy">
@@ -509,7 +524,7 @@
                 </div>
                 <img src="https://i.postimg.cc/3JZBLRRv/Picsart-26-07-14-13-43-56-148.png" alt="" loading="lazy">
               </div>
-              <div class="car-card blue">
+              <div class="car-card blue" data-price="60К" data-image="https://i.postimg.cc/0NzhRmMf/Picsart-26-07-14-13-53-06-926.png" data-rarity="blue">
                 <div class="glow"></div>
                 <div class="badge">
                   <img src="https://i.postimg.cc/8z0TVWNs/Picsart-26-07-14-09-26-34-836.png" alt="60K" loading="lazy">
@@ -517,7 +532,7 @@
                 </div>
                 <img src="https://i.postimg.cc/0NzhRmMf/Picsart-26-07-14-13-53-06-926.png" alt="" loading="lazy">
               </div>
-              <div class="car-card blue">
+              <div class="car-card blue" data-price="60К" data-image="https://i.postimg.cc/gjsg6kLk/Picsart-26-07-14-13-54-29-364.png" data-rarity="blue">
                 <div class="glow"></div>
                 <div class="badge">
                   <img src="https://i.postimg.cc/8z0TVWNs/Picsart-26-07-14-09-26-34-836.png" alt="60K" loading="lazy">
@@ -525,7 +540,7 @@
                 </div>
                 <img src="https://i.postimg.cc/gjsg6kLk/Picsart-26-07-14-13-54-29-364.png" alt="" loading="lazy">
               </div>
-              <div class="car-card blue">
+              <div class="car-card blue" data-price="60К" data-image="https://i.postimg.cc/zvQRQ9sZ/Picsart-26-07-14-13-57-09-869.png" data-rarity="blue">
                 <div class="glow"></div>
                 <div class="badge">
                   <img src="https://i.postimg.cc/8z0TVWNs/Picsart-26-07-14-09-26-34-836.png" alt="60K" loading="lazy">
@@ -533,7 +548,7 @@
                 </div>
                 <img src="https://i.postimg.cc/zvQRQ9sZ/Picsart-26-07-14-13-57-09-869.png" alt="" loading="lazy">
               </div>
-              <div class="car-card blue">
+              <div class="car-card blue" data-price="50К" data-image="https://i.postimg.cc/KvkCKtv5/Picsart-26-07-14-14-23-21-675.png" data-rarity="blue">
                 <div class="glow"></div>
                 <div class="badge">
                   <img src="https://i.postimg.cc/8z0TVWNs/Picsart-26-07-14-09-26-34-836.png" alt="50K" loading="lazy">
@@ -541,7 +556,7 @@
                 </div>
                 <img src="https://i.postimg.cc/KvkCKtv5/Picsart-26-07-14-14-23-21-675.png" alt="" loading="lazy">
               </div>
-              <div class="car-card blue">
+              <div class="car-card blue" data-price="50К" data-image="https://i.postimg.cc/Zn9sdhZk/Picsart-26-07-14-14-24-59-595.png" data-rarity="blue">
                 <div class="glow"></div>
                 <div class="badge">
                   <img src="https://i.postimg.cc/8z0TVWNs/Picsart-26-07-14-09-26-34-836.png" alt="50K" loading="lazy">
@@ -549,7 +564,7 @@
                 </div>
                 <img src="https://i.postimg.cc/Zn9sdhZk/Picsart-26-07-14-14-24-59-595.png" alt="" loading="lazy">
               </div>
-              <div class="car-card blue">
+              <div class="car-card blue" data-price="50К" data-image="https://i.postimg.cc/FKDTCKHh/Picsart-26-07-14-14-25-34-842.png" data-rarity="blue">
                 <div class="glow"></div>
                 <div class="badge">
                   <img src="https://i.postimg.cc/8z0TVWNs/Picsart-26-07-14-09-26-34-836.png" alt="50K" loading="lazy">
@@ -557,7 +572,7 @@
                 </div>
                 <img src="https://i.postimg.cc/FKDTCKHh/Picsart-26-07-14-14-25-34-842.png" alt="" loading="lazy">
               </div>
-              <div class="car-card blue">
+              <div class="car-card blue" data-price="50К" data-image="https://i.postimg.cc/FFdQSMTX/Picsart-26-07-14-14-25-57-556.png" data-rarity="blue">
                 <div class="glow"></div>
                 <div class="badge">
                   <img src="https://i.postimg.cc/8z0TVWNs/Picsart-26-07-14-09-26-34-836.png" alt="50K" loading="lazy">
@@ -565,7 +580,7 @@
                 </div>
                 <img src="https://i.postimg.cc/FFdQSMTX/Picsart-26-07-14-14-25-57-556.png" alt="" loading="lazy">
               </div>
-              <div class="car-card blue">
+              <div class="car-card blue" data-price="40К" data-image="https://i.postimg.cc/brsbYyPd/Picsart-26-07-14-14-42-08-593.png" data-rarity="blue">
                 <div class="glow"></div>
                 <div class="badge">
                   <img src="https://i.postimg.cc/8z0TVWNs/Picsart-26-07-14-09-26-34-836.png" alt="40K" loading="lazy">
@@ -573,7 +588,7 @@
                 </div>
                 <img src="https://i.postimg.cc/brsbYyPd/Picsart-26-07-14-14-42-08-593.png" alt="" loading="lazy">
               </div>
-              <div class="car-card blue">
+              <div class="car-card blue" data-price="40К" data-image="https://i.postimg.cc/L4bLC1kZ/Picsart-26-07-14-14-41-50-134.png" data-rarity="blue">
                 <div class="glow"></div>
                 <div class="badge">
                   <img src="https://i.postimg.cc/8z0TVWNs/Picsart-26-07-14-09-26-34-836.png" alt="40K" loading="lazy">
@@ -581,7 +596,7 @@
                 </div>
                 <img src="https://i.postimg.cc/L4bLC1kZ/Picsart-26-07-14-14-41-50-134.png" alt="" loading="lazy">
               </div>
-              <div class="car-card blue">
+              <div class="car-card blue" data-price="40К" data-image="https://i.postimg.cc/bJvSLysM/Picsart-26-07-14-14-41-32-901.png" data-rarity="blue">
                 <div class="glow"></div>
                 <div class="badge">
                   <img src="https://i.postimg.cc/8z0TVWNs/Picsart-26-07-14-09-26-34-836.png" alt="40K" loading="lazy">
@@ -589,7 +604,7 @@
                 </div>
                 <img src="https://i.postimg.cc/bJvSLysM/Picsart-26-07-14-14-41-32-901.png" alt="" loading="lazy">
               </div>
-              <div class="car-card blue">
+              <div class="car-card blue" data-price="35К" data-image="https://i.postimg.cc/QC14mGYL/Picsart-26-07-14-14-54-47-901.png" data-rarity="blue">
                 <div class="glow"></div>
                 <div class="badge">
                   <img src="https://i.postimg.cc/8z0TVWNs/Picsart-26-07-14-09-26-34-836.png" alt="35K" loading="lazy">
@@ -597,7 +612,7 @@
                 </div>
                 <img src="https://i.postimg.cc/QC14mGYL/Picsart-26-07-14-14-54-47-901.png" alt="" loading="lazy">
               </div>
-              <div class="car-card blue">
+              <div class="car-card blue" data-price="15К" data-image="https://i.postimg.cc/g2NMNKsZ/Picsart-26-07-14-14-55-00-985.png" data-rarity="blue">
                 <div class="glow"></div>
                 <div class="badge">
                   <img src="https://i.postimg.cc/8z0TVWNs/Picsart-26-07-14-09-26-34-836.png" alt="15K" loading="lazy">
@@ -848,6 +863,60 @@
             b.classList.remove('active');
           });
           this.classList.add('active');
+        });
+      });
+
+      // ===== СИСТЕМА ВЫБОРА ТАЧКИ =====
+      const leftSlot = document.getElementById('leftSlot');
+      const rightSlot = document.getElementById('rightSlot');
+      let selectedCar = null;
+
+      document.querySelectorAll('.car-card').forEach(function(card) {
+        card.addEventListener('click', function() {
+          // Убираем выделение со всех
+          document.querySelectorAll('.car-card').forEach(function(c) {
+            c.classList.remove('selected');
+          });
+          
+          // Выделяем текущую
+          this.classList.add('selected');
+          
+          // Сохраняем данные
+          const price = this.dataset.price;
+          const image = this.dataset.image;
+          const rarity = this.dataset.rarity;
+          
+          // Копируем карточку в правый слот
+          const clone = this.cloneNode(true);
+          clone.classList.remove('selected');
+          clone.style.cursor = 'default';
+          clone.style.pointerEvents = 'none';
+          
+          // Очищаем правый слот
+          rightSlot.innerHTML = '';
+          rightSlot.className = 'upgrade-top-col';
+          
+          // Вставляем клон
+          rightSlot.appendChild(clone);
+          
+          // Добавляем цену под картинкой
+          const priceLabel = document.createElement('div');
+          priceLabel.className = 'car-price';
+          priceLabel.textContent = price;
+          clone.appendChild(priceLabel);
+          
+          // Меняем левый слот
+          leftSlot.innerHTML = '';
+          leftSlot.className = 'upgrade-top-col';
+          leftSlot.innerHTML = `
+            <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%;height:100%">
+              <div style="font-family:'Montserrat',sans-serif;font-size:13px;color:#9CA3AF;text-align:center;margin-bottom:4px">Выбрана тачка</div>
+              <div style="font-family:'Montserrat',sans-serif;font-size:15px;font-weight:700;color:#FFD24C">${price}</div>
+              <div style="font-family:'Montserrat',sans-serif;font-size:11px;color:#6B7280">Для апгрейда</div>
+            </div>
+          `;
+          
+          selectedCar = { price, image, rarity };
         });
       });
 
