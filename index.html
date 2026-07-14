@@ -99,11 +99,11 @@
   .spacer{flex:0;min-height:4px}
 
   .upgrade-top{width:100%;max-width:480px;padding:0;margin-top:16px;display:flex;gap:16px;flex:0;align-items:stretch}
-  .upgrade-top-col{flex:1;background:rgba(255,255,255,0.05);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-radius:16px;border:1px solid rgba(255,255,255,0.06);padding:14px 12px;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100px;max-height:100px;transition:all 0.3s ease}
+  .upgrade-top-col{flex:1;background:rgba(255,255,255,0.05);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-radius:16px;border:1px solid rgba(255,255,255,0.06);padding:14px 12px;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:110px;max-height:110px;transition:all 0.3s ease;position:relative}
   .upgrade-top-col.empty{background:rgba(255,255,255,0.03);border:1px dashed rgba(255,255,255,0.12)}
   .upgrade-top-col .placeholder{font-family:'Montserrat',sans-serif;font-size:13px;color:#6B7280;text-align:center}
   .upgrade-top-col .selected-car{display:flex;flex-direction:column;align-items:center;width:100%;height:100%;justify-content:center;padding:4px}
-  .upgrade-top-col .selected-car img{width:100%;height:auto;max-height:70px;object-fit:contain;filter:drop-shadow(0 2px 8px rgba(0,0,0,0.4))}
+  .upgrade-top-col .selected-car img{width:100%;height:auto;max-height:80px;object-fit:contain;filter:drop-shadow(0 2px 8px rgba(0,0,0,0.4))}
   .upgrade-top-col .selected-car .car-price{font-family:'Montserrat',sans-serif;font-size:10px;font-weight:700;color:#FFD24C;margin-top:2px;text-shadow:0 0 10px rgba(255,215,0,0.2)}
   .upgrade-top-col .selected-car .car-rarity{position:absolute;top:4px;right:6px;font-size:8px;font-weight:700;color:rgba(255,215,0,0.4);text-transform:uppercase;letter-spacing:0.5px}
 
@@ -229,10 +229,10 @@
 
         <div class="upgrade-top">
           <div class="upgrade-top-col empty" id="leftSlot">
-            <div class="placeholder">Выберите тачку</div>
+            <div class="placeholder"></div>
           </div>
           <div class="upgrade-top-col empty" id="rightSlot">
-            <div class="placeholder">Для апгрейда</div>
+            <div class="placeholder"></div>
           </div>
         </div>
 
@@ -866,55 +866,48 @@
         });
       });
 
-      // ===== СИСТЕМА ВЫБОРА ТАЧКИ =====
       const leftSlot = document.getElementById('leftSlot');
       const rightSlot = document.getElementById('rightSlot');
       let selectedCar = null;
 
       document.querySelectorAll('.car-card').forEach(function(card) {
         card.addEventListener('click', function() {
-          // Убираем выделение со всех
           document.querySelectorAll('.car-card').forEach(function(c) {
             c.classList.remove('selected');
           });
           
-          // Выделяем текущую
           this.classList.add('selected');
           
-          // Сохраняем данные
           const price = this.dataset.price;
           const image = this.dataset.image;
           const rarity = this.dataset.rarity;
           
-          // Копируем карточку в правый слот
           const clone = this.cloneNode(true);
           clone.classList.remove('selected');
           clone.style.cursor = 'default';
           clone.style.pointerEvents = 'none';
           
-          // Очищаем правый слот
           rightSlot.innerHTML = '';
           rightSlot.className = 'upgrade-top-col';
           
-          // Вставляем клон
           rightSlot.appendChild(clone);
           
-          // Добавляем цену под картинкой
           const priceLabel = document.createElement('div');
           priceLabel.className = 'car-price';
           priceLabel.textContent = price;
           clone.appendChild(priceLabel);
           
-          // Меняем левый слот
           leftSlot.innerHTML = '';
           leftSlot.className = 'upgrade-top-col';
-          leftSlot.innerHTML = `
-            <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%;height:100%">
-              <div style="font-family:'Montserrat',sans-serif;font-size:13px;color:#9CA3AF;text-align:center;margin-bottom:4px">Выбрана тачка</div>
-              <div style="font-family:'Montserrat',sans-serif;font-size:15px;font-weight:700;color:#FFD24C">${price}</div>
-              <div style="font-family:'Montserrat',sans-serif;font-size:11px;color:#6B7280">Для апгрейда</div>
-            </div>
-          `;
+          leftSlot.style.display = 'flex';
+          leftSlot.style.alignItems = 'center';
+          leftSlot.style.justifyContent = 'center';
+          leftSlot.style.fontFamily = "'Montserrat', sans-serif";
+          leftSlot.style.fontSize = '14px';
+          leftSlot.style.color = '#9CA3AF';
+          leftSlot.style.fontWeight = '600';
+          leftSlot.style.letterSpacing = '0.5px';
+          leftSlot.textContent = 'Выбрана тачка';
           
           selectedCar = { price, image, rarity };
         });
