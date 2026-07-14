@@ -119,6 +119,11 @@
   .car-card:active{transform:scale(0.94);background:rgba(10,10,15,0.8)}
   .car-card img{width:100%;height:auto;max-height:56px;object-fit:contain;position:relative;z-index:1;pointer-events:none;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;filter:drop-shadow(0 2px 10px rgba(0,0,0,0.6))}
 
+  .car-card.red::before{background:linear-gradient(135deg,rgba(255,50,50,0.7),rgba(200,0,0,0.3),rgba(255,50,50,0.7),rgba(150,0,0,0.2));background-size:300% 300%;animation:borderShineRed 2.5s ease-in-out infinite}
+  .car-card.red .glow{background:radial-gradient(circle at 30% 20%,rgba(255,50,50,0.15),transparent 60%)}
+  .car-card.red{box-shadow:0 0 30px rgba(255,0,0,0.06)}
+  @keyframes borderShineRed{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+
   .widget-wrapper{display:flex;justify-content:center;align-items:center;padding:4px 20px 8px;width:100%}
   .widget-panel{width:100%;max-width:360px;height:70px;border-radius:24px;background:rgba(255,255,255,0.06);backdrop-filter:blur(10px) saturate(180%);-webkit-backdrop-filter:blur(10px) saturate(180%);border:1px solid rgba(255,255,255,0.08);display:flex;justify-content:space-around;align-items:center;padding:0 12px;box-shadow:0 4px 30px rgba(0,0,0,0.2)}
   .nav-btn{display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:none;padding:4px 12px;cursor:pointer;border-radius:14px;flex:1;font-family:inherit;transition:0.2s}
@@ -236,6 +241,22 @@
                   <span>1.3КК</span>
                 </div>
                 <img src="https://i.postimg.cc/Hsd1yzBN/Picsart-26-07-14-08-34-49-039.png" alt="" loading="lazy">
+              </div>
+              <div class="car-card">
+                <div class="glow"></div>
+                <div class="badge">
+                  <img src="https://i.postimg.cc/8z0TVWNs/Picsart-26-07-14-09-26-34-836.png" alt="950K" loading="lazy">
+                  <span>950К</span>
+                </div>
+                <img src="https://i.postimg.cc/CMcD9hz8/Picsart-26-07-14-09-46-03-456.png" alt="" loading="lazy">
+              </div>
+              <div class="car-card red">
+                <div class="glow"></div>
+                <div class="badge">
+                  <img src="https://i.postimg.cc/8z0TVWNs/Picsart-26-07-14-09-26-34-836.png" alt="800K" loading="lazy">
+                  <span>800К</span>
+                </div>
+                <img src="https://i.postimg.cc/2SSCMYLB/Picsart-26-07-14-09-50-24-714.png" alt="" loading="lazy">
               </div>
             </div>
           </div>
