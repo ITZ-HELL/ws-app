@@ -104,7 +104,7 @@
 
   .upgrade-bottom{width:100%;max-width:480px;padding:0;margin-top:12px;display:flex;gap:16px;flex:1;min-height:120px}
   .upgrade-col{flex:1;background:rgba(255,255,255,0.05);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-radius:16px;border:1px solid rgba(255,255,255,0.06);padding:10px 10px;display:flex;flex-direction:column;align-items:center;min-height:120px;max-height:300px;overflow-y:auto}
-  .upgrade-col-title{font-family:'Montserrat',sans-serif;font-size:12px;font-weight:700;color:#9CA3AF;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;flex-shrink:0}
+  .upgrade-col-title{font-family:'Montserrat',sans-serif;font-size:12px;font-weight:700;color:#9CA3AF;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;flex-shrink:0;position:sticky;top:0;background:rgba(11,14,20,0.8);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);padding:4px 0;z-index:10;width:100%;text-align:center}
   .upgrade-col-empty{font-family:'Montserrat',sans-serif;font-size:13px;color:#6B7280;text-align:center;margin-top:12px;flex:1;display:flex;align-items:center;justify-content:center}
 
   .cars-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;width:100%;margin-top:2px}
@@ -123,6 +123,11 @@
   .car-card.red .glow{background:radial-gradient(circle at 30% 20%,rgba(255,50,50,0.15),transparent 60%)}
   .car-card.red{box-shadow:0 0 30px rgba(255,0,0,0.06)}
   @keyframes borderShineRed{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+
+  .car-card.blue::before{background:linear-gradient(135deg,rgba(50,150,255,0.7),rgba(0,80,200,0.3),rgba(50,150,255,0.7),rgba(0,50,150,0.2));background-size:300% 300%;animation:borderShineBlue 3s ease-in-out infinite}
+  .car-card.blue .glow{background:radial-gradient(circle at 30% 20%,rgba(50,150,255,0.15),transparent 60%)}
+  .car-card.blue{box-shadow:0 0 30px rgba(50,150,255,0.06)}
+  @keyframes borderShineBlue{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
 
   .widget-wrapper{display:flex;justify-content:center;align-items:center;padding:4px 20px 8px;width:100%}
   .widget-panel{width:100%;max-width:360px;height:70px;border-radius:24px;background:rgba(255,255,255,0.06);backdrop-filter:blur(10px) saturate(180%);-webkit-backdrop-filter:blur(10px) saturate(180%);border:1px solid rgba(255,255,255,0.08);display:flex;justify-content:space-around;align-items:center;padding:0 12px;box-shadow:0 4px 30px rgba(0,0,0,0.2)}
@@ -281,6 +286,30 @@
                   <span>600К</span>
                 </div>
                 <img src="https://i.postimg.cc/LX6764Rf/Picsart-26-07-14-10-05-31-892.png" alt="" loading="lazy">
+              </div>
+              <div class="car-card red">
+                <div class="glow"></div>
+                <div class="badge">
+                  <img src="https://i.postimg.cc/8z0TVWNs/Picsart-26-07-14-09-26-34-836.png" alt="550K" loading="lazy">
+                  <span>550К</span>
+                </div>
+                <img src="https://i.postimg.cc/7LY3c5wn/Picsart-26-07-14-10-23-14-110.png" alt="" loading="lazy">
+              </div>
+              <div class="car-card blue">
+                <div class="glow"></div>
+                <div class="badge">
+                  <img src="https://i.postimg.cc/8z0TVWNs/Picsart-26-07-14-09-26-34-836.png" alt="450K" loading="lazy">
+                  <span>450К</span>
+                </div>
+                <img src="https://i.postimg.cc/BQmQpb7q/Picsart-26-07-14-10-27-06-491.png" alt="" loading="lazy">
+              </div>
+              <div class="car-card blue">
+                <div class="glow"></div>
+                <div class="badge">
+                  <img src="https://i.postimg.cc/8z0TVWNs/Picsart-26-07-14-09-26-34-836.png" alt="350K" loading="lazy">
+                  <span>350К</span>
+                </div>
+                <img src="https://i.postimg.cc/mk6JcvVB/Picsart-26-07-14-10-30-06-069.png" alt="" loading="lazy">
               </div>
             </div>
           </div>
