@@ -667,6 +667,40 @@
     (function() {
       if (window.Telegram && window.Telegram.WebApp) window.Telegram.WebApp.expand();
 
+      const API_BASE = 'https://casino-whiskars-bot.onrender.com';
+
+      function getUserId() {
+        if (window.Telegram && window.Telegram.WebApp) {
+          const user = window.Telegram.WebApp.initDataUnsafe.user;
+          return user ? user.id : null;
+        }
+        return null;
+      }
+
+      async function fetchBalance(userId) {
+        try {
+          const response = await fetch(`${API_BASE}/api/balance?user_id=${userId}`);
+          const data = await response.json();
+          return data.balance || 0;
+        } catch (error) {
+          console.error('Ошибка получения баланса:', error);
+          return 0;
+        }
+      }
+
+      async function updateBalance() {
+        const userId = getUserId();
+        if (userId) {
+          const balance = await fetchBalance(userId);
+          const balanceEl = document.getElementById('balance');
+          if (balanceEl) {
+            balanceEl.innerHTML = `${balance} <span class="currency">₽</span>`;
+          }
+        }
+      }
+
+      updateBalance();
+
       const avatarEl = document.getElementById('avatar');
       const profileAvatarEl = document.getElementById('profileAvatar');
       const profileNameEl = document.getElementById('profileName');
