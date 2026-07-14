@@ -110,7 +110,8 @@
   .cars-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;width:100%;margin-top:2px}
   .car-card{position:relative;background:rgba(20,20,25,0.7);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);border-radius:8px;padding:4px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all 0.2s ease;min-height:64px;border:1px solid transparent;background-clip:padding-box;box-shadow:0 0 25px rgba(255,215,0,0.03)}
   .car-card::before{content:'';position:absolute;inset:-1px;border-radius:9px;padding:1px;background:linear-gradient(135deg,rgba(255,215,0,0.5),rgba(255,180,0,0.15),rgba(255,215,0,0.5),rgba(255,200,0,0.1));background-size:300% 300%;-webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;mask-composite:exclude;pointer-events:none;animation:borderShine 3s ease-in-out infinite}
-  .car-card::after{content:'';position:absolute;inset:0;border-radius:8px;background:radial-gradient(circle at 30% 20%,rgba(255,215,0,0.06),transparent 60%);pointer-events:none}
+  .car-card::after{content:'';position:absolute;inset:0;border-radius:8px;background:url('https://i.postimg.cc/Dzwn9gtB/Bez-nazvania65-20260714091217.png') center/cover;opacity:0.08;pointer-events:none;mix-blend-mode:overlay}
+  .car-card .glow{position:absolute;inset:0;border-radius:8px;background:radial-gradient(circle at 30% 20%,rgba(255,215,0,0.06),transparent 60%);pointer-events:none;z-index:0}
   @keyframes borderShine{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
   .car-card:active{transform:scale(0.94);background:rgba(10,10,15,0.8)}
   .car-card img{width:100%;height:auto;max-height:56px;object-fit:contain;position:relative;z-index:1;pointer-events:none;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;filter:drop-shadow(0 2px 10px rgba(0,0,0,0.6))}
@@ -218,9 +219,11 @@
             <div class="upgrade-col-title">Улучшение</div>
             <div class="cars-grid">
               <div class="car-card">
+                <div class="glow"></div>
                 <img src="https://i.postimg.cc/hvyKkhLg/Picsart-26-07-13-22-48-03-144.png" alt="" loading="lazy">
               </div>
               <div class="car-card">
+                <div class="glow"></div>
                 <img src="https://i.postimg.cc/Hsd1yzBN/Picsart-26-07-14-08-34-49-039.png" alt="" loading="lazy">
               </div>
             </div>
