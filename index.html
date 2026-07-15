@@ -121,6 +121,10 @@
   .upgrade-top-col .empty-placeholder{display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%;height:100%;color:#6B7280;font-family:'Montserrat',sans-serif;font-size:16px;font-weight:500;gap:8px}
   .upgrade-top-col .empty-placeholder svg{width:48px;height:48px;stroke:#6B7280;opacity:0.3}
 
+  .upgrade-top-col .left-content{display:flex;flex-direction:column;align-items:center;justify-content:center;width:100%;height:100%;gap:4px}
+  .upgrade-top-col .left-content .price{font-family:'Montserrat',sans-serif;font-size:22px;font-weight:700;color:#FFD24C;text-shadow:0 0 20px rgba(255,215,0,0.3)}
+  .upgrade-top-col .left-content .label{font-family:'Montserrat',sans-serif;font-size:13px;color:#9CA3AF}
+
   .upgrade-bottom{width:100%;max-width:100%;padding:0;margin-top:12px;display:flex;gap:16px;flex:1;min-height:400px}
   .upgrade-col{flex:1;background:rgba(255,255,255,0.05);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-radius:16px;border:1px solid rgba(255,255,255,0.06);padding:10px 10px;display:flex;flex-direction:column;align-items:center;min-height:400px;max-height:400px;overflow-y:auto}
   .upgrade-col-title{font-family:'Montserrat',sans-serif;font-size:12px;font-weight:700;color:#9CA3AF;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;flex-shrink:0;position:sticky;top:0;background:rgba(11,14,20,0.8);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);padding:4px 0;z-index:10;width:100%;text-align:center}
@@ -934,14 +938,9 @@
           leftSlot.style.alignItems = 'center';
           leftSlot.style.justifyContent = 'center';
           leftSlot.innerHTML = `
-            <div class="selected-car" style="border-color:rgba(255,215,0,0.3);">
-              <div class="glow"></div>
-              <div class="badge">
-                <img src="${badgeImg}" alt="${badgeText}">
-                <span>${badgeText}</span>
-              </div>
-              <div style="font-family:'Montserrat',sans-serif;font-size:20px;font-weight:700;color:#FFD24C;text-shadow:0 0 20px rgba(255,215,0,0.3);position:relative;z-index:1;">${price}</div>
-              <div style="font-family:'Montserrat',sans-serif;font-size:13px;color:#9CA3AF;position:relative;z-index:1;margin-top:6px;">Выбрано для апгрейда</div>
+            <div class="left-content">
+              <div class="price">${price}</div>
+              <div class="label">Выбрано для апгрейда</div>
             </div>
           `;
           
